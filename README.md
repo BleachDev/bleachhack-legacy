@@ -1,16 +1,17 @@
-# Fabric Example Mod
+# BleachHack Legacy
 
-## Setup
+BleachHack for older versions (for some reason)
 
-1. Edit build.gradle and mod.json to suit your needs.
-    * The "mixins" object can be removed from mod.json if you do not need to use mixins.
-    * Please replace all occurences of "modid" with your own mod ID - sometimes, a different string may also suffice.
-2. Run the following command:
+## Installation
 
-```
-./gradlew idea
-```
+To install, first install [Fabric Legacy](https://ftb.fandom.com/wiki/Legacy_Fabric) and download a built of BH from the [actions section](https://github.com/BleachDrinker420/bleachhack-legacy/actions/) and add it to your mods folder. 
+
+## Develop
+
+The steps to setup your workspace is the same as normal Fabric.
+
+https://fabricmc.net/wiki/tutorial:setup
 
 ## License
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+If you are distributing a custom version of BleachHack or a mod with ported features of BleachHack, you are **required** to disclose the source code, state changes, use a compatible license, and follow the [license terms](https://github.com/BleachDrinker420/BleachHack/blob/master/LICENSE).
