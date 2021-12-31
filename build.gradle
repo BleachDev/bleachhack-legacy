@@ -1,6 +1,6 @@
 plugins {
 	id "maven-publish"
-	id "fabric-loom" version "0.10-SNAPSHOT"
+	id "fabric-loom" version "0.7-SNAPSHOT"
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -27,9 +27,16 @@ repositories {
 	}
 }
 
+// Comment out this block if you're using Chocoloom or loom 0.10
+minecraft {
+	intermediaryUrl = {
+		return "https://maven.legacyfabric.net/net/fabricmc/intermediary/" + it + "/intermediary-" + it + "-v2.jar";
+	}
+}
+
 loom {
-	// Uncomment when using loom 0.10
-	setIntermediaryUrl('https://maven.legacyfabric.net/net/fabricmc/intermediary/%1$s/intermediary-%1$s-v2.jar');
+//  Uncomment when using loom 0.10
+//	setIntermediaryUrl('https://maven.legacyfabric.net/net/fabricmc/intermediary/%1$s/intermediary-%1$s-v2.jar');
 }
 
 def lwjglVersion = System.getProperty("os.name").toLowerCase().contains("mac") ? "2.9.1" : "2.9.0"
