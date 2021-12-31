@@ -1,0 +1,33 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.bleachhack.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "AccessorChatScreen",
+    "AccessorMinecraftClient",
+    "AccessorTextFieldWidget",
+    "MixinChatScreen",
+    "MixinClientConnection",
+    "MixinClientPlayerEntity",
+    "MixinClientPlayerInteractionManager",
+    "MixinClientWorld",
+    "MixinEntity",
+    "MixinHorseEntity",
+    "MixinInGameHud",
+    "MixinLivingEntity",
+    "MixinMinecraftClient",
+    "MixinParticleManager",
+    "MixinPigEntity",
+    "MixinScreen",
+    "MixinSoundPlayer",
+    "MixinTitleScreen",
+    "MixinWorld",
+    "MixinWorldRenderer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
