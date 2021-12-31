@@ -8,7 +8,6 @@
  */
 package org.bleachhack.util.collections;
 
-import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -18,7 +17,6 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class ImmutablePairList<L, R> extends ArrayList<ImmutablePair<L, R>> {
 
-	@Serial
 	private static final long serialVersionUID = 2L;
 
 	/**

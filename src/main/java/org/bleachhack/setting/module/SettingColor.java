@@ -137,13 +137,13 @@ public class SettingColor extends ModuleSetting<float[]> {
 		int q = (int) (v * (1f - remainder * s) * 255f);
 		int t = (int) (v * (1f - (1f - remainder) * s) * 255f);
 
-		return switch (region) {
-			case 0 -> new int[] { o, t, p };
-			case 1 -> new int[] { q, o, p };
-			case 2 -> new int[] { p, o, t };
-			case 3 -> new int[] { p, q, o };
-			case 4 -> new int[] { t, p, o };
-			default -> new int[] { o, p, q };
-		};
+		switch (region) {
+			case 0: return new int[] { o, t, p };
+			case 1: return new int[] { q, o, p };
+			case 2: return new int[] { p, o, t };
+			case 3: return new int[] { p, q, o };
+			case 4: return new int[] { t, p, o };
+			default: return new int[] { o, p, q };
+		}
 	}
 }

@@ -12,7 +12,7 @@ import net.minecraft.item.Item;
 
 public class SettingDataHandlers {
 
-	public static final SettingDataHandler<Boolean> BOOLEAN = new SettingDataHandler<>() {
+	public static final SettingDataHandler<Boolean> BOOLEAN = new SettingDataHandler<Boolean>() {
 		public JsonElement write(Boolean value) {
 			return new JsonPrimitive(value);
 		}
@@ -22,7 +22,7 @@ public class SettingDataHandlers {
 		}
 	};
 
-	public static final SettingDataHandler<Integer> INTEGER = new SettingDataHandler<>() {
+	public static final SettingDataHandler<Integer> INTEGER = new SettingDataHandler<Integer>() {
 		public JsonElement write(Integer value) {
 			return new JsonPrimitive(value);
 		}
@@ -32,7 +32,7 @@ public class SettingDataHandlers {
 		}
 	};
 
-	public static final SettingDataHandler<Double> DOUBLE = new SettingDataHandler<>() {
+	public static final SettingDataHandler<Double> DOUBLE = new SettingDataHandler<Double>() {
 		public JsonElement write(Double value) {
 			return new JsonPrimitive(value);
 		}
@@ -42,7 +42,7 @@ public class SettingDataHandlers {
 		}
 	};
 	
-	public static final SettingDataHandler<float[]> FLOAT_ARRAY = new SettingDataHandler<>() {
+	public static final SettingDataHandler<float[]> FLOAT_ARRAY = new SettingDataHandler<float[]>() {
 		public JsonElement write(float[] value) {
 			JsonArray array = new JsonArray();
 			for (float f: value)
@@ -61,7 +61,7 @@ public class SettingDataHandlers {
 		}
 	};
 
-	public static final SettingDataHandler<String> STRING = new SettingDataHandler<>() {
+	public static final SettingDataHandler<String> STRING = new SettingDataHandler<String>() {
 		public JsonElement write(String value) {
 			return new JsonPrimitive(value);
 		}
@@ -71,7 +71,7 @@ public class SettingDataHandlers {
 		}
 	};
 	
-	public static final SettingDataHandler<Block> BLOCK = new SettingDataHandler<>() {
+	public static final SettingDataHandler<Block> BLOCK = new SettingDataHandler<Block>() {
 		public JsonElement write(Block value) {
 			return new JsonPrimitive(value.getTranslationKey());
 		}
@@ -87,7 +87,7 @@ public class SettingDataHandlers {
 		}
 	};
 	
-	public static final SettingDataHandler<Item> ITEM = new SettingDataHandler<>() {
+	public static final SettingDataHandler<Item> ITEM = new SettingDataHandler<Item>() {
 		public JsonElement write(Item value) {
 			return new JsonPrimitive(value.getTranslationKey());
 		}

@@ -11,7 +11,7 @@ package org.bleachhack.module.mods;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bleachhack.BleachHack;
@@ -116,16 +116,7 @@ public class DiscordRPC extends Module {
 					.setLargeImage(silent ? "mc" : "bh", silent ? "Minecraft " + BleachHack.MCVERSION : "BleachHack " + BleachHack.VERSION);
 
 			// Top text
-			builder.setDetails(switch (getSetting(0).asMode().getMode()) {
-				case 0 ->"Playing " + (((AccessorMinecraftClient) mc).getCurrentServerEntry() == null ? "Singleplayer" : ((AccessorMinecraftClient) mc).getCurrentServerEntry().address);
-				case 1 -> ((AccessorMinecraftClient) mc).getCurrentServerEntry() == null ? "Singleplayer" : ((AccessorMinecraftClient) mc).getCurrentServerEntry().address;
-				case 2 -> ((AccessorMinecraftClient) mc).getCurrentServerEntry() == null ? "Singleplayer" : "Multiplayer";
-				case 3 -> mc.field_3805.getTranslationKey() + " Ontop!";
-				case 4 -> "Minecraft " + BleachHack.MCVERSION;
-				case 5 -> mc.field_3805.getTranslationKey();
-				case 6 -> "<- bad client";
-				default -> customText1;
-			});
+			builder.setDetails(getDetails());
 
 			// Bottom text
 			ItemStack currentItem = mc.field_3805.inventory.getMainHandStack();
@@ -140,24 +131,11 @@ public class DiscordRPC extends Module {
 					: (currentItem.count > 1 ? currentItem.count + " " : "")
 					+ (currentItem.hasCustomName() ? customName : name);
 
-			builder.setState(switch (getSetting(1).asMode().getMode()) {
-				case 0 -> (int) mc.field_3805.getHealth() + " hp - Holding " + itemName;
-				case 1 -> mc.field_3805.getTranslationKey() + " - " + (int) mc.field_3805.getHealth() + " hp";
-				case 2 -> "Holding " + itemName;
-				case 3 -> (int) mc.field_3805.getHealth() + " hp - At " + new BlockPos(mc.field_3805).toShortString();
-				case 4 -> "At " + new BlockPos(mc.field_3805).toShortString();
-				default -> customText2;
-			});
+			builder.setState(getState(itemName));
 
 			// Start time
 			if (getSetting(2).asMode().getMode() != 3) {
-				long time = switch (getSetting(2).asMode().getMode()) {
-					case 1 -> System.currentTimeMillis() - new Random().nextInt(0, 86400000);
-					case 2 -> System.currentTimeMillis() - 86400000L + (long) tick * 50;
-					default -> startTime;
-				};
-
-				builder.setStartTimestamp(OffsetDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneOffset.systemDefault()));
+				builder.setStartTimestamp(OffsetDateTime.ofInstant(Instant.ofEpochMilli(getTime()), ZoneOffset.systemDefault()));
 			}
 
 			// Build
@@ -165,6 +143,38 @@ public class DiscordRPC extends Module {
 		}
 
 		tick++;
+	}
+	
+	private String getDetails() {
+		switch(getSetting(0).asMode().getMode()) {
+			case 0: return "Playing " + (((AccessorMinecraftClient) mc).getCurrentServerEntry() == null ? "Singleplayer" : ((AccessorMinecraftClient) mc).getCurrentServerEntry().address);
+			case 1: return ((AccessorMinecraftClient) mc).getCurrentServerEntry() == null ? "Singleplayer" : ((AccessorMinecraftClient) mc).getCurrentServerEntry().address;
+			case 2: return ((AccessorMinecraftClient) mc).getCurrentServerEntry() == null ? "Singleplayer" : "Multiplayer";
+			case 3: return mc.field_3805.getTranslationKey() + " Ontop!";
+			case 4: return "Minecraft " + BleachHack.MCVERSION;
+			case 5: return mc.field_3805.getTranslationKey();
+			case 6: return "<- bad client";
+			default: return customText1;
+		}
+	}
+	
+	private String getState(String itemName) {
+		switch (getSetting(1).asMode().getMode()) {
+			case 0: return (int) mc.field_3805.getHealth() + " hp - Holding " + itemName;
+			case 1: return mc.field_3805.getTranslationKey() + " - " + (int) mc.field_3805.getHealth() + " hp";
+			case 2: return "Holding " + itemName;
+			case 3: return (int) mc.field_3805.getHealth() + " hp - At " + new BlockPos(mc.field_3805).toShortString();
+			case 4: return "At " + new BlockPos(mc.field_3805).toShortString();
+			default: return customText2;
+		}
+	}
+	
+	private long getTime() {
+		switch (getSetting(2).asMode().getMode()) {
+			case 1: return System.currentTimeMillis() - ThreadLocalRandom.current().nextInt(0, 86400000);
+			case 2: return System.currentTimeMillis() - 86400000L + (long) tick * 50;
+			default: return startTime;
+		}
 	}
 
 	private void disconnect() {

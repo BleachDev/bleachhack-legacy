@@ -373,13 +373,13 @@ public class UI extends Module {
 	public int[] getPlayerSize() {
 		@SuppressWarnings("unchecked")
 		List<Integer> nameLengths = ((List<PlayerEntity>) mc.world.playerEntities).stream()
-				.filter(e -> e != mc.field_3805)
-				.map(e -> mc.textRenderer.getStringWidth(
-						e.getTranslationKey()
-						+ " | "
-						+ (int) e.x + " " + (int) e.y + " " + (int) e.z
-						+ " (" + Math.round(mc.field_3805.squaredDistanceToEntity(e)) + "m)"))
-				.collect(Collectors.toList());
+		.filter(e -> e != mc.field_3805)
+		.map(e -> mc.textRenderer.getStringWidth(
+				e.getTranslationKey()
+				+ " | "
+				+ (int) e.x + " " + (int) e.y + " " + (int) e.z
+				+ " (" + Math.round(mc.field_3805.squaredDistanceToEntity(e)) + "m)"))
+		.collect(Collectors.toList());
 
 		nameLengths.add(mc.textRenderer.getStringWidth("Players:"));
 		nameLengths.sort(Comparator.reverseOrder());
@@ -395,7 +395,7 @@ public class UI extends Module {
 		for (Entity e : ((List<PlayerEntity>) mc.world.playerEntities).stream()
 				.filter(e -> e != mc.field_3805)
 				.sorted(Comparator.comparing(mc.field_3805::squaredDistanceTo))
-				.toList()) {
+				.collect(Collectors.toList())) {
 			int dist = Math.round(mc.field_3805.squaredDistanceToEntity(e));
 
 			String text =
@@ -427,10 +427,14 @@ public class UI extends Module {
 
 			int xd = x + 72 - mc.textRenderer.getStringWidth(text) / 2;
 			switch (getSetting(11).asToggle().getChild(0).asMode().getMode()) {
-				case 0 -> mc.textRenderer.method_956(text, xd, (int) (y + 1 + Math.min((time - lastPacket - 1200) / 20, 0)), 0xd0d0d0);
-				case 1 -> mc.textRenderer.method_956(text, xd, y + 1,
-						(MathHelper.clamp((int) (time - lastPacket - 500) / 3, 5, 255) << 24) | 0xd0d0d0);
-				case 2 -> mc.textRenderer.method_956(text, xd, y + 1, 0xd0d0d0);
+				case 0:
+					mc.textRenderer.method_956(text, xd, (int) (y + 1 + Math.min((time - lastPacket - 1200) / 20, 0)), 0xd0d0d0);
+					break;
+				case 1:
+					mc.textRenderer.method_956(text, xd, y + 1, (MathHelper.clamp((int) (time - lastPacket - 500) / 3, 5, 255) << 24) | 0xd0d0d0);
+					break;
+				case 2:
+					mc.textRenderer.method_956(text, xd, y + 1, 0xd0d0d0);
 			}
 		}
 	}
@@ -457,7 +461,7 @@ public class UI extends Module {
 			GuiLighting.disable();
 
 			int durcolor = is.isDamageable() ? 0xff000000 | hsvToRgb((float) (is.getMaxDamage() - is.getDamage()) / is.getMaxDamage() / 3.0F, 1.0F, 1.0F) : 0;
-			
+
 			if (is.count > 1) {
 				String s = Integer.toString(is.count);
 				mc.textRenderer.method_956(s, curX + 19 - mc.textRenderer.getStringWidth(s), curY + 9, 0xffffff);
@@ -533,7 +537,7 @@ public class UI extends Module {
 				ui.getSetting(0).asToggle().getChild(6).asSlider().getValue(),
 				offset);
 	}
-	
+
 	public static int hsvToRgb(float h, float s, float v) {
 		return SettingColor.pack(SettingColor.hsvToRgb(h, s, v));
 	}

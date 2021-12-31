@@ -8,7 +8,7 @@
  */
 package org.bleachhack.gui.clickgui;
 
-import java.util.List;
+import java.util.Collections;
 
 import org.bleachhack.gui.clickgui.window.ModuleWindow;
 import org.bleachhack.gui.clickgui.window.UIContainer;
@@ -40,7 +40,7 @@ public class UIClickGuiScreen extends ClickGuiScreen {
 		clearWindows();
 		uiContainer.windows.values().forEach(this::addWindow);
 
-		addWindow(new ModuleWindow(List.of(ModuleManager.getModule("UI")),
+		addWindow(new ModuleWindow(Collections.singletonList(ModuleManager.getModule("UI")),
 				200, 200, 75, "Render", new ItemStack(Block.field_346)));
 	}
 

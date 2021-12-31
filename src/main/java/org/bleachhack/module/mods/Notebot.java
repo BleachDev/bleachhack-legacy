@@ -33,6 +33,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Notebot extends Module {
@@ -85,7 +86,7 @@ public class Notebot extends Module {
 
 		List<BlockPos> noteblocks = BlockPos.streamOutwards(new BlockPos(mc.field_3805).up(), 4, 4, 4)
 				.filter(this::isNoteblock)
-				.toList();
+				.collect(Collectors.toList());
 
 		for (int[] i : tunes) {
 			for (BlockPos pos: noteblocks) {
@@ -266,7 +267,7 @@ public class Notebot extends Module {
 		/* Read the file */
 		BleachFileMang.createFile("notebot/" + fileName);
 		List<String> lines = BleachFileMang.readFileLines("notebot/" + fileName)
-				.stream().filter(s -> !(s.isEmpty() || s.startsWith("//") || s.startsWith(";"))).toList();
+				.stream().filter(s -> !(s.isEmpty() || s.startsWith("//") || s.startsWith(";"))).collect(Collectors.toList());
 		for (String s : lines)
 			s = s.replaceAll(" ", "");
 

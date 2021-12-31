@@ -27,7 +27,6 @@ import org.bleachhack.gui.window.widget.WindowTextWidget;
 import org.bleachhack.util.io.BleachFileHelper;
 import org.bleachhack.util.io.BleachOnlineMang;
 
-import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
 import java.util.Random;
 
@@ -40,9 +39,9 @@ public class BleachTitleScreen extends WindowScreen {
 	private static int splashTicks;
 
 	static {
-		BleachOnlineMang.getResourceAsync("splashes.txt", BodyHandlers.ofLines()).thenAccept(st -> {
+		BleachOnlineMang.getResourceAsync("splashes.txt").thenAccept(st -> {
 			if (st != null) {
-				List<String> list = st.toList();
+				List<String> list = st.bodyAsLines();
 				splash = list.get(new Random().nextInt(list.size()));
 			}
 		});

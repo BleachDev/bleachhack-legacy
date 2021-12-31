@@ -94,7 +94,7 @@ public class CommandSuggestionProvider {
 					return new ArrayList<>();
 				}
 
-				return List.of(suggestion);
+				return Collections.singletonList(suggestion);
 			}
 
 			if (!suggestion.equals(typed[0])) {

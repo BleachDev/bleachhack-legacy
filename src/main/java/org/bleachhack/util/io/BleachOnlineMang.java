@@ -10,24 +10,23 @@ package org.bleachhack.util.io;
 
 import org.bleachhack.util.BleachLogger;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpClient.Redirect;
-import java.net.http.HttpRequest;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.net.http.HttpRequest.Builder;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandler;
-import java.time.Duration;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
  * Utils for online BleachHack Resources.
  */
 public class BleachOnlineMang {
 
-	public static final HttpClient HTTP_CLIENT = HttpClient.newBuilder().followRedirects(Redirect.ALWAYS).build();
 	private static final URI RESOURCE_URL = URI.create("https://bleachhack.org/resources/");
 	private static final URI API_URL = URI.create("http://api0.bleachhack.org/"); // using api0 because of compatibility with BH 1.2.1 and under.
 
@@ -39,61 +38,85 @@ public class BleachOnlineMang {
 		return API_URL;
 	}
 
-	public static <T> T getResource(String path, BodyHandler<T> handler) {
+	public static HttpResponse getResource(String path) {
 		BleachLogger.logger.info("Getting Resource (/" + path + ")");
-		return sendRequest(RESOURCE_URL.resolve(path), "GET", null, null, 5000, handler).body();
+		return sendRequest(RESOURCE_URL.resolve(path), "GET", null, null, 5000);
 	}
 
-	public static <T> CompletableFuture<T> getResourceAsync(String path, BodyHandler<T> handler) {
+	public static CompletableFuture<HttpResponse> getResourceAsync(String path) {
 		BleachLogger.logger.info("Getting Resource (/" + path + ")");
-		return sendAsyncRequest(RESOURCE_URL.resolve(path), "GET", null, null, 5000, handler).thenApply(HttpResponse::body);
+		return sendAsyncRequest(RESOURCE_URL.resolve(path), "GET", null, null, 5000);
 	}
 
-	public static <T> T sendApiGet(String path, BodyHandler<T> handler) {
+	public static HttpResponse sendApiGet(String path) {
 		BleachLogger.logger.info("Trying to call API (GET, /" + path + ")");
-		return sendRequest(API_URL.resolve(path), "GET", null, null, 5000, handler).body();
+		return sendRequest(API_URL.resolve(path), "GET", null, null, 5000);
 	}
 
-	public static <T> T sendApiPost(String path, String body, BodyHandler<T> handler) {
+	public static HttpResponse sendApiPost(String path, String body) {
 		BleachLogger.logger.info("Trying to call API (POST, /" + path + ", " + body + ")");
-		return sendRequest(API_URL.resolve(path), "POST", null, body, 5000, handler).body();
+		return sendRequest(API_URL.resolve(path), "POST", null, body, 5000);
 	}
 
-	// Raw request methods
-	public static <T> HttpResponse<T> sendRequest(URI url, String method, String[] headers, String body, int timeout, BodyHandler<T> handler) {
-		return sendRequest(HTTP_CLIENT, url, method, headers, body, timeout, handler);
-	}
-
-	public static <T> HttpResponse<T> sendRequest(HttpClient client, URI url, String method, String[] headers, String body, int timeout, BodyHandler<T> handler) {
+	public static <T> HttpResponse sendRequest(URI url, String method, String[] headers, String body, int timeout) {
 		try {
-			Builder rqBuilder = HttpRequest
-					.newBuilder(url)
-					.timeout(Duration.ofMillis(timeout))
-					.method(method, body != null ? BodyPublishers.ofString(body) : BodyPublishers.noBody());
+			HttpURLConnection con = (HttpURLConnection) url.toURL().openConnection();
+			con.setReadTimeout(timeout);
+			con.setRequestMethod(method);
+			if (body != null) {
+				con.setDoOutput(true);
+				try (OutputStream os = con.getOutputStream()) {
+					byte[] input = body.getBytes(StandardCharsets.UTF_8);
+					os.write(input, 0, input.length);			
+				}
+			}
 
-			if (headers != null)
-				rqBuilder.headers(headers);
+			if (headers != null) {
+				for (int i = 0; i < headers.length; i += 2) {
+					con.getHeaderFields().putIfAbsent(headers[i], new ArrayList<>());
+					con.getHeaderFields().get(headers[i]).add(headers[i + 1]);
+				}
+			}
 
-			return client.send(rqBuilder.build(), handler);
-		} catch (IOException | InterruptedException e) {
+			try(BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"))) {
+				String line;
+				List<String> list = new ArrayList<>();
+				while ((line = br.readLine()) != null) {
+					list.add(line);
+				}
+				
+				return new HttpResponse(list, con.getResponseCode());
+			}
+		} catch (IOException e) {
 			BleachLogger.logger.error(e);
 			return null;
 		}
 	}
 
-	public static <T> CompletableFuture<HttpResponse<T>> sendAsyncRequest(URI url, String method, String[] headers, String body, int timeout, BodyHandler<T> handler) {
-		return sendAsyncRequest(HTTP_CLIENT, url, method, headers, body, timeout, handler);
+	public static <T> CompletableFuture<HttpResponse> sendAsyncRequest(URI url, String method, String[] headers, String body, int timeout) {
+		return CompletableFuture.supplyAsync(() -> sendRequest(url, method, headers, body, timeout));
 	}
 
-	public static <T> CompletableFuture<HttpResponse<T>> sendAsyncRequest(HttpClient client, URI url, String method, String[] headers, String body, int timeout, BodyHandler<T> handler) {
-		Builder rqBuilder = HttpRequest
-				.newBuilder(url)
-				.timeout(Duration.ofMillis(timeout))
-				.method(method, body != null ? BodyPublishers.ofString(body) : BodyPublishers.noBody());
+	public static class HttpResponse {
 
-		if (headers != null)
-			rqBuilder.headers(headers);
+		private int code;
+		private List<String> list = new ArrayList<>();
 
-		return client.sendAsync(rqBuilder.build(), handler);
+		public HttpResponse(List<String> l, int code) {
+			this.list = l;
+			this.code = code;
+		}
+
+		public String bodyAsString() {
+			return list.stream().collect(Collectors.joining("\n"));
+		}
+
+		public List<String> bodyAsLines() {
+			return list;
+		}
+		
+		public int getCode() {
+			return code;
+		}
 	}
 }

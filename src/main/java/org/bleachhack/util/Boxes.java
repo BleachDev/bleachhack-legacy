@@ -63,14 +63,14 @@ public class Boxes {
 
 	/** Returns a box with one of its sides stretched. **/
 	public static Box stretch(Box box, Direction dir, double length) {
-		return switch (dir) {
-			case DOWN -> Box.method_581(box.minX, box.minY - length, box.minZ, box.maxX, box.maxY, box.maxZ);
-			case UP -> Box.method_581(box.minX, box.minY, box.minZ, box.maxX, box.maxY + length, box.maxZ);
-			case NORTH -> Box.method_581(box.minX, box.minY, box.minZ - length, box.maxX, box.maxY, box.maxZ);
-			case SOUTH -> Box.method_581(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ + length);
-			case WEST -> Box.method_581(box.minX - length, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
-			case EAST -> Box.method_581(box.minX, box.minY, box.minZ, box.maxX + length, box.maxY, box.maxZ);
-		};
+		switch (dir) {
+			case DOWN: return Box.method_581(box.minX, box.minY - length, box.minZ, box.maxX, box.maxY, box.maxZ);
+			case UP: return Box.method_581(box.minX, box.minY, box.minZ, box.maxX, box.maxY + length, box.maxZ);
+			case NORTH: return Box.method_581(box.minX, box.minY, box.minZ - length, box.maxX, box.maxY, box.maxZ);
+			case SOUTH: return Box.method_581(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ + length);
+			case WEST: return Box.method_581(box.minX - length, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
+			default: return Box.method_581(box.minX, box.minY, box.minZ, box.maxX + length, box.maxY, box.maxZ);
+		}
 	}
 	
 	public static enum Axis {
