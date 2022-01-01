@@ -121,17 +121,21 @@ public class DiscordRPC extends Module {
 			// Bottom text
 			ItemStack currentItem = mc.field_3805.inventory.getMainHandStack();
 
-			String customName = StringUtils.strip(currentItem.getName());
-			if (customName.length() > 25) {
-				customName = customName.substring(0, 23) + "..";
+			if (currentItem != null) {
+				String customName = StringUtils.strip(currentItem.getName());
+				if (customName.length() > 25) {
+					customName = customName.substring(0, 23) + "..";
+				}
+	
+				String name = currentItem.getName();
+				String itemName = currentItem.isEmpty() ? "Nothing"
+						: (currentItem.count > 1 ? currentItem.count + " " : "")
+						+ (currentItem.hasCustomName() ? customName : name);
+	
+				builder.setState(getState(itemName));
+			} else {
+				builder.setState(getState("Nothing"));
 			}
-
-			String name = currentItem.getName();
-			String itemName = currentItem.isEmpty() ? "Nothing"
-					: (currentItem.count > 1 ? currentItem.count + " " : "")
-					+ (currentItem.hasCustomName() ? customName : name);
-
-			builder.setState(getState(itemName));
 
 			// Start time
 			if (getSetting(2).asMode().getMode() != 3) {

@@ -12,6 +12,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.fabricmc.api.ModInitializer;
+
 import java.util.concurrent.CompletableFuture;
 
 import org.apache.logging.log4j.Level;
