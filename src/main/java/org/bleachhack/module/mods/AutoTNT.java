@@ -9,6 +9,10 @@
 package org.bleachhack.module.mods;
 
 import net.minecraft.block.Block;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bleachhack.event.events.EventTick;
 import org.bleachhack.eventbus.BleachSubscribe;
 import org.bleachhack.module.Module;
@@ -18,11 +22,9 @@ import org.bleachhack.util.BlockPos;
 import org.bleachhack.util.InventoryUtils;
 import org.bleachhack.util.world.WorldUtils;
 
-import java.util.*;
-
 public class AutoTNT extends Module {
 
-	private List<Long> blacklist = new ArrayList<>();
+	private List<Integer> blacklist = new ArrayList<>();
 
 	public AutoTNT() {
 		super("AutoTNT", KEY_UNBOUND, ModuleCategory.MISC, "Automatically does the brhu.",
@@ -50,8 +52,8 @@ public class AutoTNT extends Module {
 				int z = (int) mc.field_3805.z - (int) mc.field_3805.z % dist - j * dist;
 				
 				boolean skip = false;
-				for (Long l: blacklist) {
-					if (x == (int) (l >> 32) && z == (int) (l & 0xffffffff)) {
+				for (int l = 0; l < blacklist.size(); l += 2) {
+					if (x == blacklist.get(l) && z == blacklist.get(l + 1)) {
 						skip = true;
 						break;
 					}
@@ -64,7 +66,8 @@ public class AutoTNT extends Module {
 					int y = (int) mc.field_3805.y + k;
 					if (mc.field_3805.squaredDistanceTo(x + 0.5, y + 0.5, z + 0.5) < 4.25
 							&& WorldUtils.placeBlock(new BlockPos(x, y, z), tntSlot, 0, false, false, true)) {
-						blacklist.add(((long) x << 32) | (long) z);
+						blacklist.add(x);
+						blacklist.add(z);
 						return;
 					}
 				}
