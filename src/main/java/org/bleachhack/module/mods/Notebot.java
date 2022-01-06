@@ -12,6 +12,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.NoteBlock;
 import net.minecraft.block.entity.NoteBlockBlockEntity;
+import net.minecraft.util.math.Direction;
+
 import org.bleachhack.command.Command;
 import org.bleachhack.event.events.EventTick;
 import org.bleachhack.event.events.EventWorldRender;
@@ -148,7 +150,7 @@ public class Notebot extends Module {
 								return;
 						}
 
-						WorldUtils.rightClick(e.getKey());
+						WorldUtils.rightClick(e.getKey(), Direction.UP);
 					} else if (tuneMode >= 3) {
 						if (tuneDelay < (tuneMode == 3 ? 3 : 5)) {
 							tuneDelay++;
@@ -158,7 +160,7 @@ public class Notebot extends Module {
 						int neededNote = e.getValue() < note ? e.getValue() + 25 : e.getValue();
 						int reqTunes = Math.min(tuneMode == 3 ? 5 : 25, neededNote - note);
 						for (int i = 0; i < reqTunes; i++)
-							WorldUtils.rightClick(e.getKey());
+							WorldUtils.rightClick(e.getKey(), Direction.UP);
 
 						tuneDelay = 0;
 					}

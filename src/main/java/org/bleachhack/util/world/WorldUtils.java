@@ -26,6 +26,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
@@ -105,14 +106,14 @@ public class WorldUtils {
 			if (!airPlace && mc.world.method_3776(ob.getX(), ob.getY(), ob.getZ()).isReplaceable())
 				continue;
 
-			Vec3d vec = getLegitLookPos(pos.offset(d), opposite(d), true, 5);
+			Vec3d vec = getLegitLookPos(ob, opposite(d), true, 5);
 
 			if (vec == null) {
 				if (forceLegit) {
 					continue;
 				}
 
-				vec = getLegitLookPos(pos.offset(d), opposite(d), false, 5);
+				vec = getLegitLookPos(ob, opposite(d), false, 5);
 
 				if (vec == null) {
 					continue;
@@ -140,7 +141,7 @@ public class WorldUtils {
 				mc.field_3805.field_1667.method_1202(new class_645(mc.field_3805, 1));
 			}
 
-			rightClick(pos, vec);
+			rightClick(pos.offset(d), vec, opposite(d));
 
 			mc.field_3805.field_1667.method_1202(new ClientCommandC2SPacket(mc.field_3805, 2));
 			mc.field_3805.inventory.selectedSlot = prevSlot;
@@ -151,13 +152,13 @@ public class WorldUtils {
 		return false;
 	}
 	
-	public static void rightClick(BlockPos pos) {
-		rightClick(pos, Vec3d.method_604(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
+	public static void rightClick(BlockPos pos, Direction dir) {
+		rightClick(pos, Vec3d.method_604(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5), dir);
 	}
 	
-	public static void rightClick(BlockPos pos, Vec3d vec) {
+	public static void rightClick(BlockPos pos, Vec3d vec, Direction dir) {
 		mc.interactionManager.method_1229(mc.field_3805, mc.world, mc.field_3805.getMainHandStack(),
-				pos.getX(), pos.getY(), pos.getZ(), 0, vec);
+				pos.getX(), pos.getY(), pos.getZ(), dir.ordinal(), vec);
 	}
 
 	public static Vec3d getLegitLookPos(BlockPos pos, Direction dir, boolean raycast, int res) {
@@ -182,9 +183,12 @@ public class WorldUtils {
 					continue;
 
 				if (raycast) {
-					Vec3d r = mc.world.rayTrace(eyePos, lookPos).pos;
-					if (r.x == lookPos.x && r.y == lookPos.y && r.z == lookPos.z) {
-						return lookPos;
+					HitResult ray = mc.world.rayTrace(eyePos, lookPos);
+					if (ray != null) {
+						Vec3d r = ray.pos;
+						if (r.x == lookPos.x && r.y == lookPos.y && r.z == lookPos.z) {
+							return lookPos;
+						}
 					}
 				} else {
 					return lookPos;

@@ -60,35 +60,56 @@ public class BleachOnlineMang {
 
 	public static <T> HttpResponse sendRequest(URI url, String method, String[] headers, String body, int timeout) {
 		try {
-			HttpURLConnection con = (HttpURLConnection) url.toURL().openConnection();
-			con.setReadTimeout(timeout);
-			con.setRequestMethod(method);
-			if (body != null) {
-				con.setDoOutput(true);
-				try (OutputStream os = con.getOutputStream()) {
-					byte[] input = body.getBytes(StandardCharsets.UTF_8);
-					os.write(input, 0, input.length);			
+			HttpURLConnection con = null;
+			int times = 0;
+
+			// Loop because dabruh momento 53 httpurlconnection doesn't support http -> https redirects.
+			while (true) {
+				if (times > 20)
+					break;
+
+				con = (HttpURLConnection) url.toURL().openConnection();
+				con.setReadTimeout(timeout);
+				con.setConnectTimeout(timeout);
+				con.setRequestMethod(method);
+				con.setInstanceFollowRedirects(false);
+
+				if (body != null) {
+					con.setDoOutput(true);
+					try (OutputStream os = con.getOutputStream()) {
+						byte[] input = body.getBytes(StandardCharsets.UTF_8);
+						os.write(input, 0, input.length);			
+					}
+				}
+
+				if (headers != null) {
+					for (int i = 0; i < headers.length; i += 2) {
+						con.getHeaderFields().putIfAbsent(headers[i], new ArrayList<>());
+						con.getHeaderFields().get(headers[i]).add(headers[i + 1]);
+					}
+				}
+
+				if (con.getHeaderField("Location") != null) {
+					url = URI.create(con.getHeaderField("Location"));
+					con.disconnect();
+					times++;
+				} else {
+					break;
 				}
 			}
 
-			if (headers != null) {
-				for (int i = 0; i < headers.length; i += 2) {
-					con.getHeaderFields().putIfAbsent(headers[i], new ArrayList<>());
-					con.getHeaderFields().get(headers[i]).add(headers[i + 1]);
-				}
-			}
 
-			try(BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"))) {
+			try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"))) {
 				String line;
 				List<String> list = new ArrayList<>();
 				while ((line = br.readLine()) != null) {
 					list.add(line);
 				}
-				
+
 				return new HttpResponse(list, con.getResponseCode());
 			}
 		} catch (IOException e) {
-			BleachLogger.logger.error(e);
+			//BleachLogger.logger.error("Failed to bruh ", e);
 			return null;
 		}
 	}
@@ -114,7 +135,7 @@ public class BleachOnlineMang {
 		public List<String> bodyAsLines() {
 			return list;
 		}
-		
+
 		public int getCode() {
 			return code;
 		}

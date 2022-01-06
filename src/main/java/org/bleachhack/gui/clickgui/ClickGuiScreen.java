@@ -138,7 +138,7 @@ public abstract class ClickGuiScreen extends WindowScreen {
 
 	@Override
 	public void keyPressed(char keyCode, int scanCode) {
-		keyDown = keyCode;
+		keyDown = scanCode;
 		super.keyPressed(keyCode, scanCode);
 	}
 	private void tryOpen(Screen screen) {
