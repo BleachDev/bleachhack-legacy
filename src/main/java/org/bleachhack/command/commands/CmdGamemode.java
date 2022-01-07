@@ -15,7 +15,7 @@ import org.bleachhack.command.CommandCategory;
 import org.bleachhack.command.exception.CmdSyntaxException;
 import org.bleachhack.util.BleachLogger;
 
-import net.minecraft.class_1157;
+import net.minecraft.world.GameMode;
 
 public class CmdGamemode extends Command {
 
@@ -33,13 +33,13 @@ public class CmdGamemode extends Command {
 		String lower = args[0].toLowerCase(Locale.ENGLISH);
 
 		if (lower.equals("0") || lower.startsWith("su")) {
-			mc.interactionManager.method_1233(class_1157.field_4573);
+			mc.interactionManager.method_1233(GameMode.SURVIVAL);
 			BleachLogger.info("\u00a7l\u00a7nClientside\u00a7r gamemode has been set to survival.");
 		} else if (lower.equals("1") || lower.startsWith("c")) {
-			mc.interactionManager.method_1233(class_1157.field_4574);
+			mc.interactionManager.method_1233(GameMode.CREATIVE);
 			BleachLogger.info("\u00a7l\u00a7nClientside\u00a7r gamemode has been set to creative.");
 		} else if (lower.equals("2") || lower.startsWith("a")) {
-			mc.interactionManager.method_1233(class_1157.field_4575);
+			mc.interactionManager.method_1233(GameMode.ADVENTURE);
 			BleachLogger.info("\u00a7l\u00a7nClientside\u00a7r gamemode has been set to adventure.");
 		} else {
 			throw new CmdSyntaxException("Unknown Gamemode!");

@@ -39,7 +39,7 @@ public class CmdClip extends Command {
 			}
 
 			for (int y = MathHelper.floor(box.minY) + moveStep; y >= 0 && y <= 256; y += moveStep) {
-				if (WorldUtils.doesBoxCollide(Box.method_581(box.minX, y - 1, box.minZ, box.maxX, y - 0.01, box.maxZ))
+				if (WorldUtils.doesBoxCollide(Box.of(box.minX, y - 1, box.minZ, box.maxX, y - 0.01, box.maxZ))
 						&& !WorldUtils.doesBoxCollide(box.offset(0, -box.minY + y, 0))) {
 					move(0, y - box.minY, 0);
 					return;

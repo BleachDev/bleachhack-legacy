@@ -27,7 +27,7 @@ public class Boxes {
 	/** Offsets this box so that minX, minY and minZ are all zero. **/
 	public static Box moveToZero(Box box) {
 		Vec3d v = getMinVec(box);
-		return Box.method_581(box.minX - v.x, box.minY - v.y, box.minZ - v.z, box.maxX - v.x, box.maxY - v.y, box.maxZ - v.z);
+		return Box.of(box.minX - v.x, box.minY - v.y, box.minZ - v.z, box.maxX - v.x, box.maxY - v.y, box.maxZ - v.z);
 	}
 
 	/** Returns the distance between to oppisite corners of the box. **/
@@ -64,12 +64,12 @@ public class Boxes {
 	/** Returns a box with one of its sides stretched. **/
 	public static Box stretch(Box box, Direction dir, double length) {
 		switch (dir) {
-			case DOWN: return Box.method_581(box.minX, box.minY - length, box.minZ, box.maxX, box.maxY, box.maxZ);
-			case UP: return Box.method_581(box.minX, box.minY, box.minZ, box.maxX, box.maxY + length, box.maxZ);
-			case NORTH: return Box.method_581(box.minX, box.minY, box.minZ - length, box.maxX, box.maxY, box.maxZ);
-			case SOUTH: return Box.method_581(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ + length);
-			case WEST: return Box.method_581(box.minX - length, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
-			default: return Box.method_581(box.minX, box.minY, box.minZ, box.maxX + length, box.maxY, box.maxZ);
+			case DOWN: return Box.of(box.minX, box.minY - length, box.minZ, box.maxX, box.maxY, box.maxZ);
+			case UP: return Box.of(box.minX, box.minY, box.minZ, box.maxX, box.maxY + length, box.maxZ);
+			case NORTH: return Box.of(box.minX, box.minY, box.minZ - length, box.maxX, box.maxY, box.maxZ);
+			case SOUTH: return Box.of(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ + length);
+			case WEST: return Box.of(box.minX - length, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
+			default: return Box.of(box.minX, box.minY, box.minZ, box.maxX + length, box.maxY, box.maxZ);
 		}
 	}
 	

@@ -80,7 +80,7 @@ public class WorldUtils {
 		for (int x = (int) Math.floor(box.minX); x < Math.ceil(box.maxX); x++) {
 			for (int y = (int) Math.floor(box.minY); y < Math.ceil(box.maxY); y++) {
 				for (int z = (int) Math.floor(box.minZ); z < Math.ceil(box.maxZ); z++) {
-					if (Block.field_492[mc.world.method_3774(x, y, z)] != null && box.intersects(Box.method_581(x, y, z, x + 1, y + 1, z + 1))) {
+					if (Block.field_492[mc.world.method_3774(x, y, z)] != null && box.intersects(Box.of(x, y, z, x + 1, y + 1, z + 1))) {
 						return true;
 					}
 				}
@@ -162,7 +162,7 @@ public class WorldUtils {
 	}
 
 	public static Vec3d getLegitLookPos(BlockPos pos, Direction dir, boolean raycast, int res) {
-		return getLegitLookPos(Box.method_581(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1), dir, raycast, res, 0.01);
+		return getLegitLookPos(Box.of(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1), dir, raycast, res, 0.01);
 	}
 
 	public static Vec3d getLegitLookPos(Box box, Direction dir, boolean raycast, int res, double extrude) {
@@ -205,7 +205,7 @@ public class WorldUtils {
 			return false;
 		}
 
-		Box box = Box.method_581(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1);
+		Box box = Box.of(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1);
 		for (Entity e : (List<Entity>) mc.world.entities) {
 			if (e instanceof LivingEntity && box.intersects(e.boundingBox)) {
 				return false;

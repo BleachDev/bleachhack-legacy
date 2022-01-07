@@ -12,18 +12,13 @@ group = project.maven_group
 
 repositories {
 	maven {
-		name = "legacy-fabric"
-		url = "https://maven.legacyfabric.net"
-	}
-	
-	// custom mapping maven because yarn devs are bozos
-	maven {
-		name = "bleachhack"
-		url = "https://bleachhack.org/maven"
+		name = "Legacy Rewoven"
+		url = "https://maven.rewovenmc.tk"
 	}
 	
 	maven {
-		url "https://jitpack.io"
+		name = 'Jitpack'
+		url = 'https://jitpack.io'
 	}
 }
 

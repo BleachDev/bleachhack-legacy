@@ -64,7 +64,7 @@ public class BlockPos extends Vec3i {
 	}
 	
 	public Box toBox() {
-		return Box.method_581(getX(), getY(), getZ(), getX() + 1, getY() + 1, getZ() + 1);
+		return Box.of(getX(), getY(), getZ(), getX() + 1, getY() + 1, getZ() + 1);
 	}
 
 	public BlockPos add(double d, double e, double f) {

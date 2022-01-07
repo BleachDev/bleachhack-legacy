@@ -107,9 +107,9 @@ public class CmdNBT extends Command {
 			return null;
 		} else if (arg.equalsIgnoreCase("entity")) {
 			HitResult target = mc.result;
-			if (target.entitiy != null) {
+			if (target.entity != null) {
 				CompoundTag c = new CompoundTag();
-				target.entitiy.writePlayerData(c);
+				target.entity.writePlayerData(c);
 				return c;
 			}
 

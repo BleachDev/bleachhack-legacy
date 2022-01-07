@@ -58,7 +58,7 @@ public class EntityMenu extends Module {
 		if (Mouse.isButtonDown(2) && !buttonHeld) {
 			buttonHeld = true;
 			
-			Entity lookingAt = mc.result == null ? null : mc.result.entitiy;
+			Entity lookingAt = mc.result == null ? null : mc.result.entity;
 			BleachLogger.info(lookingAt + "");
 			
 			if (lookingAt != null) {
