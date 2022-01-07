@@ -4,7 +4,7 @@ BleachHack for older versions (for some reason)
 
 ## Installation
 
-To install, first install [Fabric Legacy](https://ftb.fandom.com/wiki/Legacy_Fabric) and download a built of BH from the [actions section](https://github.com/BleachDrinker420/bleachhack-legacy/actions/) and add it to your mods folder. 
+To install, first install [Fabric Legacy](https://ftb.fandom.com/wiki/Legacy_Fabric) then download a built BH version from the [actions section](https://github.com/BleachDrinker420/bleachhack-legacy/actions/) and add it to your mods folder. 
 
 ## Develop
 
