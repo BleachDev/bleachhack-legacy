@@ -27,6 +27,8 @@
 	"CmdSkull",
 	"CmdSpammer",
 	"CmdTerrain",
+	"CmdUsername",
+	"CmdSpawnTP",
 	"CmdToggle",
 	"CmdWatermark"
   ]

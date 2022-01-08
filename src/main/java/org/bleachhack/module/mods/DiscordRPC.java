@@ -151,7 +151,7 @@ public class DiscordRPC extends Module {
 	
 	private String getDetails() {
 		switch(getSetting(0).asMode().getMode()) {
-			case 0: return "Playing " + (((AccessorMinecraftClient) mc).getCurrentServerEntry() == null ? "Singleplayer" : ((AccessorMinecraftClient) mc).getCurrentServerEntry().address);
+			case 0: return "Playing " + (((AccessorMinecraftClient) mc).getCurrentServerEntry() == null ? "Singleplayer" : ((AccessorMinecraftClient) mc).getCurrentServerEntry().address)+" "+BleachHack.MCVERSION;
 			case 1: return ((AccessorMinecraftClient) mc).getCurrentServerEntry() == null ? "Singleplayer" : ((AccessorMinecraftClient) mc).getCurrentServerEntry().address;
 			case 2: return ((AccessorMinecraftClient) mc).getCurrentServerEntry() == null ? "Singleplayer" : "Multiplayer";
 			case 3: return mc.field_3805.getTranslationKey() + " Ontop!";
