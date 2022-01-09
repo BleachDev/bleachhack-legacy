@@ -8,8 +8,6 @@
  */
 package org.bleachhack.command.commands;
 
-import net.minecraft.client.MinecraftClient;
-import org.apache.commons.lang3.reflect.FieldUtils;
 import org.bleachhack.command.Command;
 import org.bleachhack.command.CommandCategory;
 
