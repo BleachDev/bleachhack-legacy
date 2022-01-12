@@ -68,9 +68,6 @@ public class BleachHack implements ModInitializer {
 
 		friendMang = new FriendManager();
 
-		//this.eventBus = new EventBus();
-		//this.bleachFileManager = new BleachFileMang();
-
 		BleachFileMang.init();
 
 		BleachFileHelper.readOptions();

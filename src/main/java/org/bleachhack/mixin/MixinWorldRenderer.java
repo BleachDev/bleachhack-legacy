@@ -35,6 +35,8 @@ public class MixinWorldRenderer {
 
 	@Redirect(method = "method_1370", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V"))
 	private void render_swap(Profiler profiler, String string) {
+		profiler.swap(string);
+		
 		if (string.equals("entities")) {
 			BleachHack.eventBus.post(new EventEntityRender.PreAll());
 		} else if (string.equals("tileentities")) {
