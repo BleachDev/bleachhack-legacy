@@ -112,7 +112,8 @@ public class UI extends Module {
 				new SettingToggle("PotionList", true).withDesc("Shows the potion list.").withChildren(                                 // 0
 						new SettingToggle("InnerLine", true).withDesc("Adds an extra line to the front of the module list."),
 						new SettingToggle("OuterLine", false).withDesc("Adds an outer line to the module list."),
-						new SettingToggle("Fill", true).withDesc("Adds a black fill behind the module list.")));
+						new SettingToggle("Fill", true).withDesc("Adds a black fill behind the module list."),         // 0
+						new SettingToggle("Alerts", true).withDesc("Adds pop up exclamation marks when low.")));
 
 		UIContainer container = UIClickGuiScreen.INSTANCE.getUIContainer();
 
@@ -615,16 +616,18 @@ public class UI extends Module {
 				}
 				int duration = mc.field_3805.getEffectInstance(statusEffect).getDuration() / 20;
 				String alert = "";
-				switch (duration) {
-					case 3:
-						alert = " !";
-						break;
-					case 2:
-						alert = " ! !";
-						break;
-					case 1:
-						alert = " ! ! !";
-						break;
+				if(getSetting(13).asToggle().getChild(3).asToggle().getState()) {
+					switch (duration) {
+						case 3:
+							alert = " !";
+							break;
+						case 2:
+							alert = " ! !";
+							break;
+						case 1:
+							alert = " ! ! !";
+							break;
+					}
 				}
 				potionListText.add(statusEffect.getTranslationKey().substring(7) +" "+numeral+" "+getTimeInFormat(duration)+"\u00a74"+alert);
 			}
