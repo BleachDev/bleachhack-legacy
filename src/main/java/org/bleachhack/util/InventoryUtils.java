@@ -14,6 +14,8 @@ import java.util.stream.IntStream;
 
 import net.minecraft.class_711;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class InventoryUtils {
 	
@@ -75,10 +77,10 @@ public class InventoryUtils {
 
 		return false;
 	}
-	
+
 	public static int[] getInventorySlots() {
 		int[] i = new int[37];
-		
+
 		// Add hand slots first
 		i[0] = mc.field_3805.inventory.selectedSlot;
 
@@ -87,7 +89,25 @@ public class InventoryUtils {
 				i[j + 1] = j;
 			}
 		}
-		
+
 		return i;
+	}
+	public static int countItem(Item item) {
+		int c = 0;
+		for (int i = 0; i < 45; ++i)
+		{
+			try {
+				if (mc.field_3805.inventory.getInvStack(i).getItem() == item
+				)
+				{
+					++c;
+				}
+			}
+			catch(Exception e) {
+				//  Block of code to handle errors
+			}
+		}
+
+		return c;
 	}
 }

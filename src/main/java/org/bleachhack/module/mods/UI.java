@@ -42,7 +42,9 @@ import org.bleachhack.setting.module.SettingColor;
 import org.bleachhack.setting.module.SettingMode;
 import org.bleachhack.setting.module.SettingSlider;
 import org.bleachhack.setting.module.SettingToggle;
+import org.bleachhack.util.BleachLogger;
 import org.bleachhack.util.BlockPos;
+import org.bleachhack.util.InventoryUtils;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -101,7 +103,8 @@ public class UI extends Module {
 				new SettingToggle("Players", false).withDesc("Lists all the players in your render distance."),                        // 9
 				new SettingToggle("Armor", true).withDesc("Shows your current armor.").withChildren(                                   // 10
 						new SettingToggle("Vertical", false).withDesc("Displays your armor vertically."),
-						new SettingMode("Damage", "Number", "Bar", "BarV").withDesc("How to show the armor durability.")),
+						new SettingMode("Damage", "Number", "Bar", "BarV").withDesc("How to show the armor durability.")    ,                               // 10
+						new SettingToggle("Count", false).withDesc("Displays your armor vertically.")),
 				new SettingToggle("Lag-Meter", true).withDesc("Shows when the server isn't responding.").withChildren(                 // 11
 						new SettingMode("Animation", "Fall", "Fade", "None").withDesc("How to animate the lag meter when appearing.")),
 				new SettingToggle("Inventory", false).withDesc("Renders your inventory on screen.").withChildren(                      // 12
@@ -450,10 +453,15 @@ public class UI extends Module {
 		boolean vertical = getSetting(10).asToggle().getChild(0).asToggle().getState();
 
 		for (int count = 0; count < mc.field_3805.inventory.armor.length; count++) {
-			ItemStack is = mc.field_3805.inventory.armor[count];
+			ItemStack is = mc.field_3805.inventory.armor[count].copy();
+			int color = getRainbowFromSettings(count * 40);
 
 			if (is == null)
 				continue;
+			if(getSetting(10).asToggle().getChild(2).asToggle().getState()) {
+				is.count = InventoryUtils.countItem(is.getItem());
+			}
+
 
 			int curX = vertical ? x : x + count * 19;
 			int curY = vertical ? y + 47 - count * 16 : y;
@@ -464,7 +472,7 @@ public class UI extends Module {
 
 			if (is.count > 1) {
 				String s = Integer.toString(is.count);
-				mc.textRenderer.method_956(s, curX + 19 - mc.textRenderer.getStringWidth(s), curY + 9, 0xffffff);
+				mc.textRenderer.method_956(s, curX + 19 - mc.textRenderer.getStringWidth(s), curY, color);
 			}
 
 			if (is.isDamageable()) {
