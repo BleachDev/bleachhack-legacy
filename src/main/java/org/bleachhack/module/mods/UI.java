@@ -453,11 +453,12 @@ public class UI extends Module {
 		boolean vertical = getSetting(10).asToggle().getChild(0).asToggle().getState();
 
 		for (int count = 0; count < mc.field_3805.inventory.armor.length; count++) {
-			ItemStack is = mc.field_3805.inventory.armor[count].copy();
+			ItemStack is1 = mc.field_3805.inventory.armor[count];
 			int color = getRainbowFromSettings(count * 40);
 
-			if (is == null)
+			if (is1 == null)
 				continue;
+			ItemStack is = mc.field_3805.inventory.armor[count].copy();
 			if(getSetting(10).asToggle().getChild(2).asToggle().getState()) {
 				is.count = InventoryUtils.countItem(is.getItem());
 			}
