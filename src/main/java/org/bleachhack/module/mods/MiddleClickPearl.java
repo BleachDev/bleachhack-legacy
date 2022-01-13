@@ -8,35 +8,57 @@
  */
 package org.bleachhack.module.mods;
 
+import org.bleachhack.event.events.EventTick;
+import org.bleachhack.eventbus.BleachSubscribe;
 import org.bleachhack.module.Module;
 import org.bleachhack.module.ModuleCategory;
 import org.bleachhack.util.BleachLogger;
 import org.bleachhack.util.InventoryUtils;
 
 public class MiddleClickPearl extends Module {
+	int ticksPassed;
+	boolean enabled = false;
+	int lastSlot;
+	int epearlSlot;
 
 	public MiddleClickPearl() {
 		super("AutoPearl", KEY_UNBOUND, ModuleCategory.MISC, "middle click enderpearl.");
 	}
 
+
 	@Override
 	public void onEnable(boolean inWorld) {
 		super.onEnable(inWorld);
-
-		int epearlSlot = InventoryUtils.getSlot(i -> mc.field_3805.inventory.getInvStack(i) != null
-				&& mc.field_3805.inventory.getInvStack(i).getItem().toString().contains("EnderPearl"));
-		if (epearlSlot == -1) {
-			BleachLogger.info("No enderpearls in hotbar");
-			this.setEnabled(false);
-			return;
-		}
-		int lastSlot = mc.field_3805.inventory.selectedSlot;
-		InventoryUtils.selectSlot(epearlSlot);
-		BleachLogger.info("Throwing enderpearl");
-		//RIGHT CLICK THROW EPEARL LINE CODE STUFF GOES HERE!!
-		InventoryUtils.selectSlot(lastSlot);
-		this.setEnabled(false);
+		ticksPassed = 0;
+		enabled = true;
 	}
 
+
+	@BleachSubscribe
+	public void onTick(EventTick event) {
+		ticksPassed++;
+		if (!enabled) return;
+
+		if (ticksPassed == 1) {
+			lastSlot = mc.field_3805.inventory.selectedSlot;
+			epearlSlot = InventoryUtils.getSlot(i -> mc.field_3805.inventory.getInvStack(i) != null
+					&& mc.field_3805.inventory.getInvStack(i).getItem().toString().contains("EnderPearl"));
+			if (epearlSlot == -1) {
+				BleachLogger.info("No enderpearls in hotbar");
+				this.setEnabled(false);
+				return;
+			}
+			InventoryUtils.selectSlot(epearlSlot);
+		}
+		if (ticksPassed == 2) {
+			mc.interactionManager.method_1228(mc.field_3805, mc.world, mc.field_3805.getMainHandStack());
+		}
+		if (ticksPassed == 3) {
+			InventoryUtils.selectSlot(lastSlot);
+			BleachLogger.info("Enderpearl thrown.");
+			this.setEnabled(false);
+			enabled = false;
+		}
+	}
 
 }
