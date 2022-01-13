@@ -473,7 +473,7 @@ public class UI extends Module {
 
 			if (is.count > 1) {
 				String s = Integer.toString(is.count);
-				mc.textRenderer.method_956(s, curX + 19 - mc.textRenderer.getStringWidth(s), curY, color);
+				mc.textRenderer.method_956(s, curX + 20 - mc.textRenderer.getStringWidth(s), curY, color);
 			}
 
 			if (is.isDamageable()) {
