@@ -30,6 +30,7 @@ import org.bleachhack.util.world.EntityUtils;
 import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.EndCrystalEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -98,8 +99,9 @@ public class ESP extends Module {
 
 					//shader.getUniforms().put("Color", () -> new float[] { color[0] / 255f, color[1] / 255f, color[2] / 255f, getSetting(1).asSlider().getValueInt() / 255f });
 
-					EntityRenderDispatcher.field_2094.method_1519(e).render(
-							e, var3 - EntityRenderDispatcher.field_2095, var5 - EntityRenderDispatcher.field_2096, var7 - EntityRenderDispatcher.field_2097, var9, f);
+					EntityRenderer er = EntityRenderDispatcher.field_2094.method_1519(e);
+					if (er != null)
+						er.render(e, var3 - EntityRenderDispatcher.field_2095, var5 - EntityRenderDispatcher.field_2096, var7 - EntityRenderDispatcher.field_2097, var9, f);
 				}
 			}
 
