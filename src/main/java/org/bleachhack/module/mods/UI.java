@@ -55,12 +55,13 @@ import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 public class UI extends Module {
-	private ArrayList<StatusEffect> potionEffects = new ArrayList<>(Arrays.asList(StatusEffect.REGENERATION,StatusEffect.STRENGTH,StatusEffect.SPEED));
+	private ArrayList<StatusEffect> potionEffects = new ArrayList<>(Arrays.asList(StatusEffect.REGENERATION,StatusEffect.STRENGTH,StatusEffect.SPEED,StatusEffect.FIRE_RESISTANCE));
 
 	private List<String> moduleListText = new ArrayList<>();
 	private List<String> potionListText = new ArrayList<>();
 	private String fpsText = "";
 	private String pingText = "";
+	private String playerCountText = "";
 	private String coordsText = "";
 	private String tpsText = "";
 	private String durabilityText = "";
@@ -113,7 +114,8 @@ public class UI extends Module {
 						new SettingToggle("InnerLine", true).withDesc("Adds an extra line to the front of the module list."),
 						new SettingToggle("OuterLine", false).withDesc("Adds an outer line to the module list."),
 						new SettingToggle("Fill", true).withDesc("Adds a black fill behind the module list."),         // 0
-						new SettingToggle("Alerts", true).withDesc("Adds pop up exclamation marks when low.")));
+						new SettingToggle("Alerts", true).withDesc("Adds pop up exclamation marks when low.")),
+				new SettingToggle("PlayerCount", true).withDesc("Counts tab."));
 
 		UIContainer container = UIClickGuiScreen.INSTANCE.getUIContainer();
 
@@ -155,8 +157,15 @@ public class UI extends Module {
 						(x, y) -> mc.textRenderer.method_956(pingText, x + 1, y + 1, 0xa0a0a0))
 				);
 
-		container.windows.put("tps",
+		container.windows.put("playercount",
 				new UIWindow(new Position("l", 1, "ping", 0), container,
+						() -> getSetting(14).asToggle().getState(),
+						() -> new int[] { mc.textRenderer.getStringWidth(playerCountText) + 2, 10 },
+						(x, y) -> mc.textRenderer.method_956(playerCountText, x + 1, y + 1, 0xa0a0a0))
+				);
+
+		container.windows.put("tps",
+				new UIWindow(new Position("l", 1, "playercount", 0), container,
 						() -> getSetting(4).asToggle().getState(),
 						() -> new int[] { mc.textRenderer.getStringWidth(tpsText) + 2, 10 },
 						(x, y) -> mc.textRenderer.method_956(tpsText, x + 1, y + 1, 0xa0a0a0))
@@ -266,6 +275,9 @@ public class UI extends Module {
 		@SuppressWarnings("unchecked")
 		int ping = mc.field_3805.field_1667.field_1618.stream().filter(e -> ((class_482) e).field_1679.equals(mc.getSession().getUsername())).mapToInt(e -> ((class_482) e).field_1680).findFirst().orElse(0);
 		pingText = "Ping: \u00a7a" + Integer.toString(ping);
+
+		String playerCount = String.valueOf(mc.field_3805.field_1667.field_1618.size());
+		playerCountText = "Players: \u00a7a" + playerCount;
 
 		// Coords
 		boolean nether = mc.world.dimension instanceof TheNetherDimension;
@@ -592,49 +604,45 @@ public class UI extends Module {
 	public void drawPotionList(int x, int y) {
 		potionListText.clear();
 		potionEffects.forEach(statusEffect -> {
-			try {
-				String numeral = "";
-				int amplifier = mc.field_3805.getEffectInstance(statusEffect).getAmplifier();
-				switch (amplifier) {
-					case 0:
-						numeral = "I";
-						break;
-					case 1:
-						numeral = "II";
+			if(!mc.field_3805.hasStatusEffect(statusEffect)) {return;}
+			String numeral = "";
+			int amplifier = mc.field_3805.getEffectInstance(statusEffect).getAmplifier();
+			switch (amplifier) {
+				case 0:
+					numeral = "I";
+					break;
+				case 1:
+					numeral = "II";
+					break;
+				case 2:
+					numeral = "III";
+					break;
+				case 3:
+					numeral = "IV";
+					break;
+				case 4:
+					numeral = "V";
+					break;
+				default:
+					numeral = String.valueOf(amplifier);
+					break;
+			}
+			int duration = mc.field_3805.getEffectInstance(statusEffect).getDuration() / 20;
+			String alert = "";
+			if(getSetting(13).asToggle().getChild(3).asToggle().getState()) {
+				switch (duration) {
+					case 3:
+						alert = " !";
 						break;
 					case 2:
-						numeral = "III";
+						alert = " ! !";
 						break;
-					case 3:
-						numeral = "IV";
-						break;
-					case 4:
-						numeral = "V";
-						break;
-					default:
-						numeral = String.valueOf(amplifier);
+					case 1:
+						alert = " ! ! !";
 						break;
 				}
-				int duration = mc.field_3805.getEffectInstance(statusEffect).getDuration() / 20;
-				String alert = "";
-				if(getSetting(13).asToggle().getChild(3).asToggle().getState()) {
-					switch (duration) {
-						case 3:
-							alert = " !";
-							break;
-						case 2:
-							alert = " ! !";
-							break;
-						case 1:
-							alert = " ! ! !";
-							break;
-					}
-				}
-				potionListText.add(statusEffect.getTranslationKey().substring(7) +" "+numeral+" "+getTimeInFormat(duration)+"\u00a74"+alert);
 			}
-			catch(Exception e) {
-				//  Block of code to handle errors
-			}
+			potionListText.add(statusEffect.getTranslationKey().substring(7) +" "+numeral+" "+getTimeInFormat(duration)+"\u00a74"+alert);
 		});
 		if (potionListText.isEmpty()) return;
 		int arrayCount = 0;
