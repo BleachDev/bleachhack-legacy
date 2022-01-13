@@ -613,7 +613,20 @@ public class UI extends Module {
 						numeral = String.valueOf(amplifier);
 						break;
 				}
-				potionListText.add(statusEffect.getTranslationKey().substring(7) +" "+numeral+" "+getTimeInFormat(mc.field_3805.getEffectInstance(statusEffect).getDuration()/20)+" ");
+				int duration = mc.field_3805.getEffectInstance(statusEffect).getDuration() / 20;
+				String alert = "";
+				switch (duration) {
+					case 3:
+						alert = " !";
+						break;
+					case 2:
+						alert = " ! !";
+						break;
+					case 1:
+						alert = " ! ! !";
+						break;
+				}
+				potionListText.add(statusEffect.getTranslationKey().substring(7) +" "+numeral+" "+getTimeInFormat(duration)+"\u00a74"+alert);
 			}
 			catch(Exception e) {
 				//  Block of code to handle errors
