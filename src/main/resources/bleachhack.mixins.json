@@ -9,6 +9,7 @@
     "AccessorChatScreen",
     "AccessorMinecraftClient",
     "AccessorTextFieldWidget",
+    "MixinBossBar",
     "MixinChatScreen",
     "MixinClientConnection",
     "MixinClientPlayerEntity",
