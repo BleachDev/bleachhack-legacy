@@ -1,6 +1,9 @@
 {
   "package": "org.bleachhack.module.mods",
   "modules": [
+    "AntiHunger",
+    "AntiVoid",
+    "ArrowJuke",
     "AutoArmor",
     "AutoTNT",
     "ClickGui",
