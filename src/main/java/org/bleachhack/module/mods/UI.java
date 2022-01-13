@@ -92,7 +92,8 @@ public class UI extends Module {
 						new SettingSlider("HueSpeed", 0.1, 50, 25, 1).withDesc("The speed of the rainbow.")),
 				new SettingToggle("FPS", true).withDesc("Shows your FPS."),                                                            // 1
 				new SettingToggle("Ping", true).withDesc("Shows your ping."),                                                          // 2
-				new SettingToggle("Coords", true).withDesc("Shows your coords and nether coords."),                                    // 3
+				new SettingToggle("Coords", true).withDesc("Shows your coords and nether coords.").withChildren(                                   // 10
+						new SettingToggle("AntiLeak", false).withDesc("Hides coordinates if over 5k incase of bed respawn")),                                    // 3
 				new SettingToggle("TPS", true).withDesc("Shows the estimated server tps."),                                            // 4
 				new SettingToggle("Durability", false).withDesc("Shows durability left on the item you're holding."),                  // 5
 				new SettingToggle("Server", false).withDesc("Shows the current server you are on."),                                   // 6
@@ -260,11 +261,21 @@ public class UI extends Module {
 		BlockPos pos2 = nether ? new BlockPos(mc.field_3805.x * 8, mc.field_3805.y, mc.field_3805.z * 8)
 				: new BlockPos(mc.field_3805.x * 0.125, mc.field_3805.y, mc.field_3805.z * 0.125);
 
-		coordsText = "XYZ: " + 
+		coordsText = "XYZ: " +
 				(nether ? "\u00a74" : "\u00a7b") + pos.getX() + " " + pos.getY() + " " + pos.getZ() +
 				" \u00a77[" +
 				(nether ? "\u00a7b" : "\u00a74") + pos2.getX() + " " + pos2.getY() + " " + pos2.getZ()
 				+ "\u00a77]";
+		if(getSetting(3).asToggle().getChild(0).asToggle().getState()) {
+			if(pos.getX() >= 5000 || pos.getZ() >= 5000) {
+				coordsText = "XYZ: " +
+						(nether ? "\u00a74" : "\u00a7b") + "***,*** " + pos.getY() + " " +
+						"***,*** \u00a77[" +
+						(nether ? "\u00a7b" : "\u00a74") + "***,*** " + pos2.getY() + " "
+						+ "***,***\u00a77]";
+			}
+		}
+
 
 		// TPS
 		int time = (int) (System.currentTimeMillis() - lastPacket);
