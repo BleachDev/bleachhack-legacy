@@ -3,6 +3,7 @@
   "modules": [
     "AutoArmor",
     "AutoTNT",
+    "BlockHighlight",
     "ClickGui",
     "DiscordRPC",
     "EntityMenu",
