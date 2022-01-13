@@ -42,7 +42,7 @@ public class AutoArmor extends Module {
 
 	@BleachSubscribe
 	public void onTick(EventTick event) {
-		if (!BleachQueue.isEmpty("autoarmor_equip"))
+		if (mc.field_3805.playerScreenHandler != mc.field_3805.openScreenHandler || !BleachQueue.isEmpty("autoarmor_equip"))
 			return;
 
 		if (tickDelay > 0) {
@@ -75,7 +75,7 @@ public class AutoArmor extends Module {
 						} else if (forceMoveSlot == -1) {
 							ItemStack is1 = mc.field_3805.inventory.getInvStack(s);
 							if (is1 != null && (is1.getItem() instanceof ToolItem || is1.getItem() instanceof ArmorItem))
-							forceMoveSlot = s;
+								forceMoveSlot = s;
 						}
 					}
 
