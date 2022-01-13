@@ -23,7 +23,7 @@ public class AutoPearl extends Module {
 	int epearlSlot;
 
 	public AutoPearl() {
-		super("AutoPearl", KEY_UNBOUND, ModuleCategory.MISC, "automatically switches to throw enderpearl.");
+		super("AutoPearl", KEY_UNBOUND, ModuleCategory.COMBAT, "automatically switches to throw enderpearl.");
 	}
 
 

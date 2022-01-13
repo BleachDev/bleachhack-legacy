@@ -34,7 +34,7 @@ public class AutoPotion extends Module {
 	int strength;
 
 	public AutoPotion() {
-		super("AutoPotion", KEY_UNBOUND, ModuleCategory.MISC, "auto throws potions.",
+		super("AutoPotion", KEY_UNBOUND, ModuleCategory.COMBAT, "auto throws potions.",
 				new SettingSlider("Strength", 1, 9, 4, 0).withDesc("Slot of strength potion."),
 				new SettingSlider("Speed", 1, 9, 5, 0).withDesc("Slot of speed potion."));
 	}
