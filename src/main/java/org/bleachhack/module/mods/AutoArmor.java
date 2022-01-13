@@ -44,7 +44,8 @@ public class AutoArmor extends Module {
 	public void onTick(EventTick event) {
 		if (!BleachQueue.isEmpty("autoarmor_equip"))
 			return;
-
+		if (mc.field_3805.playerScreenHandler != mc.field_3805.openScreenHandler)
+			return;
 		if (tickDelay > 0) {
 			tickDelay--;
 			return;

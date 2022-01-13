@@ -416,7 +416,8 @@ public class UI extends Module {
 
 	@SuppressWarnings("unchecked")
 	public void drawPlayerList(int x, int y) {
-		mc.textRenderer.method_956("Players:", x + 1, y + 1, 0xff0000);
+		int color = getRainbowFromSettings(40);
+		mc.textRenderer.method_956("Players:", x + 1, y + 1, color);
 
 		int count = 1;
 		for (Entity e : ((List<PlayerEntity>) mc.world.playerEntities).stream()
