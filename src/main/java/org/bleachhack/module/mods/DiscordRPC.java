@@ -50,7 +50,7 @@ public class DiscordRPC extends Module {
 	public DiscordRPC() {
 		super("DiscordRPC", KEY_UNBOUND, ModuleCategory.MISC, true, "Discord RPC, use the " + Command.getPrefix() + "rpc command to set a custom status.",
 				new SettingMode("Line1", "Playing %server%", "%server%", "%type%", "%username% ontop", "Minecraft %mcver%", "%username%", "<- bad client", "%custom%").withDesc("The top line."),
-				new SettingMode("Line2", "%hp% hp - Holding %item%", "%username% - %hp% hp", "Holding %item%", "%hp% hp - At %coords%", "At %coords%", "%custom%").withDesc("The bottom line."),
+				new SettingMode("Line2", "%hp% hp - Holding %item%", "%username% - %hp% hp", "Holding %item%", "%hp% hp at %coords%", "At %coords%", "%custom%").withDesc("The bottom line."),
 				new SettingMode("Elapsed", "Normal", "Random", "Backwards", "None").withDesc("How to show elapsed time"),
 				new SettingToggle("Silent", false).withDesc("Use a generic Minecraft title and image."));
 
@@ -167,18 +167,27 @@ public class DiscordRPC extends Module {
 			case 0: return (int) mc.field_3805.getHealth() + " hp - Holding " + itemName;
 			case 1: return mc.field_3805.getTranslationKey() + " - " + (int) mc.field_3805.getHealth() + " hp";
 			case 2: return "Holding " + itemName;
-			case 3: return (int) mc.field_3805.getHealth() + " hp - At " + new BlockPos(mc.field_3805).toShortString();
-			case 4: return "At " + new BlockPos(mc.field_3805).toShortString();
+			case 3: return (int) mc.field_3805.getHealth() + " hp at " + getCoords();
+			case 4: return "At " + getCoords();
 			default: return customText2;
 		}
 	}
-	
+
 	private long getTime() {
 		switch (getSetting(2).asMode().getMode()) {
 			case 1: return System.currentTimeMillis() - ThreadLocalRandom.current().nextInt(0, 86400000);
 			case 2: return System.currentTimeMillis() - 86400000L + (long) tick * 50;
 			default: return startTime;
 		}
+	}
+
+	private String getCoords() {
+		BlockPos pos = new BlockPos(mc.field_3805);
+		String coordsText = pos.getX() + ", " + pos.getY() + ", " + pos.getZ();
+		if(pos.getX() >= 5000 || pos.getZ() >= 5000 || pos.getX() <= -5000 || pos.getZ() <= -5000) {
+			coordsText = "****, " + pos.getY() + ", ****";
+		}
+		return coordsText;
 	}
 
 	private void disconnect() {

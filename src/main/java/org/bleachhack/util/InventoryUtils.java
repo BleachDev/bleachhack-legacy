@@ -92,6 +92,7 @@ public class InventoryUtils {
 
 		return i;
 	}
+
 	public static int countItem(Item item) {
 		int c = 0;
 		for (int i = 0; i < 45; ++i)

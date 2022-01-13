@@ -16,7 +16,9 @@ import net.minecraft.client.render.GuiLighting;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.Window;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.ChunkPos;
@@ -48,19 +50,15 @@ import org.bleachhack.util.InventoryUtils;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.*;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 public class UI extends Module {
+	private ArrayList<StatusEffect> potionEffects = new ArrayList<>(Arrays.asList(StatusEffect.REGENERATION,StatusEffect.STRENGTH,StatusEffect.SPEED));
 
 	private List<String> moduleListText = new ArrayList<>();
+	private List<String> potionListText = new ArrayList<>();
 	private String fpsText = "";
 	private String pingText = "";
 	private String coordsText = "";
@@ -109,7 +107,12 @@ public class UI extends Module {
 				new SettingToggle("Lag-Meter", true).withDesc("Shows when the server isn't responding.").withChildren(                 // 11
 						new SettingMode("Animation", "Fall", "Fade", "None").withDesc("How to animate the lag meter when appearing.")),
 				new SettingToggle("Inventory", false).withDesc("Renders your inventory on screen.").withChildren(                      // 12
-						new SettingSlider("Background", 0, 255, 140, 0).withDesc("How opaque the background should be.")));
+						new SettingSlider("Background", 0, 255, 140, 0).withDesc("How opaque the background should be.")),
+
+				new SettingToggle("PotionList", true).withDesc("Shows the potion list.").withChildren(                                 // 0
+						new SettingToggle("InnerLine", true).withDesc("Adds an extra line to the front of the module list."),
+						new SettingToggle("OuterLine", false).withDesc("Adds an outer line to the module list."),
+						new SettingToggle("Fill", true).withDesc("Adds a black fill behind the module list.")));
 
 		UIContainer container = UIClickGuiScreen.INSTANCE.getUIContainer();
 
@@ -119,7 +122,15 @@ public class UI extends Module {
 						() -> getSetting(0).asToggle().getState(),
 						this::getModuleListSize,
 						this::drawModuleList)
-				);
+		);
+
+		// PotionList
+		container.windows.put("potionlist",
+				new UIWindow(new Position("l", 1, "t", 2), container,
+						() -> getSetting(13).asToggle().getState(),
+						this::getPotionListSize,
+						this::drawPotionList)
+		);
 
 		// Info
 		container.windows.put("coords",
@@ -382,6 +393,7 @@ public class UI extends Module {
 		}
 	}
 
+
 	// --- Players
 
 	public int[] getPlayerSize() {
@@ -560,5 +572,101 @@ public class UI extends Module {
 
 	public static int hsvToRgb(float h, float s, float v) {
 		return SettingColor.pack(SettingColor.hsvToRgb(h, s, v));
+	}
+
+
+	// Potion list
+
+	public int[] getPotionListSize() {
+		if (potionListText.isEmpty()) {
+			return new int[] { 0, 0 };
+		}
+
+		int inner = getSetting(13).asToggle().getChild(0).asToggle().getState() ? 1 : 0;
+		int outer = getSetting(13).asToggle().getChild(1).asToggle().getState() ? 4 : 3;
+		return new int[] { mc.textRenderer.getStringWidth(potionListText.get(0)) + inner + outer, potionListText.size() * 10 };
+	}
+
+	public void drawPotionList(int x, int y) {
+		potionListText.clear();
+		potionEffects.forEach(statusEffect -> {
+			try {
+				String numeral = "";
+				int amplifier = mc.field_3805.getEffectInstance(statusEffect).getAmplifier();
+				switch (amplifier) {
+					case 0:
+						numeral = "I";
+						break;
+					case 1:
+						numeral = "II";
+						break;
+					case 2:
+						numeral = "III";
+						break;
+					case 3:
+						numeral = "IV";
+						break;
+					case 4:
+						numeral = "V";
+						break;
+					default:
+						numeral = String.valueOf(amplifier);
+						break;
+				}
+				potionListText.add(statusEffect.getTranslationKey().substring(7) +" "+numeral+" "+getTimeInFormat(mc.field_3805.getEffectInstance(statusEffect).getDuration()/20)+" ");
+			}
+			catch(Exception e) {
+				//  Block of code to handle errors
+			}
+		});
+		if (potionListText.isEmpty()) return;
+		int arrayCount = 0;
+		boolean inner = getSetting(13).asToggle().getChild(0).asToggle().getState();
+		boolean outer = getSetting(13).asToggle().getChild(1).asToggle().getState();
+		boolean fill = getSetting(13).asToggle().getChild(2).asToggle().getState();
+		boolean rightAlign = x + mc.textRenderer.getStringWidth(potionListText.get(0)) / 2 > new Window(mc.options, mc.width, mc.height).getScaledWidth() / 2;
+
+		int startX = rightAlign ? x + mc.textRenderer.getStringWidth(potionListText.get(0)) + 3 + (inner ? 1 : 0) + (outer ? 1 : 0) : x;
+		for (String t : potionListText) {
+			int color = getRainbowFromSettings(arrayCount * 40);
+			int textStart = (rightAlign ? startX - mc.textRenderer.getStringWidth(t) - 1 : startX + 2) + (inner ? 1 : 0) * (rightAlign ? -1 : 1);
+			int outerX = rightAlign ? textStart - 3 : textStart + mc.textRenderer.getStringWidth(t) + 1;
+
+			if (fill) {
+				DrawableHelper.fill(rightAlign ? textStart - 2 : startX, y + arrayCount * 10, rightAlign ? startX : outerX, y + 10 + arrayCount * 10, 0x70003030);
+			}
+
+			if (inner) {
+				DrawableHelper.fill(rightAlign ? startX - 1 : startX, y + arrayCount * 10, rightAlign ? startX : startX + 1, y + 10 + arrayCount * 10, color);
+			}
+
+			if (outer) {
+				DrawableHelper.fill(outerX, y + arrayCount * 10, outerX + 1, y + 10 + arrayCount * 10, color);
+			}
+
+			mc.textRenderer.method_956(t, textStart, y + 1 + arrayCount * 10, color);
+			arrayCount++;
+		}
+	}
+
+	public String getTimeInFormat(long _SECONDS)
+	{
+		if(TimeUnit.SECONDS.toHours(_SECONDS)>0)
+		{
+			return  String.format("%02d:%02d:%02d",
+					TimeUnit.SECONDS.toHours(_SECONDS),
+					TimeUnit.SECONDS.toMinutes(_SECONDS) -
+							TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(_SECONDS)),
+					TimeUnit.SECONDS.toSeconds(_SECONDS) -
+							TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(_SECONDS)));
+		}
+		else {
+			return  String.format("%02d:%02d",
+					TimeUnit.SECONDS.toMinutes(_SECONDS) -
+							TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(_SECONDS)),
+					TimeUnit.SECONDS.toSeconds(_SECONDS) -
+							TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(_SECONDS)));
+		}
+
 	}
 }
