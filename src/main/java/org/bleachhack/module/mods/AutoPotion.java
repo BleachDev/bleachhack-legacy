@@ -16,6 +16,7 @@ import org.bleachhack.event.events.EventTick;
 import org.bleachhack.eventbus.BleachSubscribe;
 import org.bleachhack.module.Module;
 import org.bleachhack.module.ModuleCategory;
+import org.bleachhack.setting.module.SettingSlider;
 import org.bleachhack.util.BleachLogger;
 import org.bleachhack.util.BlockPos;
 import org.bleachhack.util.InventoryUtils;
@@ -29,9 +30,13 @@ public class AutoPotion extends Module {
 	boolean enabled = false;
 	BlockPos pos;
 	int lastSlot;
+	int speed;
+	int strength;
 
 	public AutoPotion() {
-		super("AutoPotion", KEY_UNBOUND, ModuleCategory.MISC, "auto throws potions.");
+		super("AutoPotion", KEY_UNBOUND, ModuleCategory.MISC, "auto throws potions.",
+				new SettingSlider("Strength", 1, 9, 4, 0).withDesc("Slot of strength potion."),
+				new SettingSlider("Speed", 1, 9, 5, 0).withDesc("Slot of speed potion."));
 	}
 
 	@Override
@@ -39,6 +44,8 @@ public class AutoPotion extends Module {
 		super.onEnable(inWorld);
 		ticksPassed = 0;
 		enabled = true;
+		speed = getSetting(0).asSlider().getValueInt()-1;
+		strength = getSetting(1).asSlider().getValueInt()-1;
 	}
 
 
@@ -49,12 +56,12 @@ public class AutoPotion extends Module {
 		pos = new BlockPos(mc.field_3805);
 		if (ticksPassed == 1) {
 			lastSlot = mc.field_3805.inventory.selectedSlot;
-			InventoryUtils.selectSlot(3);
+			InventoryUtils.selectSlot(speed);
 			facePosPacket(pos.getX(),pos.getY()-2,pos.getZ());
 			mc.interactionManager.method_1228(mc.field_3805, mc.world, mc.field_3805.getMainHandStack());
 		}
 		if (ticksPassed == 2) {
-			InventoryUtils.selectSlot(4);
+			InventoryUtils.selectSlot(strength);
 			facePosPacket(pos.getX(),pos.getY()-2,pos.getZ());
 			mc.interactionManager.method_1228(mc.field_3805, mc.world, mc.field_3805.getMainHandStack());
 		}

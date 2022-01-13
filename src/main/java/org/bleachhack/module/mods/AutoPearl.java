@@ -8,6 +8,7 @@
  */
 package org.bleachhack.module.mods;
 
+import net.minecraft.item.EnderPearlItem;
 import org.bleachhack.event.events.EventTick;
 import org.bleachhack.eventbus.BleachSubscribe;
 import org.bleachhack.module.Module;
@@ -42,7 +43,7 @@ public class AutoPearl extends Module {
 		if (ticksPassed == 1) {
 			lastSlot = mc.field_3805.inventory.selectedSlot;
 			epearlSlot = InventoryUtils.getSlot(i -> mc.field_3805.inventory.getInvStack(i) != null
-					&& mc.field_3805.inventory.getInvStack(i).getItem().toString().contains("EnderPearl"));
+					&& mc.field_3805.inventory.getInvStack(i).getItem() instanceof EnderPearlItem);
 			if (epearlSlot == -1) {
 				BleachLogger.info("No enderpearls in hotbar");
 				this.setEnabled(false);
