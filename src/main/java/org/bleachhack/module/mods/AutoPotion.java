@@ -8,7 +8,9 @@
  */
 package org.bleachhack.module.mods;
 
+import net.minecraft.class_699;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.bleachhack.event.events.EventTick;
 import org.bleachhack.eventbus.BleachSubscribe;
@@ -19,6 +21,7 @@ import org.bleachhack.util.BlockPos;
 import org.bleachhack.util.InventoryUtils;
 import org.bleachhack.util.world.WorldUtils;
 
+import static org.bleachhack.util.world.WorldUtils.facePosPacket;
 import static org.bleachhack.util.world.WorldUtils.rightClick;
 
 public class AutoPotion extends Module {
@@ -43,14 +46,17 @@ public class AutoPotion extends Module {
 	public void onTick(EventTick event) {
 		ticksPassed++;
 		if (!enabled) return;
-
+		pos = new BlockPos(mc.field_3805);
 		if (ticksPassed == 1) {
-			pos = new BlockPos(mc.field_3805);
 			lastSlot = mc.field_3805.inventory.selectedSlot;
-			InventoryUtils.selectSlot(4);
+			InventoryUtils.selectSlot(3);
+			facePosPacket(pos.getX(),pos.getY()-2,pos.getZ());
+			mc.interactionManager.method_1228(mc.field_3805, mc.world, mc.field_3805.getMainHandStack());
 		}
 		if (ticksPassed == 2) {
-			rightClick(pos, Vec3d.method_604(pos.getX() + 0.5, pos.getY() - 1, pos.getZ() + 0.5), Direction.UP);
+			InventoryUtils.selectSlot(4);
+			facePosPacket(pos.getX(),pos.getY()-2,pos.getZ());
+			mc.interactionManager.method_1228(mc.field_3805, mc.world, mc.field_3805.getMainHandStack());
 		}
 		if (ticksPassed == 3) {
 			InventoryUtils.selectSlot(lastSlot);
@@ -59,5 +65,6 @@ public class AutoPotion extends Module {
 			enabled = false;
 		}
 	}
+
 
 }
