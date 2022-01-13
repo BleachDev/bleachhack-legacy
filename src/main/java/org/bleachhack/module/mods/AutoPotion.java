@@ -17,6 +17,7 @@ import org.bleachhack.eventbus.BleachSubscribe;
 import org.bleachhack.module.Module;
 import org.bleachhack.module.ModuleCategory;
 import org.bleachhack.setting.module.SettingSlider;
+import org.bleachhack.setting.module.SettingToggle;
 import org.bleachhack.util.BleachLogger;
 import org.bleachhack.util.BlockPos;
 import org.bleachhack.util.InventoryUtils;
@@ -36,7 +37,8 @@ public class AutoPotion extends Module {
 	public AutoPotion() {
 		super("AutoPotion", KEY_UNBOUND, ModuleCategory.COMBAT, "auto throws potions.",
 				new SettingSlider("Strength", 1, 9, 4, 0).withDesc("Slot of strength potion."),
-				new SettingSlider("Speed", 1, 9, 5, 0).withDesc("Slot of speed potion."));
+				new SettingSlider("Speed", 1, 9, 5, 0).withDesc("Slot of speed potion."),
+				new SettingToggle("Messages", false).withDesc("Send messages when throwing potions."));
 	}
 
 	@Override
@@ -67,7 +69,9 @@ public class AutoPotion extends Module {
 		}
 		if (ticksPassed == 3) {
 			InventoryUtils.selectSlot(lastSlot);
-			BleachLogger.info("Splash potions thrown.");
+			if(getSetting(2).asToggle().getState()) {
+				BleachLogger.info("Splash potions thrown.");
+			}
 			this.setEnabled(false);
 			enabled = false;
 		}

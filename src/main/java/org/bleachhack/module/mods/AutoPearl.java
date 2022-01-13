@@ -13,6 +13,7 @@ import org.bleachhack.event.events.EventTick;
 import org.bleachhack.eventbus.BleachSubscribe;
 import org.bleachhack.module.Module;
 import org.bleachhack.module.ModuleCategory;
+import org.bleachhack.setting.module.SettingToggle;
 import org.bleachhack.util.BleachLogger;
 import org.bleachhack.util.InventoryUtils;
 
@@ -23,7 +24,8 @@ public class AutoPearl extends Module {
 	int epearlSlot;
 
 	public AutoPearl() {
-		super("AutoPearl", KEY_UNBOUND, ModuleCategory.COMBAT, "automatically switches to throw enderpearl.");
+		super("AutoPearl", KEY_UNBOUND, ModuleCategory.COMBAT, "automatically switches to throw enderpearl.",
+				new SettingToggle("Messages", false).withDesc("Send messages when throwing enderpearl."));
 	}
 
 
@@ -56,7 +58,9 @@ public class AutoPearl extends Module {
 		}
 		if (ticksPassed == 3) {
 			InventoryUtils.selectSlot(lastSlot);
-			BleachLogger.info("Enderpearl thrown.");
+			if(getSetting(0).asToggle().getState()) {
+				BleachLogger.info("Enderpearl thrown.");
+			}
 			this.setEnabled(false);
 			enabled = false;
 		}
