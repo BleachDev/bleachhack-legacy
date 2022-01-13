@@ -15,14 +15,14 @@ import org.bleachhack.module.ModuleCategory;
 import org.bleachhack.util.BleachLogger;
 import org.bleachhack.util.InventoryUtils;
 
-public class MiddleClickPearl extends Module {
+public class AutoPearl extends Module {
 	int ticksPassed;
 	boolean enabled = false;
 	int lastSlot;
 	int epearlSlot;
 
-	public MiddleClickPearl() {
-		super("AutoPearl", KEY_UNBOUND, ModuleCategory.MISC, "middle click enderpearl.");
+	public AutoPearl() {
+		super("AutoPearl", KEY_UNBOUND, ModuleCategory.MISC, "automatically switches to throw enderpearl.");
 	}
 
 
