@@ -267,7 +267,7 @@ public class UI extends Module {
 				(nether ? "\u00a7b" : "\u00a74") + pos2.getX() + " " + pos2.getY() + " " + pos2.getZ()
 				+ "\u00a77]";
 		if(getSetting(3).asToggle().getChild(0).asToggle().getState()) {
-			if(pos.getX() >= 5000 || pos.getZ() >= 5000) {
+			if(pos.getX() >= 5000 || pos.getZ() >= 5000 || pos.getX() <= -5000 || pos.getZ() <= -5000) {
 				coordsText = "XYZ: " +
 						(nether ? "\u00a74" : "\u00a7b") + "***,*** " + pos.getY() + " " +
 						"***,*** \u00a77[" +
