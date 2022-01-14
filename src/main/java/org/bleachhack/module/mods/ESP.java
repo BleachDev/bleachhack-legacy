@@ -68,7 +68,8 @@ public class ESP extends Module {
 						new SettingColor("Color", 255, 50, 255).withDesc("Outline color for crystals.")),
 
 				new SettingToggle("Vehicles", false).withDesc("Highlights Vehicles.").withChildren(
-						new SettingColor("Color", 150, 150, 150).withDesc("Outline color for vehicles (minecarts/boats).")));
+						new SettingColor("Color", 150, 150, 150).withDesc("Outline color for vehicles (minecarts/boats).")),
+				new SettingToggle("Rainbow", true).withDesc("Rainbow chams"));
 
 		try {
 			shader = new ShaderEffectWrapper(
@@ -127,18 +128,35 @@ public class ESP extends Module {
 	private int[] getColor(Entity e) {
 		if (e == mc.field_3805)
 			return null;
-
 		if (e instanceof PlayerEntity && getSetting(4).asToggle().getState()) {
+			if(getSetting(10).asToggle().getState()) {
+				return new int[]{UI.getRainbowFromSettings(40)};
+			}
 			return getSetting(4).asToggle().getChild(BleachHack.friendMang.has(e) ? 1 : 0).asColor().getRGBArray();
 		} else if (e instanceof Monster && getSetting(5).asToggle().getState()) {
+			if(getSetting(10).asToggle().getState()) {
+				return new int[]{UI.getRainbowFromSettings(40)};
+			}
 			return getSetting(5).asToggle().getChild(0).asColor().getRGBArray();
 		} else if (EntityUtils.isAnimal(e) && getSetting(6).asToggle().getState()) {
+			if(getSetting(10).asToggle().getState()) {
+				return new int[]{UI.getRainbowFromSettings(40)};
+			}
 			return getSetting(6).asToggle().getChild(0).asColor().getRGBArray();
 		} else if (e instanceof ItemEntity && getSetting(7).asToggle().getState()) {
+			if(getSetting(10).asToggle().getState()) {
+				return new int[]{UI.getRainbowFromSettings(40)};
+			}
 			return getSetting(7).asToggle().getChild(0).asColor().getRGBArray();
 		} else if (e instanceof EndCrystalEntity && getSetting(8).asToggle().getState()) {
+			if(getSetting(10).asToggle().getState()) {
+				return new int[]{UI.getRainbowFromSettings(40)};
+			}
 			return getSetting(8).asToggle().getChild(0).asColor().getRGBArray();
 		} else if ((e instanceof BoatEntity || e instanceof AbstractMinecartEntity) && getSetting(9).asToggle().getState()) {
+			if(getSetting(10).asToggle().getState()) {
+				return new int[]{UI.getRainbowFromSettings(40)};
+			}
 			return getSetting(9).asToggle().getChild(0).asColor().getRGBArray();
 		}
 
