@@ -11,6 +11,7 @@ package org.bleachhack.module.mods;
 import java.io.IOException;
 import java.util.List;
 
+import net.minecraft.entity.boss.WitherEntity;
 import org.bleachhack.BleachHack;
 import org.bleachhack.event.events.EventWorldRender;
 import org.bleachhack.eventbus.BleachSubscribe;
@@ -69,6 +70,8 @@ public class ESP extends Module {
 
 				new SettingToggle("Vehicles", false).withDesc("Highlights Vehicles.").withChildren(
 						new SettingColor("Color", 150, 150, 150).withDesc("Outline color for vehicles (minecarts/boats).")),
+				new SettingToggle("Withers", false).withDesc("Highlights Withers.").withChildren(
+						new SettingColor("Color", 128, 25, 128).withDesc("Outline color for withers.")),
 				new SettingToggle("Rainbow", true).withDesc("Rainbow chams"));
 
 		try {
@@ -129,35 +132,40 @@ public class ESP extends Module {
 		if (e == mc.field_3805)
 			return null;
 		if (e instanceof PlayerEntity && getSetting(4).asToggle().getState()) {
-			if(getSetting(10).asToggle().getState()) {
+			if(getSetting(11).asToggle().getState()) {
 				return new int[]{UI.getRainbowFromSettings(40)};
 			}
 			return getSetting(4).asToggle().getChild(BleachHack.friendMang.has(e) ? 1 : 0).asColor().getRGBArray();
 		} else if (e instanceof Monster && getSetting(5).asToggle().getState()) {
-			if(getSetting(10).asToggle().getState()) {
+			if(getSetting(11).asToggle().getState()) {
 				return new int[]{UI.getRainbowFromSettings(40)};
 			}
 			return getSetting(5).asToggle().getChild(0).asColor().getRGBArray();
 		} else if (EntityUtils.isAnimal(e) && getSetting(6).asToggle().getState()) {
-			if(getSetting(10).asToggle().getState()) {
+			if(getSetting(11).asToggle().getState()) {
 				return new int[]{UI.getRainbowFromSettings(40)};
 			}
 			return getSetting(6).asToggle().getChild(0).asColor().getRGBArray();
 		} else if (e instanceof ItemEntity && getSetting(7).asToggle().getState()) {
-			if(getSetting(10).asToggle().getState()) {
+			if(getSetting(11).asToggle().getState()) {
 				return new int[]{UI.getRainbowFromSettings(40)};
 			}
 			return getSetting(7).asToggle().getChild(0).asColor().getRGBArray();
 		} else if (e instanceof EndCrystalEntity && getSetting(8).asToggle().getState()) {
-			if(getSetting(10).asToggle().getState()) {
+			if(getSetting(11).asToggle().getState()) {
 				return new int[]{UI.getRainbowFromSettings(40)};
 			}
 			return getSetting(8).asToggle().getChild(0).asColor().getRGBArray();
 		} else if ((e instanceof BoatEntity || e instanceof AbstractMinecartEntity) && getSetting(9).asToggle().getState()) {
-			if(getSetting(10).asToggle().getState()) {
+			if(getSetting(11).asToggle().getState()) {
 				return new int[]{UI.getRainbowFromSettings(40)};
 			}
 			return getSetting(9).asToggle().getChild(0).asColor().getRGBArray();
+		} else if (e instanceof WitherEntity && getSetting(10).asToggle().getState()) {
+			if(getSetting(11).asToggle().getState()) {
+				return new int[]{UI.getRainbowFromSettings(40)};
+			}
+			return getSetting(10).asToggle().getChild(0).asColor().getRGBArray();
 		}
 
 		return null;
