@@ -107,7 +107,7 @@ public class DiscordRPC extends Module {
 
 	@BleachSubscribe
 	public void onTick(EventTick event) {
-		if (client.getStatus() != PipeStatus.CONNECTED)
+		if (client == null || client.getStatus() != PipeStatus.CONNECTED)
 			return;
 
 		if (tick % 40 == 0) {
