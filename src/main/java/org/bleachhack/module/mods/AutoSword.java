@@ -34,7 +34,7 @@ import java.util.Set;
 public class AutoSword extends Module {
 
 	public AutoSword() {
-		super("AutoSword", KEY_UNBOUND, ModuleCategory.PLAYER, "Automatically equips armor.");
+		super("AutoSword", KEY_UNBOUND, ModuleCategory.COMBAT, "Automatically equips sword.");
 	}
 
 	@BleachSubscribe
