@@ -47,7 +47,7 @@ public class CmdTerrain extends Command {
 		for (int x = poses[0]; x <= poses[3]; x++) {
 			for (int z = poses[2]; z <= poses[5]; z++) {
 				for (int y = poses[4]; y >= poses[1]; y--) {
-					if (mc.world.method_3774(x, y, z) != 0) {
+					if (!mc.world.isAir(x, y, z)) {
 						builder.append(x - poses[0]).append(",").append(y - poses[1]).append(",").append(z - poses[2]).append("\n");
 						break;
 					}

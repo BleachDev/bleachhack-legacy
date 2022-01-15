@@ -43,6 +43,6 @@ public class MixinClientPlayerEntity extends ClientPlayerEntity {
 			super.swingHand();
 		}
 
-		field_1667.method_1202(new class_645(this, 1));
+		field_1667.sendPacket(new class_645(this, 1));
 	}
 }

@@ -42,7 +42,7 @@ public class ArrowJuke extends Module {
 	@BleachSubscribe
 	public void onTick(EventTick envent) {
 		for (Entity e : (List<Entity>) mc.world.getLoadedEntities()) {
-			if (!(e instanceof AbstractArrowEntity) || ((AbstractArrowEntity) e).field_4026 == mc.field_3805)
+			if (!(e instanceof AbstractArrowEntity) || ((AbstractArrowEntity) e).owner == mc.field_3805)
 				continue;
 
 			int mode = getSetting(0).asMode().getMode();
@@ -74,7 +74,7 @@ public class ArrowJuke extends Module {
 								mc.field_3805.setVelocityClient(vel.x, vel.y, vel.z);
 							} else {
 								mc.field_3805.updatePosition(mc.field_3805.x + vel.x, mc.field_3805.y + vel.y, mc.field_3805.z + vel.z);
-								mc.field_3805.field_1667.method_1202(
+								mc.field_3805.field_1667.sendPacket(
 										new class_696(mc.field_3805.x, mc.field_3805.y, mc.field_3805.y, mc.field_3805.z, false));
 							}
 

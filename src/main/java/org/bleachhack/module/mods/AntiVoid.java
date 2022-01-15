@@ -58,13 +58,13 @@ public class AntiVoid extends Module {
 			class_695 packet = (class_695) event.getPacket();
 
 			if (getSetting(1).asToggle().getState()
-					&& mc.field_3805.y >= 0 && packet.field_2565 < 0) {
+					&& mc.field_3805.y >= 0 && packet.y < 0) {
 				event.setCancelled(true);
 				return;
 			}
 
-			if (getSetting(0).asMode().getMode() == 1 && mc.field_3805.y < 0 && packet.field_2565 < mc.field_3805.y) {
-				packet.field_2565 = mc.field_3805.y;
+			if (getSetting(0).asMode().getMode() == 1 && mc.field_3805.y < 0 && packet.y < mc.field_3805.y) {
+				packet.y = mc.field_3805.y;
 			}
 		}
 	}

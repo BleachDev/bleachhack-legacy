@@ -54,8 +54,8 @@ public class CmdRbook extends Command {
 		ByteArrayOutputStream var3 = new ByteArrayOutputStream();
 		DataOutputStream var4 = new DataOutputStream(var3);
 
-		Packet.method_6044(item, var4);
-		mc.field_3805.field_1667.method_1202(new CustomPayloadC2SPacket("MC|BEdit", var3.toByteArray()));
+		Packet.writeStack(item, var4);
+		mc.field_3805.field_1667.sendPacket(new CustomPayloadC2SPacket("MC|BEdit", var3.toByteArray()));
 
 		BleachLogger.info("Written book (" + pages + " pages, " + pageChars + " chars/page)");
 	}
