@@ -46,6 +46,7 @@ public class KillAura extends Module {
 		for (Entity e : (List<Entity>) mc.world.getLoadedEntities()) {
 			if (e instanceof PlayerEntity && e != mc.field_3805 && mc.field_3805.distanceTo(e) <= 5.2 && !BleachHack.friendMang.has(e)) {
 				mc.interactionManager.attackEntity(mc.field_3805, e);
+				mc.field_3805.swingHand();
 			}
 		}
 	}
