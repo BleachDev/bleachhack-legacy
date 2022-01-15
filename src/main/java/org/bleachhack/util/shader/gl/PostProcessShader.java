@@ -76,7 +76,7 @@ public class PostProcessShader {
         MinecraftClient minecraftClient5 = MinecraftClient.getInstance();
         this.jsonGlProgram.method_6937("ScreenSize").method_6977((float)minecraftClient5.width, (float)minecraftClient5.height);
         this.jsonGlProgram.enable();
-        this.output.clear();
+        //this.output.clear();
         this.output.bind(false);
         //GL11.glDepthMask(false);
         //GL11.glColorMask(true, true, true, true);

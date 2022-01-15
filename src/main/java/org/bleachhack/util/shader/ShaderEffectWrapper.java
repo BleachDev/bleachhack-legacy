@@ -3,8 +3,7 @@ package org.bleachhack.util.shader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.Supplier;
-
+import java.util.function.Function;
 import org.bleachhack.mixin.AccessorMinecraftClient;
 import org.bleachhack.util.shader.gl.Framebuffer;
 import org.bleachhack.util.shader.gl.PostProcessShader;
@@ -19,32 +18,36 @@ public class ShaderEffectWrapper {
 	private ShaderEffect shader;
 	private int lastWidth = -1;
 	private int lastHeight = -1;
-	private Map<String, Supplier<float[]>> uniforms = new HashMap<>();
+	private Map<String, Function<Integer, float[]>> uniforms = new HashMap<>();
 
 	public ShaderEffectWrapper(ShaderEffect effect) {
 		this.shader = effect;
 	}
-	
+
 	public void prepare() {
 		if (lastWidth != mc.width || lastHeight != mc.height)
 			resizeShader();
-		
-		for (PostProcessShader p: shader.passes) {
-			for (Entry<String, Supplier<float[]>> e: uniforms.entrySet()) {
-				float[] dabruh = e.getValue().get();
+
+		for (int i = 0; i < shader.passes.size(); i++) {
+			PostProcessShader p = shader.passes.get(i);
+			for (Entry<String, Function<Integer, float[]>> e: uniforms.entrySet()) {
+				float[] dabruh = e.getValue().apply(i);
+				if (dabruh == null)
+					continue;
+	
 				switch (dabruh.length) {
 					case 1:
 						p.getProgram().getUniformByName(e.getKey()).method_6976(dabruh[0]);
-						return;
+						break;
 					case 2:
 						p.getProgram().getUniformByName(e.getKey()).method_6977(dabruh[0], dabruh[1]);
-						return;
+						break;
 					case 3:
 						p.getProgram().getUniformByName(e.getKey()).method_6978(dabruh[0], dabruh[1], dabruh[2]);
-						return;
+						break;
 					default:
 						p.getProgram().getUniformByName(e.getKey()).method_6979(dabruh[0], dabruh[1], dabruh[2], dabruh[3]);
-						return;
+						break;
 				}
 			}
 		}
@@ -71,8 +74,8 @@ public class ShaderEffectWrapper {
 		lastWidth = mc.width;
 		lastHeight = mc.height;
 	}
-	
-	public Map<String, Supplier<float[]>> getUniforms() {
+
+	public Map<String, Function<Integer, float[]>> getUniforms() {
 		return uniforms;
 	}
 

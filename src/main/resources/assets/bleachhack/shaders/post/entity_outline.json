@@ -1,18 +1,54 @@
 {
 	"targets": [
-		"main",
+		"in0",
+		"in1",
+		"in2",
+		"in3",
+		"in4",
+		"in5",
+		"in6",
 		"swap"
 	],
 	"passes": [
 		{
 			"name": "bleachhack:entity_outline",
-			"intarget": "main",
+			"intarget": "in0",
+			"outtarget": "swap"
+		},
+		{
+			"name": "bleachhack:entity_outline",
+			"intarget": "in1",
+			"outtarget": "swap"
+		},
+		{
+			"name": "bleachhack:entity_outline",
+			"intarget": "in2",
+			"outtarget": "swap"
+		},
+		{
+			"name": "bleachhack:entity_outline",
+			"intarget": "in3",
+			"outtarget": "swap"
+		},
+		{
+			"name": "bleachhack:entity_outline",
+			"intarget": "in4",
+			"outtarget": "swap"
+		},
+		{
+			"name": "bleachhack:entity_outline",
+			"intarget": "in5",
+			"outtarget": "swap"
+		},
+		{
+			"name": "bleachhack:entity_outline",
+			"intarget": "in6",
 			"outtarget": "swap"
 		},
 		{
 			"name": "bleachhack:blit",
 			"intarget": "swap",
-			"outtarget": "main"
+			"outtarget": "in1"
 		}
 	]
 }
