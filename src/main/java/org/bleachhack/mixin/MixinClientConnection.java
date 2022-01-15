@@ -42,8 +42,8 @@ public class MixinClientConnection {
 		if (packet instanceof class_648) {
 			if (!CommandManager.allowNextMsg) {
 				class_648 pack = (class_648) packet;
-				if (pack.field_2408.startsWith(Command.getPrefix())) {
-					CommandManager.callCommand(pack.field_2408.substring(Command.getPrefix().length()));
+				if (pack.message.startsWith(Command.getPrefix())) {
+					CommandManager.callCommand(pack.message.substring(Command.getPrefix().length()));
 					callback.cancel();
 				}
 			}

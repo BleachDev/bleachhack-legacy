@@ -50,7 +50,7 @@ public class InventoryUtils {
 			if (slot < 9) {
 				if (slot != mc.field_3805.inventory.selectedSlot) {
 					mc.field_3805.inventory.selectedSlot = slot;
-					mc.field_3805.field_1667.method_1202(new class_711(slot));
+					mc.field_3805.field_1667.sendPacket(new class_711(slot));
 				}
 
 				return true;
@@ -61,7 +61,7 @@ public class InventoryUtils {
 
 						if (i != mc.field_3805.inventory.selectedSlot) {
 							mc.field_3805.inventory.selectedSlot = i;
-							mc.field_3805.field_1667.method_1202(new class_711(i));
+							mc.field_3805.field_1667.sendPacket(new class_711(i));
 						}
 
 						return true;

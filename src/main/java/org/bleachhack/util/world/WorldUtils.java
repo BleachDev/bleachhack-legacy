@@ -59,14 +59,14 @@ public class WorldUtils {
 	}
 
 	public static boolean isFluid(int x, int y, int z) {
-		return FLUIDS.contains(mc.world.method_3776(x, y, z));
+		return FLUIDS.contains(mc.world.getMaterial(x, y, z));
 	}
 
 	public static boolean doesBoxTouchBlock(Box box, Block block) {
 		for (int x = (int) Math.floor(box.minX); x < Math.ceil(box.maxX); x++) {
 			for (int y = (int) Math.floor(box.minY); y < Math.ceil(box.maxY); y++) {
 				for (int z = (int) Math.floor(box.minZ); z < Math.ceil(box.maxZ); z++) {
-					if (Block.field_492[mc.world.method_3774(x, y, z)] == block) {
+					if (Block.field_492[mc.world.getBlock(x, y, z)] == block) {
 						return true;
 					}
 				}
@@ -80,7 +80,7 @@ public class WorldUtils {
 		for (int x = (int) Math.floor(box.minX); x < Math.ceil(box.maxX); x++) {
 			for (int y = (int) Math.floor(box.minY); y < Math.ceil(box.maxY); y++) {
 				for (int z = (int) Math.floor(box.minZ); z < Math.ceil(box.maxZ); z++) {
-					if (Block.field_492[mc.world.method_3774(x, y, z)] != null && box.intersects(Box.of(x, y, z, x + 1, y + 1, z + 1))) {
+					if (Block.field_492[mc.world.getBlock(x, y, z)] != null && box.intersects(Box.of(x, y, z, x + 1, y + 1, z + 1))) {
 						return true;
 					}
 				}
@@ -103,7 +103,7 @@ public class WorldUtils {
 			if (ob.getY() < 0 || ob.getY() > 255)
 				continue;
 
-			if (!airPlace && mc.world.method_3776(ob.getX(), ob.getY(), ob.getZ()).isReplaceable())
+			if (!airPlace && mc.world.getMaterial(ob.getX(), ob.getY(), ob.getZ()).isReplaceable())
 				continue;
 
 			Vec3d vec = getLegitLookPos(ob, opposite(d), true, 5);
@@ -133,17 +133,17 @@ public class WorldUtils {
 				facePos(vec.x, vec.y, vec.z);
 			}
 
-			mc.field_3805.field_1667.method_1202(new ClientCommandC2SPacket(mc.field_3805, 1));
+			mc.field_3805.field_1667.sendPacket(new ClientCommandC2SPacket(mc.field_3805, 1));
 
 			if (swingHand) {
 				mc.field_3805.swingHand();
 			} else {
-				mc.field_3805.field_1667.method_1202(new class_645(mc.field_3805, 1));
+				mc.field_3805.field_1667.sendPacket(new class_645(mc.field_3805, 1));
 			}
 
 			rightClick(pos.offset(d), vec, opposite(d));
 
-			mc.field_3805.field_1667.method_1202(new ClientCommandC2SPacket(mc.field_3805, 2));
+			mc.field_3805.field_1667.sendPacket(new ClientCommandC2SPacket(mc.field_3805, 2));
 			mc.field_3805.inventory.selectedSlot = prevSlot;
 
 			return true;
@@ -201,7 +201,7 @@ public class WorldUtils {
 
 	@SuppressWarnings("unchecked")
 	public static boolean isBlockEmpty(BlockPos pos) {
-		if (!mc.world.method_3776(pos.getX(), pos.getY(), pos.getZ()).isReplaceable()) {
+		if (!mc.world.getMaterial(pos.getX(), pos.getY(), pos.getZ()).isReplaceable()) {
 			return false;
 		}
 
@@ -222,7 +222,7 @@ public class WorldUtils {
 		for (Direction d : Direction.values()) {
 			BlockPos ob = pos.offset(d);
 			if ((d == Direction.DOWN && pos.getY() == 0) || (d == Direction.UP && pos.getY() == 255)
-					|| mc.world.method_3776(ob.getX(), ob.getY(), ob.getZ()).isReplaceable()
+					|| mc.world.getMaterial(ob.getX(), ob.getY(), ob.getZ()).isReplaceable()
 					|| Vec3d.method_604(mc.field_3805.x, mc.field_3805.y + mc.field_3805.getEyeHeight(), mc.field_3805.z).distanceTo(
 							Vec3d.method_604(pos.getX() + 0.5 + d.getOffsetX() * 0.5,
 									pos.getY() + 0.5 + d.getOffsetY() * 0.5,
@@ -272,7 +272,7 @@ public class WorldUtils {
 			mc.field_3805.renderPitch = mc.field_3805.pitch + MathHelper.wrapDegrees(pitch - mc.field_3805.pitch);
 		}
 
-		mc.field_3805.field_1667.method_1202(
+		mc.field_3805.field_1667.sendPacket(
 				new class_699(
 						mc.field_3805.yaw + MathHelper.wrapDegrees(yaw - mc.field_3805.yaw),
 						mc.field_3805.pitch + MathHelper.wrapDegrees(pitch - mc.field_3805.pitch), mc.field_3805.onGround));

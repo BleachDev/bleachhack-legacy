@@ -33,7 +33,7 @@ public class AntiHunger extends Module {
 				// event.setCancelled(true);
 				boolean onGround = mc.field_3805.fallDistance >= 0.1f;
 				mc.field_3805.onGround = onGround;
-				((class_695) event.getPacket()).field_2570 = onGround;
+				((class_695) event.getPacket()).onGround = onGround;
 				bool = true;
 			} else {
 				bool = false;

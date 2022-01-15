@@ -221,7 +221,7 @@ public class Notebot extends Module {
 		if (!isNoteblock(pos))
 			return Instrument.HARP;
 
-		Material var5 = mc.world.method_3776(pos.getX(), pos.getY() - 1, pos.getZ());
+		Material var5 = mc.world.getMaterial(pos.getX(), pos.getY() - 1, pos.getZ());
 		if (var5 == Material.STONE) {
 			return Instrument.BASS;
 		}
@@ -250,8 +250,8 @@ public class Notebot extends Module {
 
 	public boolean isNoteblock(BlockPos pos) {
 		/* Checks if this block is a noteblock and the noteblock can be played */
-		return Block.field_492[mc.world.method_3774(pos.getX(), pos.getY(), pos.getZ())] instanceof NoteBlock
-				&& Block.field_492[mc.world.method_3774(pos.getX(), pos.getY() + 1, pos.getZ())] == null;
+		return Block.field_492[mc.world.getBlock(pos.getX(), pos.getY(), pos.getZ())] instanceof NoteBlock
+				&& Block.field_492[mc.world.getBlock(pos.getX(), pos.getY() + 1, pos.getZ())] == null;
 	}
 
 	public void playBlock(BlockPos pos) {

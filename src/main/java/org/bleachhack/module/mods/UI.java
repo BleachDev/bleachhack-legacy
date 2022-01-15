@@ -417,7 +417,7 @@ public class UI extends Module {
 				e.getTranslationKey()
 				+ " | "
 				+ (int) e.x + " " + (int) e.y + " " + (int) e.z
-				+ " (" + Math.round(mc.field_3805.squaredDistanceToEntity(e)) + "m)"))
+				+ " (" + Math.round(mc.field_3805.distanceTo(e)) + "m)"))
 		.collect(Collectors.toList());
 
 		nameLengths.add(mc.textRenderer.getStringWidth("Players:"));
@@ -434,9 +434,9 @@ public class UI extends Module {
 		int count = 1;
 		for (Entity e : ((List<PlayerEntity>) mc.world.playerEntities).stream()
 				.filter(e -> e != mc.field_3805)
-				.sorted(Comparator.comparing(mc.field_3805::squaredDistanceTo))
+				.sorted(Comparator.comparing(mc.field_3805::distanceTo))
 				.collect(Collectors.toList())) {
-			int dist = Math.round(mc.field_3805.squaredDistanceToEntity(e));
+			int dist = Math.round(mc.field_3805.distanceTo(e));
 
 			String text =
 					e.getTranslationKey()

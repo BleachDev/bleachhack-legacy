@@ -118,7 +118,7 @@ public class AutoArmor extends Module {
 				if (e.getValue()[1] == -1 && e.getValue()[2] < 9) {
 					if (e.getValue()[2] != mc.field_3805.inventory.selectedSlot) {
 						mc.field_3805.inventory.selectedSlot = e.getValue()[2];
-						mc.field_3805.field_1667.method_1202(new class_711(e.getValue()[2]));
+						mc.field_3805.field_1667.sendPacket(new class_711(e.getValue()[2]));
 					}
 
 					mc.interactionManager.clickSlot(mc.field_3805.openScreenHandler.syncId, 36 + e.getValue()[2], 0, 1, mc.field_3805);
@@ -151,7 +151,7 @@ public class AutoArmor extends Module {
 			}
 
 			if (is.hasEnchantments()) {
-				for (Entry<Enchantment, Integer> e: (Set<Entry<Enchantment, Integer>>) EnchantmentHelper.getEnchantments(is).entrySet()) {
+				for (Entry<Enchantment, Integer> e: (Set<Entry<Enchantment, Integer>>) EnchantmentHelper.get(is).entrySet()) {
 					if (e.getKey() instanceof ProtectionEnchantment)
 						prot += e.getValue();
 				}
