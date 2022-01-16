@@ -73,7 +73,7 @@ public class ESP extends Module {
 
 		try {
 			shader = new ShaderEffectWrapper(
-					ShaderLoader.loadEffect(Framebuffer.main, new Identifier("bleachhack", "shaders/post/entity_outline.json")));
+					ShaderLoader.loadEffect(Framebuffer.main, new Identifier("bleachhack", "shaders/post/outline6.json")));
 
 			shader.getUniforms().put("Color", i -> {
 				if (i > 6)
@@ -91,7 +91,6 @@ public class ESP extends Module {
 	@BleachSubscribe
 	public void onWorldRender(EventWorldRender.Post event) {
 		if (getSetting(0).asMode().getMode() == 0) {
-			System.out.println(shader.getUniforms());
 			shader.prepare();
 			
 			for (int i = 0; i <= 6; i++)
