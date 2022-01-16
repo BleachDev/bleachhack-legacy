@@ -23,7 +23,7 @@ public class Sprint extends Module {
 
 	@BleachSubscribe
 	public void onTick(EventTick event) {
-		if (getSetting(0).asToggle().getState())
+		if (getSetting(0).asToggle().getState() && mc.field_3805.getHungerManager().getFoodLevel() <= 6)
 			return;
 
 		mc.field_3805.setSprinting(
