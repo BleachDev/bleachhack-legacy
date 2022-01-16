@@ -14,6 +14,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.ProtectionEnchantment;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.mob.ZombiePigmanEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.item.ArmorItem;
@@ -50,10 +51,10 @@ public class KillAura extends Module {
 		super("KillAura", KEY_UNBOUND, ModuleCategory.COMBAT, "Automatically attacks entities.",
 				new SettingMode("Sort", "Distance", "Health").withDesc("How to sort targets."),
 				new SettingToggle("Players", true).withDesc("Attacks Players."),
-				new SettingToggle("Mobs", true).withDesc("Attacks Mobs."),
+				new SettingToggle("Mobs", true).withDesc("Attacks Mobs.").withChildren(
+						new SettingToggle("Zombie Pigmen", false).withDesc("Attacks zombie pigmen or not.")),
 				new SettingToggle("Animals", false).withDesc("Attacks Animals."),
 				new SettingToggle("Projectiles", false).withDesc("Attacks Shulker Bullets"),
-				new SettingToggle("Triggerbot", false).withDesc("Only attacks the entity you're looking at."),
 				new SettingToggle("MultiAura", false).withDesc("Atacks multiple entities at once.").withChildren(
 						new SettingSlider("Targets", 1, 20, 3, 0).withDesc("How many targets to attack at once.")),
 				new SettingToggle("Raycast", true).withDesc("Only attacks if you can see the target."),
@@ -68,7 +69,7 @@ public class KillAura extends Module {
 		}
 
 		delay++;
-		int reqDelay = (int) Math.rint(20 / getSetting(9).asSlider().getValue());
+		int reqDelay = (int) Math.rint(20 / getSetting(8).asSlider().getValue());
 
 		boolean cooldownDone = (delay > reqDelay || reqDelay == 0);
 
@@ -115,14 +116,15 @@ public class KillAura extends Module {
 
 		return targets
 				.filter(e -> EntityUtils.isAttackable(e, true)
-						&& mc.field_3805.distanceTo(e) <= getSetting(8).asSlider().getValue()
-						&& (mc.field_3805.canSee(e) || !getSetting(7).asToggle().getState()))
+						&& mc.field_3805.distanceTo(e) <= getSetting(7).asSlider().getValue()
+						&& (mc.field_3805.canSee(e) || !getSetting(6).asToggle().getState()))
 				.filter(e -> (EntityUtils.isPlayer(e) && getSetting(1).asToggle().getState())
-						|| (EntityUtils.isMob(e) && getSetting(2).asToggle().getState())
+						|| (EntityUtils.isMob(e) && getSetting(2).asToggle().getState() && !(e instanceof ZombiePigmanEntity))
+						|| ((e instanceof ZombiePigmanEntity) && getSetting(2).asToggle().getChild(0).asToggle().getState())
 						|| (EntityUtils.isAnimal(e) && getSetting(3).asToggle().getState())
 						|| ((e instanceof FireballEntity) && getSetting(4).asToggle().getState()))
 				.sorted(comparator)
-				.limit(getSetting(6).asToggle().getState() ? getSetting(6).asToggle().getChild(0).asSlider().getValueLong() : 1L)
+				.limit(getSetting(5).asToggle().getState() ? getSetting(5).asToggle().getChild(0).asSlider().getValueLong() : 1L)
 				.collect(Collectors.toList());
 	}
 }
