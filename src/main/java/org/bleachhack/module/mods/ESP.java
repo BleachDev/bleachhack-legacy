@@ -11,7 +11,7 @@ package org.bleachhack.module.mods;
 import java.io.IOException;
 import java.util.List;
 
-import net.minecraft.entity.boss.WitherEntity;
+import org.apache.commons.lang3.ArrayUtils;
 import org.bleachhack.BleachHack;
 import org.bleachhack.event.events.EventWorldRender;
 import org.bleachhack.eventbus.BleachSubscribe;
@@ -69,14 +69,19 @@ public class ESP extends Module {
 						new SettingColor("Color", 255, 50, 255).withDesc("Outline color for crystals.")),
 
 				new SettingToggle("Vehicles", false).withDesc("Highlights Vehicles.").withChildren(
-						new SettingColor("Color", 150, 150, 150).withDesc("Outline color for vehicles (minecarts/boats).")),
-				new SettingToggle("Withers", false).withDesc("Highlights Withers.").withChildren(
-						new SettingColor("Color", 128, 25, 128).withDesc("Outline color for withers.")),
-				new SettingToggle("Rainbow", true).withDesc("Rainbow chams"));
+						new SettingColor("Color", 150, 150, 150).withDesc("Outline color for vehicles (minecarts/boats).")));
 
 		try {
 			shader = new ShaderEffectWrapper(
 					ShaderLoader.loadEffect(Framebuffer.main, new Identifier("bleachhack", "shaders/post/entity_outline.json")));
+
+			shader.getUniforms().put("Color", i -> {
+				if (i > 6)
+					return null;
+
+				int[] color = getSetting(i <= 1 ? 4 : i + 3).asToggle().getChild(i == 1 ? 1 : 0).asColor().getRGBArray();
+				return new float[] { color[0] / 255f, color[1] / 255f, color[2] / 255f, getSetting(1).asSlider().getValueInt() / 255f };
+			});
 		} catch (JsonSyntaxException | IOException e) {
 			throw new RuntimeException("Failed to initialize ESP Shader! loaded too early?", e);
 		}
@@ -86,11 +91,15 @@ public class ESP extends Module {
 	@BleachSubscribe
 	public void onWorldRender(EventWorldRender.Post event) {
 		if (getSetting(0).asMode().getMode() == 0) {
+			System.out.println(shader.getUniforms());
 			shader.prepare();
-			shader.clearFramebuffer("main");
+			
+			for (int i = 0; i <= 6; i++)
+				shader.clearFramebuffer("in" + i);
 
-			shader.getShader().getSecondaryTarget("main").bind(false);
+			shader.clearFramebuffer("swap");
 
+			int lastFbo = -1;
 			for (Entity e: (List<Entity>) mc.world.getLoadedEntities()) {
 				int[] color = getColor(e);
 
@@ -100,8 +109,10 @@ public class ESP extends Module {
 					double var5 = e.prevTickY + (e.y - e.prevTickY) * (double)f;
 					double var7 = e.prevTickZ + (e.z - e.prevTickZ) * (double)f;
 					float var9 = e.prevYaw + (e.yaw - e.prevYaw) * f;
-
-					//shader.getUniforms().put("Color", () -> new float[] { color[0] / 255f, color[1] / 255f, color[2] / 255f, getSetting(1).asSlider().getValueInt() / 255f });
+					if (color[3] != lastFbo) {
+						shader.getShader().getSecondaryTarget("in" + color[3]).bind(false);
+						lastFbo = color[3];
+					}
 
 					EntityRenderer er = EntityRenderDispatcher.field_2094.method_1519(e);
 					if (er != null)
@@ -110,7 +121,7 @@ public class ESP extends Module {
 			}
 
 			shader.renderShader();
-			shader.drawFramebuffer("main");
+			shader.drawFramebuffer("in1");
 		} else {
 			float width = getSetting(2).asSlider().getValueFloat();
 			int fill = getSetting(3).asSlider().getValueInt();
@@ -131,41 +142,20 @@ public class ESP extends Module {
 	private int[] getColor(Entity e) {
 		if (e == mc.field_3805)
 			return null;
+
 		if (e instanceof PlayerEntity && getSetting(4).asToggle().getState()) {
-			if(getSetting(11).asToggle().getState()) {
-				return new int[]{UI.getRainbowFromSettings(40)};
-			}
-			return getSetting(4).asToggle().getChild(BleachHack.friendMang.has(e) ? 1 : 0).asColor().getRGBArray();
+			int friend = BleachHack.friendMang.has(e) ? 1 : 0;
+			return ArrayUtils.add(getSetting(4).asToggle().getChild(friend).asColor().getRGBArray(), friend);
 		} else if (e instanceof Monster && getSetting(5).asToggle().getState()) {
-			if(getSetting(11).asToggle().getState()) {
-				return new int[]{UI.getRainbowFromSettings(40)};
-			}
-			return getSetting(5).asToggle().getChild(0).asColor().getRGBArray();
+			return ArrayUtils.add(getSetting(5).asToggle().getChild(0).asColor().getRGBArray(), 2);
 		} else if (EntityUtils.isAnimal(e) && getSetting(6).asToggle().getState()) {
-			if(getSetting(11).asToggle().getState()) {
-				return new int[]{UI.getRainbowFromSettings(40)};
-			}
-			return getSetting(6).asToggle().getChild(0).asColor().getRGBArray();
+			return ArrayUtils.add(getSetting(6).asToggle().getChild(0).asColor().getRGBArray(), 3);
 		} else if (e instanceof ItemEntity && getSetting(7).asToggle().getState()) {
-			if(getSetting(11).asToggle().getState()) {
-				return new int[]{UI.getRainbowFromSettings(40)};
-			}
-			return getSetting(7).asToggle().getChild(0).asColor().getRGBArray();
+			return ArrayUtils.add(getSetting(7).asToggle().getChild(0).asColor().getRGBArray(), 4);
 		} else if (e instanceof EndCrystalEntity && getSetting(8).asToggle().getState()) {
-			if(getSetting(11).asToggle().getState()) {
-				return new int[]{UI.getRainbowFromSettings(40)};
-			}
-			return getSetting(8).asToggle().getChild(0).asColor().getRGBArray();
+			return ArrayUtils.add(getSetting(8).asToggle().getChild(0).asColor().getRGBArray(), 5);
 		} else if ((e instanceof BoatEntity || e instanceof AbstractMinecartEntity) && getSetting(9).asToggle().getState()) {
-			if(getSetting(11).asToggle().getState()) {
-				return new int[]{UI.getRainbowFromSettings(40)};
-			}
-			return getSetting(9).asToggle().getChild(0).asColor().getRGBArray();
-		} else if (e instanceof WitherEntity && getSetting(10).asToggle().getState()) {
-			if(getSetting(11).asToggle().getState()) {
-				return new int[]{UI.getRainbowFromSettings(40)};
-			}
-			return getSetting(10).asToggle().getChild(0).asColor().getRGBArray();
+			return ArrayUtils.add(getSetting(9).asToggle().getChild(0).asColor().getRGBArray(), 6);
 		}
 
 		return null;
