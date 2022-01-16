@@ -8,6 +8,7 @@
   "client": [
     "AccessorChatScreen",
     "AccessorClass_667",
+    "AccessorFishingBobberEntity",
     "AccessorMinecraftClient",
     "AccessorTextFieldWidget",
     "MixinAbstractFluidBlock",
