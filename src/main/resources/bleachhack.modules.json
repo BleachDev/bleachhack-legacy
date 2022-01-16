@@ -12,6 +12,8 @@
     "EntityMenu",
     "ESP",
     "Notebot",
+    "NoVelocity",
+    "Sprint",
     "UI"
   ]
 }
