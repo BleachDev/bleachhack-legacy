@@ -52,11 +52,10 @@ public class KillAura extends Module {
 				new SettingToggle("Players", true).withDesc("Attacks Players."),
 				new SettingToggle("Mobs", true).withDesc("Attacks Mobs."),
 				new SettingToggle("Animals", false).withDesc("Attacks Animals."),
-				new SettingToggle("Projectiles", false).withDesc("Attacks Shulker Bullets & Fireballs."),
+				new SettingToggle("Projectiles", false).withDesc("Attacks Shulker Bullets"),
 				new SettingToggle("Triggerbot", false).withDesc("Only attacks the entity you're looking at."),
 				new SettingToggle("MultiAura", false).withDesc("Atacks multiple entities at once.").withChildren(
 						new SettingSlider("Targets", 1, 20, 3, 0).withDesc("How many targets to attack at once.")),
-				new SettingRotate(true).withDesc("Rotates when attackign entities."),
 				new SettingToggle("Raycast", true).withDesc("Only attacks if you can see the target."),
 				new SettingSlider("Range", 0, 6, 4.25, 2).withDesc("Attack range."),
 				new SettingSlider("CPS", 0, 20, 8, 0).withDesc("Attack CPS if 1.9 delay is disabled."));
@@ -69,7 +68,7 @@ public class KillAura extends Module {
 		}
 
 		delay++;
-		int reqDelay = (int) Math.rint(20 / getSetting(12).asSlider().getValue());
+		int reqDelay = (int) Math.rint(20 / getSetting(9).asSlider().getValue());
 
 		boolean cooldownDone = (delay > reqDelay || reqDelay == 0);
 
@@ -117,7 +116,7 @@ public class KillAura extends Module {
 		return targets
 				.filter(e -> EntityUtils.isAttackable(e, true)
 						&& mc.field_3805.distanceTo(e) <= getSetting(8).asSlider().getValue()
-						&& (mc.field_3805.canSee(e) || !getSetting(6).asToggle().getState()))
+						&& (mc.field_3805.canSee(e) || !getSetting(7).asToggle().getState()))
 				.filter(e -> (EntityUtils.isPlayer(e) && getSetting(1).asToggle().getState())
 						|| (EntityUtils.isMob(e) && getSetting(2).asToggle().getState())
 						|| (EntityUtils.isAnimal(e) && getSetting(3).asToggle().getState())
