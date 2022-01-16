@@ -278,7 +278,30 @@ public class WorldUtils {
 						mc.field_3805.pitch + MathHelper.wrapDegrees(pitch - mc.field_3805.pitch), mc.field_3805.onGround));
 	}
 	
+	// Too lazy to create a new class
 	public static Direction opposite(Direction d) {
 		return d.ordinal() % 2 == 0 ? Direction.values()[d.ordinal() + 1] : Direction.values()[d.ordinal() - 1];
+	}
+	
+	public static Direction rotateY(Direction d, boolean counterColorwise) {
+		Direction var10000;
+		switch(d) {
+		case NORTH:
+			var10000 = counterColorwise ? Direction.EAST : Direction.WEST;
+			break;
+		case SOUTH:
+			var10000 = counterColorwise ? Direction.WEST : Direction.EAST;
+			break;
+		case WEST:
+			var10000 = counterColorwise ? Direction.NORTH : Direction.SOUTH;
+			break;
+		case EAST:
+			var10000 = counterColorwise ? Direction.SOUTH : Direction.NORTH;
+			break;
+		default:
+			throw new IllegalStateException("Unable to get CCW facing of " + d);
+		}
+
+		return var10000;
 	}
 }

@@ -5,6 +5,8 @@
     "AntiVoid",
     "ArrowJuke",
     "AutoArmor",
+    "AutoBuild",
+    "AutoEat",
     "AutoTNT",
     "BlockHighlight",
     "ClickGui",
@@ -21,6 +23,8 @@
     "AutoPotion",
     "ESP",
     "Notebot",
+    "NoVelocity",
+    "Sprint",
     "UI"
   ]
 }

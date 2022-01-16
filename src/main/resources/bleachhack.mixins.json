@@ -7,8 +7,10 @@
   ],
   "client": [
     "AccessorChatScreen",
+    "AccessorClass_667",
     "AccessorMinecraftClient",
     "AccessorTextFieldWidget",
+    "MixinAbstractFluidBlock",
     "MixinBossBar",
     "MixinChatScreen",
     "MixinClientConnection",

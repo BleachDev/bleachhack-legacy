@@ -259,7 +259,7 @@ public class Notebot extends Module {
 			return;
 
 		mc.field_3805.swingHand();
-		//mc.interactionManager.method_1235(pos.getX(), pos.getY(), pos.getZ(), 0);
+		mc.interactionManager.method_1235(pos.getX(), pos.getY(), pos.getZ(), 0);
 	}
 
 	public void readFile(String fileName) {
