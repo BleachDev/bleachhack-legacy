@@ -17,9 +17,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.ZombiePigmanEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireballEntity;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolItem;
+import net.minecraft.item.*;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -34,6 +32,7 @@ import org.bleachhack.setting.module.SettingSlider;
 import org.bleachhack.setting.module.SettingToggle;
 import org.bleachhack.util.BleachLogger;
 import org.bleachhack.util.BleachQueue;
+import org.bleachhack.util.InventoryUtils;
 import org.bleachhack.util.world.EntityUtils;
 import org.bleachhack.util.world.WorldUtils;
 
@@ -59,7 +58,9 @@ public class KillAura extends Module {
 						new SettingSlider("Targets", 1, 20, 3, 0).withDesc("How many targets to attack at once.")),
 				new SettingToggle("Raycast", true).withDesc("Only attacks if you can see the target."),
 				new SettingSlider("Range", 0, 6, 4.25, 2).withDesc("Attack range."),
-				new SettingSlider("CPS", 0, 20, 8, 0).withDesc("Attack CPS if 1.9 delay is disabled."));
+				new SettingSlider("CPS", 0, 20, 8, 0).withDesc("Attack CPS if 1.9 delay is disabled."),
+				new SettingToggle("AutoSword", false).withDesc("Automatically switches to sword before swinging").withChildren(
+						new SettingToggle("GappleIgnore", true).withDesc("Stops sword switch when holding egap")));
 	}
 
 	@BleachSubscribe
@@ -76,16 +77,21 @@ public class KillAura extends Module {
 		if (cooldownDone) {
 			for (Entity e: getEntities()) {
 
-				boolean wasSprinting = mc.field_3805.isSprinting();
-
-				//if (wasSprinting)
-				//	mc.field_3805.field_1667.sendPacket(new ClientCommandC2SPacket(mc.field_3805, Mode.STOP_SPRINTING));
+				if(getSetting(9).asToggle().getState()) {
+					if(!getSetting(9).asToggle().getChild(0).asToggle().getState() || getSetting(9).asToggle().getChild(0).asToggle().getState() && !(mc.field_3805.inventory.getMainHandStack().getItem() instanceof AppleItem)) {
+						if(mc.field_3805.inventory.getMainHandStack() == null || !(mc.field_3805.inventory.getMainHandStack().getItem() instanceof SwordItem)) {
+							int swordSlot = InventoryUtils.getSlot(i -> mc.field_3805.inventory.getInvStack(i) != null
+									&& mc.field_3805.inventory.getInvStack(i).getItem() instanceof SwordItem);
+							if (swordSlot == -1) {
+								return;
+							}
+							InventoryUtils.selectSlot(swordSlot);
+						}
+					}
+				}
 
 				mc.interactionManager.attackEntity(mc.field_3805, e);
 				mc.field_3805.swingHand();
-
-				//if (wasSprinting)
-				//	mc.field_3805.field_1667.sendPacket(new ClientCommandC2SPacket(mc.field_3805, Mode.START_SPRINTING));
 
 				delay = 0;
 			}
