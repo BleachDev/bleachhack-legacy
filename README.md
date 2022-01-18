@@ -1,6 +1,6 @@
 # BleachHack Legacy
 
-BleachHack for older versions (for some reason)
+BleachHack for older versions (for some reason) with spaghetti code from epearl
 
 ## Installation
 
