@@ -33,9 +33,9 @@ public class CmdInvPeek extends Command {
 		}
 
 		for (PlayerEntity e: (List<PlayerEntity>) mc.world.playerEntities) {
-			if (e.getTranslationKey().equalsIgnoreCase(args[0])) {
+			if (e.method_3334().equalsIgnoreCase(args[0])) {
 				BleachQueue.add(() -> {
-					BleachLogger.info("Opened inventory for " + e.getTranslationKey());
+					BleachLogger.info("Opened inventory for " + e.method_3334());
 
 					mc.openScreen(new SurvivalInventoryScreen(e) {
 						public void mouseClicked(int mouseX, int mouseY, int button) {

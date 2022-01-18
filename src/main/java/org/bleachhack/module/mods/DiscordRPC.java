@@ -154,9 +154,9 @@ public class DiscordRPC extends Module {
 			case 0: return "Playing " + (((AccessorMinecraftClient) mc).getCurrentServerEntry() == null ? "Singleplayer" : ((AccessorMinecraftClient) mc).getCurrentServerEntry().address)+" "+BleachHack.MCVERSION;
 			case 1: return ((AccessorMinecraftClient) mc).getCurrentServerEntry() == null ? "Singleplayer" : ((AccessorMinecraftClient) mc).getCurrentServerEntry().address;
 			case 2: return ((AccessorMinecraftClient) mc).getCurrentServerEntry() == null ? "Singleplayer" : "Multiplayer";
-			case 3: return mc.field_3805.getTranslationKey() + " Ontop!";
+			case 3: return mc.field_3805.method_3334() + " Ontop!";
 			case 4: return "Minecraft " + BleachHack.MCVERSION;
-			case 5: return mc.field_3805.getTranslationKey();
+			case 5: return mc.field_3805.method_3334();
 			case 6: return "<- bad client";
 			default: return customText1;
 		}
@@ -165,7 +165,7 @@ public class DiscordRPC extends Module {
 	private String getState(String itemName) {
 		switch (getSetting(1).asMode().getMode()) {
 			case 0: return (int) mc.field_3805.getHealth() + " hp - Holding " + itemName;
-			case 1: return mc.field_3805.getTranslationKey() + " - " + (int) mc.field_3805.getHealth() + " hp";
+			case 1: return mc.field_3805.method_3334() + " - " + (int) mc.field_3805.getHealth() + " hp";
 			case 2: return "Holding " + itemName;
 			case 3: return (int) mc.field_3805.getHealth() + " hp - At " + new BlockPos(mc.field_3805).toShortString();
 			case 4: return "At " + new BlockPos(mc.field_3805).toShortString();

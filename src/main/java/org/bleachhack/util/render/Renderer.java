@@ -183,7 +183,7 @@ public class Renderer {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDepthFunc(GL11.GL_ALWAYS);
 		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glShadeModel(7425);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
 	}
 
 	public static void cleanup() {

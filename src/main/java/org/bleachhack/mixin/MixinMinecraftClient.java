@@ -65,23 +65,6 @@ public class MixinMinecraftClient {
 	@Redirect(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V"),
 			slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/client/sound/SoundSystem;method_5989(Lnet/minecraft/entity/LivingEntity;F)V")))
 	private void runGameLoop_push(Profiler profiler, String string) {
-		/*if ("display".equals(string)) {
-			//GL11.glPushMatrix();
-
-			// Text rendering hack
-			GL11.glEnable(GL11.GL_BLEND);
-			GLX.glBlendFuncSeparate(770, 771, 1, 0);
-
-			//GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-
-			Framebuffer.main.bind(true);
-		} else if ("root".equals(string)) {
-			Framebuffer.main.endWrite();
-			//GL11.glPopMatrix();
-			Framebuffer.main.draw(this.width, this.height);
-			Display.update();
-		}*/
-		
 		if ("display".equals(string)) {
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			
