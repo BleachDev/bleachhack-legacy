@@ -183,6 +183,7 @@ public class Renderer {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDepthFunc(GL11.GL_ALWAYS);
 		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_FOG);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 	}
 
@@ -191,6 +192,7 @@ public class Renderer {
 		GL11.glDepthFunc(GL11.GL_LEQUAL);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_FOG);
 		GL11.glPopMatrix();
 	}
 	

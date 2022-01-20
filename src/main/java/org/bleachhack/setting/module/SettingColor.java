@@ -11,6 +11,7 @@ package org.bleachhack.setting.module;
 import org.bleachhack.gui.clickgui.window.ModuleWindow;
 import org.bleachhack.gui.window.Window;
 import org.bleachhack.setting.SettingDataHandlers;
+import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -32,10 +33,8 @@ public class SettingColor extends ModuleSetting<float[]> {
 
 		Window.fill(sx - 1, sy - 1, ex + 1, ey + 1, 0xff8070b0, 0xff6060b0, 0x00000000);
 
-		DrawableHelper.fill(sx, sy, ex, ey, -1);
-
-		Window.horizontalGradient(sx, ey, ex, ey, -1, rgb);
-		Window.verticalGradient(sx, ey, ex, ey, 0, 0xff000000);
+		Window.horizontalGradient(sx, sy, ex, ey, -1, rgb);
+		Window.verticalGradient(sx, sy, ex, ey, 0, 0xff000000);
 
 		// Color square input handler
 		if (window.mouseOver(sx, sy, ex, ey) && window.lmHeld) {
@@ -53,7 +52,11 @@ public class SettingColor extends ModuleSetting<float[]> {
 		DrawableHelper.fill(cursorX, cursorY - 2, cursorX + 1, cursorY, 0xffd0d0d0);
 		DrawableHelper.fill(cursorX, cursorY + 1, cursorX + 1, cursorY + 3, 0xffd0d0d0);
 
-		MinecraftClient.getInstance().textRenderer.draw(getName(), sx + 1, sy + 1, 0x000000);
+		GL11.glPushMatrix();
+		GL11.glTranslated(sx + 1, sy + 1, 0);
+		GL11.glScalef(0.85f, 0.85f, 0);
+		MinecraftClient.getInstance().textRenderer.draw(getName(), 0, 0, 0x000000);
+		GL11.glPopMatrix();
 
 		// Hue bar
 		sx = ex + 5;
