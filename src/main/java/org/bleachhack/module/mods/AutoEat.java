@@ -70,11 +70,11 @@ public class AutoEat extends Module {
 			if (!(food instanceof FoodItem))
 				continue;
 
-			int h = preferGapples && food == Item.field_4281
+			int h = preferGapples && food == Item.GOLDEN_APPLE
 					? Integer.MAX_VALUE : ((FoodItem) food).method_3337();
 
 			if (h <= hunger
-					|| (!gapples && food == Item.field_4281)
+					|| (!gapples && food == Item.GOLDEN_APPLE)
 					|| (!poison && isPoisonous(food)))
 				continue;
 
@@ -94,6 +94,6 @@ public class AutoEat extends Module {
 	}
 
 	private boolean isPoisonous(Item food) {
-		return food == Item.field_4335 || food == Item.field_5435 || food == Item.field_4327;
+		return food == Item.SPIDEY_EYE || food == Item.POISONOUS_POTATO || food == Item.ROTTEN_FLESH;
 	}
 }

@@ -46,7 +46,7 @@ public class CmdSkull extends Command {
 			throw new CmdSyntaxException();
 		}
 
-		ItemStack item = new ItemStack(Item.field_5438, 64);
+		ItemStack item = new ItemStack(Item.SKULL, 64);
 
 		Random random = new Random();
 		String id = "[I;" + random.nextInt() + "," + random.nextInt() + "," + random.nextInt() + "," + random.nextInt() + "]";

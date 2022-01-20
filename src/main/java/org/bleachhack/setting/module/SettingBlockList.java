@@ -32,7 +32,7 @@ public class SettingBlockList extends SettingList<Block> {
 	}
 
 	private static Collection<Block> getAllBlocks(Predicate<Block> filter) {
-		List<Block> items = Arrays.asList(Block.field_492).stream().filter(i -> i != null).collect(Collectors.toList());
+		List<Block> items = Arrays.asList(Block.BLOCKS).stream().filter(i -> i != null).collect(Collectors.toList());
 		return filter == null ? items : items.stream().filter(filter).collect(Collectors.toList());
 	}
 

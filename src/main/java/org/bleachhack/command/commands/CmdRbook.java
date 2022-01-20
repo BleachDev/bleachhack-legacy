@@ -34,7 +34,7 @@ public class CmdRbook extends Command {
 	public void onCommand(String alias, String[] args) throws Exception {
 		ItemStack item = mc.field_3805.inventory.getMainHandStack();
 
-		if (item.getItem() != Item.field_4293) {
+		if (item.getItem() != Item.WRITABLE_BOOK) {
 			BleachLogger.error("Not Holding A Writable Book!");
 			return;
 		}

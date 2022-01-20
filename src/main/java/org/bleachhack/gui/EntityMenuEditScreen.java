@@ -56,7 +56,7 @@ public class EntityMenuEditScreen extends WindowScreen {
 				height / 6,
 				width - width / 4,
 				height - height / 6,
-				"Edit Interactions", new ItemStack(Item.field_4282)));
+				"Edit Interactions", new ItemStack(Item.SIGN)));
 
 		if (editNameField == null) {
 			editNameField = new TextFieldWidget(textRenderer, 0, 0, 1000, 16);

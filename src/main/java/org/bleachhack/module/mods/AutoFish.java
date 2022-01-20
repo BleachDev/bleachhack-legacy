@@ -67,20 +67,20 @@ public class AutoFish extends Module {
 	}
 
 	private boolean getHandWithRod() {
-		return mc.field_3805.getMainHandStack().getItem() == Item.field_6179;
+		return mc.field_3805.getMainHandStack().getItem() == Item.FISHING_ROD;
 	}
 
 	private int getBestRodSlot() {
 		@SuppressWarnings("unchecked")
 		int slot = InventoryUtils.getSlot(true, Comparator.comparingInt(i -> {
 			ItemStack is = mc.field_3805.inventory.getInvStack(i);
-			if (is == null || is.getItem() != Item.field_6179)
+			if (is == null || is.getItem() != Item.FISHING_ROD)
 				return -1;
 
 			return ((Map<Integer, Integer>) EnchantmentHelper.get(is)).values().stream().mapToInt(Integer::intValue).sum();
 		}));
 
-		if (mc.field_3805.inventory.getInvStack(slot) != null && mc.field_3805.inventory.getInvStack(slot).getItem() == Item.field_6179) {
+		if (mc.field_3805.inventory.getInvStack(slot) != null && mc.field_3805.inventory.getInvStack(slot).getItem() == Item.FISHING_ROD) {
 			return slot;
 		}
 

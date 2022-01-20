@@ -32,7 +32,7 @@ public class SettingItemList extends SettingList<Item> {
 	}
 
 	private static Collection<Item> getAllItems(Predicate<Item> filter) {
-		List<Item> items = Arrays.asList(Item.field_4343).stream().filter(i -> i != null).collect(Collectors.toList());
+		List<Item> items = Arrays.asList(Item.ITEMS).stream().filter(i -> i != null).collect(Collectors.toList());
 		return filter == null ? items : items.stream().filter(filter).collect(Collectors.toList());
 	}
 

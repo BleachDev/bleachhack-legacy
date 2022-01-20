@@ -8,17 +8,18 @@
  */
 package org.bleachhack.module;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public enum ModuleCategory {
-	PLAYER(new ItemStack(Item.field_4344)),
-	RENDER(new ItemStack(Item.field_4345)),
-	COMBAT(new ItemStack(Item.field_4346)),
-	MOVEMENT(new ItemStack(Item.field_4347)),
-	EXPLOITS(new ItemStack(Item.field_4348)),
-	MISC(new ItemStack(Item.field_4350)),
-	WORLD(new ItemStack(Item.field_4351));
+	PLAYER(new ItemStack(Item.SKULL)),
+	RENDER(new ItemStack(Block.GLASS_BLOCK)),
+	COMBAT(new ItemStack(Item.DIAMOND_SWORD)),
+	MOVEMENT(new ItemStack(Item.DIAMOND_BOOTS)),
+	EXPLOITS(new ItemStack(Block.COMMAND_BLOCK)),
+	MISC(new ItemStack(Block.ACTIVATOR_RAIL)),
+	WORLD(new ItemStack(Block.GRASS_BLOCK));
 	
 	private final ItemStack item;
 	

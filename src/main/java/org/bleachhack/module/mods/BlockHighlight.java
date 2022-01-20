@@ -81,7 +81,7 @@ public class BlockHighlight extends Module {
 		if (mc.result == null || mc.result.type != class_235.field_602 || mc.world.isAir(mc.result.x, mc.result.y, mc.result.z))
 			return;
 
-		Block block = Block.field_492[mc.world.getBlock(mc.result.x, mc.result.y, mc.result.z)];
+		Block block = Block.BLOCKS[mc.world.getBlock(mc.result.x, mc.result.y, mc.result.z)];
 		int[] color = this.getSetting(4).asColor().getRGBArray();
 		if (mode == 0) {
 			shader.prepare();

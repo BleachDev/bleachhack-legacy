@@ -78,7 +78,7 @@ public class SettingDataHandlers {
 
 		public Block read(JsonElement json) {
 			String key = json.getAsString();
-			for (Block b: Block.field_492) {
+			for (Block b: Block.BLOCKS) {
 				if (b.getTranslationKey().equals(key))
 					return b;
 			}
@@ -94,7 +94,7 @@ public class SettingDataHandlers {
 
 		public Item read(JsonElement json) {
 			String key = json.getAsString();
-			for (Item i: Item.field_4343) {
+			for (Item i: Item.ITEMS) {
 				if (i.getTranslationKey().equals(key))
 					return i;
 			}

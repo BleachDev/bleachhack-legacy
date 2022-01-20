@@ -43,14 +43,14 @@ public class CmdGive extends Command {
 		}
 
 
-		ItemStack item = Arrays.stream(Item.field_4343)
+		ItemStack item = Arrays.stream(Item.ITEMS)
 				.filter(i -> i != null)
 				.map(i -> new ItemStack(i))
 				.filter(i -> i.getName().toLowerCase(Locale.ENGLISH).replace(' ', '_').equals(args[0]))
 				.findFirst().orElse(null);
 
 		if (item == null) {
-			item = Arrays.stream(Block.field_492)
+			item = Arrays.stream(Block.BLOCKS)
 					.filter(i -> i != null)
 					.map(i -> new ItemStack(i))
 					.filter(i -> i.getName().toLowerCase(Locale.ENGLISH).replace(' ', '_').equals(args[0]))

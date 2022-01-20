@@ -41,7 +41,7 @@ public class UIClickGuiScreen extends ClickGuiScreen {
 		uiContainer.windows.values().forEach(this::addWindow);
 
 		addWindow(new ModuleWindow(Collections.singletonList(ModuleManager.getModule("UI")),
-				200, 200, 75, "Render", new ItemStack(Block.field_346)));
+				200, 200, 75, "Render", new ItemStack(Block.GLASS_BLOCK)));
 	}
 
 	@Override

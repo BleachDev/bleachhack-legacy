@@ -65,7 +65,7 @@ public class AutoFarm extends Module {
 			if (eyePos.distanceTo(Vec3d.method_604(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)) > range)
 				continue;
 
-			Block block = Block.field_492[mc.world.getBlock(pos.getX(), pos.getY(), pos.getZ())];
+			Block block = Block.BLOCKS[mc.world.getBlock(pos.getX(), pos.getY(), pos.getZ())];
 			int data = mc.world.getBlockData(pos.getX(), pos.getY(), pos.getZ());
 			if (tillSetting.getState() && canTill(block) && mc.world.isAir(pos.getX(), pos.getY() + 1, pos.getZ())) {
 				if (!tillSetting.getChild(0).asToggle().getState()
@@ -91,8 +91,8 @@ public class AutoFarm extends Module {
 						|| (harvestSetting.getChild(1).asToggle().getState() && (block instanceof MelonBlock || block instanceof PumpkinBlock))
 						|| (harvestSetting.getChild(2).asToggle().getState() && block instanceof NetherWartBlock && data >= 3)
 						|| (harvestSetting.getChild(3).asToggle().getState() && block instanceof CocoaBlock && data >= 2)
-						|| (harvestSetting.getChild(4).asToggle().getState() && shouldHarvestTallCrop(pos, block, Block.field_384.field_466))
-						|| (harvestSetting.getChild(5).asToggle().getState() && shouldHarvestTallCrop(pos, block, Block.field_382.field_466))) {
+						|| (harvestSetting.getChild(4).asToggle().getState() && shouldHarvestTallCrop(pos, block, Block.SUGARCANE.id))
+						|| (harvestSetting.getChild(5).asToggle().getState() && shouldHarvestTallCrop(pos, block, Block.CACTUS.id))) {
 					mc.interactionManager.method_1235(pos.getX(), pos.getY(), pos.getZ(), 1);
 					return;
 				}
@@ -107,11 +107,11 @@ public class AutoFarm extends Module {
 					
 						Item item = is.getItem();
 
-						if (plantSetting.getChild(0).asToggle().getState() && (item == Item.field_4227 || item == Item.field_5432 || item == Item.field_5433)) {
+						if (plantSetting.getChild(0).asToggle().getState() && (item == Item.WHEAT_SEEDS || item == Item.CARROTS || item == Item.POTATO)) {
 							return true;
 						}
 
-						return plantSetting.getChild(1).asToggle().getState() && (item == Item.field_4321 || item == Item.field_4322);
+						return plantSetting.getChild(1).asToggle().getState() && (item == Item.PUMPKIN_SEEDS || item == Item.MELON_SEEDS);
 					});
 
 					if (slot != -1) {
@@ -123,7 +123,7 @@ public class AutoFarm extends Module {
 				if (block instanceof SoulSandBlock && mc.world.isAir(pos.getX(), pos.getY() + 1, pos.getZ()) && plantSetting.getChild(2).asToggle().getState()) {
 					int slot = InventoryUtils.getSlot(i -> {
 						ItemStack is = mc.field_3805.inventory.getInvStack(i);
-						return is != null && is.getItem() == Item.field_4332;
+						return is != null && is.getItem() == Item.NETHER_WART;
 					});
 
 					if (slot != -1) {
@@ -156,7 +156,7 @@ public class AutoFarm extends Module {
 	}
 
 	private boolean shouldHarvestTallCrop(BlockPos pos, Block posBlock, int blockClass) {
-		return posBlock.field_466 == blockClass
+		return posBlock.id == blockClass
 				&& mc.world.getBlock(pos.getX(), pos.getY() - 1, pos.getZ()) == blockClass
 				&& mc.world.getBlock(pos.getX(), pos.getY() - 2, pos.getZ()) != blockClass;
 	}
@@ -166,6 +166,6 @@ public class AutoFarm extends Module {
 	}
 	
 	private boolean canTill(Block block) {
-		return block == Block.field_501 || block == Block.field_500;
+		return block == Block.DIRT || block == Block.GRASS_BLOCK;
 	}
 }

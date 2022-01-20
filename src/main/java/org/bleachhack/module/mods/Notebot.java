@@ -245,13 +245,13 @@ public class Notebot extends Module {
 		if (!isNoteblock(pos))
 			return -1;
 
-		return ((NoteBlockBlockEntity) mc.world.method_3781(pos.getX(), pos.getY(), pos.getZ())).field_558;
+		return ((NoteBlockBlockEntity) mc.world.method_3781(pos.getX(), pos.getY(), pos.getZ())).note;
 	}
 
 	public boolean isNoteblock(BlockPos pos) {
 		/* Checks if this block is a noteblock and the noteblock can be played */
-		return Block.field_492[mc.world.getBlock(pos.getX(), pos.getY(), pos.getZ())] instanceof NoteBlock
-				&& Block.field_492[mc.world.getBlock(pos.getX(), pos.getY() + 1, pos.getZ())] == null;
+		return Block.BLOCKS[mc.world.getBlock(pos.getX(), pos.getY(), pos.getZ())] instanceof NoteBlock
+				&& Block.BLOCKS[mc.world.getBlock(pos.getX(), pos.getY() + 1, pos.getZ())] == null;
 	}
 
 	public void playBlock(BlockPos pos) {

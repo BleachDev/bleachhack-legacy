@@ -57,7 +57,7 @@ public class NotebotScreen extends WindowScreen {
 				height / 4 - 10,
 				width / 4 + width / 2,
 				height / 4 + height / 2,
-				"Notebot Gui", new ItemStack(Block.field_351)));
+				"Notebot Gui", new ItemStack(Block.NOTEBLOCK)));
 
 		getWindow(0).addWidget(new WindowButtonWidget(22, 14, 32, 24, "<", () -> {
 			if (page > 0)
@@ -122,15 +122,15 @@ public class NotebotScreen extends WindowScreen {
 							x + w - w / 4, y + 50 + c2 * 10, 0x50f050);
 
 					if (e.getKey() == Instrument.HARP)
-						new ItemRenderer().method_5764(client.textRenderer, client.getTextureManager(), new ItemStack(Block.field_501), x + w - w / 4 + 55, y + 46 + c2 * 10);
+						new ItemRenderer().method_5764(client.textRenderer, client.getTextureManager(), new ItemStack(Block.DIRT), x + w - w / 4 + 55, y + 46 + c2 * 10);
 					else if (e.getKey() == Instrument.BASEDRUM)
-						new ItemRenderer().method_5764(client.textRenderer, client.getTextureManager(), new ItemStack(Block.field_499), x + w - w / 4 + 55, y + 46 + c2 * 10);
+						new ItemRenderer().method_5764(client.textRenderer, client.getTextureManager(), new ItemStack(Block.STONE_BLOCK), x + w - w / 4 + 55, y + 46 + c2 * 10);
 					else if (e.getKey() == Instrument.SNARE)
-						new ItemRenderer().method_5764(client.textRenderer, client.getTextureManager(), new ItemStack(Block.field_338), x + w - w / 4 + 55, y + 46 + c2 * 10);
+						new ItemRenderer().method_5764(client.textRenderer, client.getTextureManager(), new ItemStack(Block.SAND_BLOCK), x + w - w / 4 + 55, y + 46 + c2 * 10);
 					else if (e.getKey() == Instrument.HAT)
-						new ItemRenderer().method_5764(client.textRenderer, client.getTextureManager(), new ItemStack(Block.field_346), x + w - w / 4 + 55, y + 46 + c2 * 10);
+						new ItemRenderer().method_5764(client.textRenderer, client.getTextureManager(), new ItemStack(Block.GLASS_BLOCK), x + w - w / 4 + 55, y + 46 + c2 * 10);
 					else if (e.getKey() == Instrument.BASS)
-						new ItemRenderer().method_5764(client.textRenderer, client.getTextureManager(), new ItemStack(Block.field_503), x + w - w / 4 + 55, y + 46 + c2 * 10);
+						new ItemRenderer().method_5764(client.textRenderer, client.getTextureManager(), new ItemStack(Block.PLANKS), x + w - w / 4 + 55, y + 46 + c2 * 10);
 					c2++;
 
 					GuiLighting.disable();

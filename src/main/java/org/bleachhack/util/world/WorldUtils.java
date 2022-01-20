@@ -66,7 +66,7 @@ public class WorldUtils {
 		for (int x = (int) Math.floor(box.minX); x < Math.ceil(box.maxX); x++) {
 			for (int y = (int) Math.floor(box.minY); y < Math.ceil(box.maxY); y++) {
 				for (int z = (int) Math.floor(box.minZ); z < Math.ceil(box.maxZ); z++) {
-					if (Block.field_492[mc.world.getBlock(x, y, z)] == block) {
+					if (Block.BLOCKS[mc.world.getBlock(x, y, z)] == block) {
 						return true;
 					}
 				}
@@ -80,7 +80,7 @@ public class WorldUtils {
 		for (int x = (int) Math.floor(box.minX); x < Math.ceil(box.maxX); x++) {
 			for (int y = (int) Math.floor(box.minY); y < Math.ceil(box.maxY); y++) {
 				for (int z = (int) Math.floor(box.minZ); z < Math.ceil(box.maxZ); z++) {
-					if (Block.field_492[mc.world.getBlock(x, y, z)] != null && box.intersects(Box.of(x, y, z, x + 1, y + 1, z + 1))) {
+					if (Block.BLOCKS[mc.world.getBlock(x, y, z)] != null && box.intersects(Box.of(x, y, z, x + 1, y + 1, z + 1))) {
 						return true;
 					}
 				}

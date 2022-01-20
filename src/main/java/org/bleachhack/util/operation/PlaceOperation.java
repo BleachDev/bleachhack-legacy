@@ -62,7 +62,7 @@ public class PlaceOperation extends Operation {
 
 	@Override
 	public void render() {
-		Block block = Block.field_492[getItems()[0]];
+		Block block = Block.BLOCKS[getItems()[0]];
 		if (block != null) {
 			BlockEntity be = mc.world.method_3781(pos.getX(), pos.getY(), pos.getZ());
 			BlockEntityRenderer renderer = be != null ? BlockEntityRenderDispatcher.INSTANCE.method_1630(be) : null;
@@ -94,7 +94,7 @@ public class PlaceOperation extends Operation {
 			ItemStack is = mc.field_3805.inventory.getInvStack(i);
 			if (is != null) {
 				for (int b: items) {
-					if (is.getItem().field_4308 == b)
+					if (is.getItem().id == b)
 						return true;
 				}
 			}
