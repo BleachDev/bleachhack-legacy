@@ -12,6 +12,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.class_235;
 import net.minecraft.class_535;
 import net.minecraft.util.Identifier;
@@ -104,6 +106,7 @@ public class BlockHighlight extends Module {
 						mc.result.y - BlockEntityRenderDispatcher.field_2190 + 0.5,
 						mc.result.z - BlockEntityRenderDispatcher.field_2191 + 0.5);
 				class_535 rend = new class_535();
+				EntityRenderDispatcher.field_2094.textureManager.bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
 				rend.method_4320(block);
 				rend.method_1453(block, mc.world, mc.result.x, mc.result.y, mc.result.z, 0);
 				GL11.glPopMatrix();
