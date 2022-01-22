@@ -39,7 +39,7 @@ public class NoVelocity extends Module {
 
 		if (event.getPacket() instanceof class_714 && getSetting(0).asToggle().getState()) {
 			class_714 packet = (class_714) event.getPacket();
-			if (packet.id == mc.field_3805.field_3243) {
+			if (packet.id == mc.field_3805.id) {
 				double velXZ = getSetting(0).asToggle().getChild(0).asSlider().getValue() / 100;
 				double velY = getSetting(0).asToggle().getChild(1).asSlider().getValue() / 100;
 				

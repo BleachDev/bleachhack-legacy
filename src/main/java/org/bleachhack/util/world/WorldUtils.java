@@ -19,13 +19,13 @@ import org.bleachhack.util.InventoryUtils;
 import com.google.common.collect.Sets;
 
 import net.minecraft.class_645;
-import net.minecraft.class_699;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
+import net.minecraft.network.packet.c2s.play.class_699;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;

@@ -41,7 +41,7 @@ public class AutoTNT extends Module {
 	@BleachSubscribe
 	public void onTick(EventTick event) {
 		int tntSlot = InventoryUtils.getSlot(i -> mc.field_3805.inventory.getInvStack(i) != null
-				&& mc.field_3805.inventory.getInvStack(i).field_4378 == Block.TNT.id);
+				&& mc.field_3805.inventory.getInvStack(i).id == Block.TNT.id);
 		if (tntSlot == -1)
 			return;
 

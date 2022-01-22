@@ -18,17 +18,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.class_632;
-import net.minecraft.class_633;
 import net.minecraft.class_648;
+import net.minecraft.network.IntegratedConnection;
+import net.minecraft.network.OutboundConnection;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.PacketListener;
 
-@Mixin(value = { class_632.class, class_633.class })
+@Mixin(value = { IntegratedConnection.class, OutboundConnection.class })
 public class MixinClientConnection {
 
-	@Redirect(method = "method_1769", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/Packet;apply(Lnet/minecraft/network/listener/PacketListener;)V"))
-	private void channelRead0(Packet packet, PacketListener listener) {
+	@Redirect(method = "applyQueuedPackets", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/Packet;apply(Lnet/minecraft/network/listener/PacketListener;)V"))
+	private void applyQueuedPackets(Packet packet, PacketListener listener) {
 		EventPacket.Read event = new EventPacket.Read(packet);
 		BleachHack.eventBus.post(event);
 
@@ -37,8 +37,8 @@ public class MixinClientConnection {
 		}
 	}
 
-	@Inject(method = "method_1766", at = @At("HEAD"), cancellable = true)
-	private void method_1766(Packet packet, CallbackInfo callback) {
+	@Inject(method = "send", at = @At("HEAD"), cancellable = true)
+	private void send(Packet packet, CallbackInfo callback) {
 		if (packet instanceof class_648) {
 			if (!CommandManager.allowNextMsg) {
 				class_648 pack = (class_648) packet;

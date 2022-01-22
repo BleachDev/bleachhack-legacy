@@ -22,9 +22,9 @@ import org.bleachhack.setting.module.SettingSlider;
 import org.bleachhack.setting.module.SettingToggle;
 import org.bleachhack.util.world.WorldUtils;
 
-import net.minecraft.class_696;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.network.packet.c2s.play.class_696;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
