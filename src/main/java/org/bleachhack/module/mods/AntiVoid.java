@@ -8,6 +8,7 @@
  */
 package org.bleachhack.module.mods;
 
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import org.bleachhack.event.events.EventClientMove;
 import org.bleachhack.event.events.EventPacket;
 import org.bleachhack.event.events.EventTick;
@@ -18,7 +19,6 @@ import org.bleachhack.setting.module.SettingMode;
 import org.bleachhack.setting.module.SettingToggle;
 import org.bleachhack.util.world.WorldUtils;
 
-import net.minecraft.class_695;
 import net.minecraft.util.math.Vec3d;
 
 public class AntiVoid extends Module {
@@ -54,8 +54,8 @@ public class AntiVoid extends Module {
 
 	@BleachSubscribe
 	public void onSendPacket(EventPacket.Send event) {
-		if (event.getPacket() instanceof class_695) {
-			class_695 packet = (class_695) event.getPacket();
+		if (event.getPacket() instanceof PlayerMoveC2SPacket) {
+			PlayerMoveC2SPacket packet = (PlayerMoveC2SPacket) event.getPacket();
 
 			if (getSetting(1).asToggle().getState()
 					&& mc.field_3805.y >= 0 && packet.y < 0) {

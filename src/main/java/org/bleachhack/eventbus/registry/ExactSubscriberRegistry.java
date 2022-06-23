@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
 import org.bleachhack.event.Event;
 import org.bleachhack.eventbus.BleachSubscribe;
 import org.bleachhack.eventbus.BleachSubscriber;

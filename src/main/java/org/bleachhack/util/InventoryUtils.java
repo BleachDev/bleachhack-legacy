@@ -12,8 +12,8 @@ import java.util.Comparator;
 import java.util.function.IntPredicate;
 import java.util.stream.IntStream;
 
-import net.minecraft.class_711;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 
 public class InventoryUtils {
 	
@@ -48,7 +48,7 @@ public class InventoryUtils {
 			if (slot < 9) {
 				if (slot != mc.field_3805.inventory.selectedSlot) {
 					mc.field_3805.inventory.selectedSlot = slot;
-					mc.field_3805.field_1667.sendPacket(new class_711(slot));
+					mc.field_3805.field_1667.sendPacket(new UpdateSelectedSlotC2SPacket(slot));
 				}
 
 				return true;
@@ -59,7 +59,7 @@ public class InventoryUtils {
 
 						if (i != mc.field_3805.inventory.selectedSlot) {
 							mc.field_3805.inventory.selectedSlot = i;
-							mc.field_3805.field_1667.sendPacket(new class_711(i));
+							mc.field_3805.field_1667.sendPacket(new UpdateSelectedSlotC2SPacket(i));
 						}
 
 						return true;

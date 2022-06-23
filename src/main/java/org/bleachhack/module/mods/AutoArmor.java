@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 import org.bleachhack.event.events.EventTick;
 import org.bleachhack.eventbus.BleachSubscribe;
 import org.bleachhack.module.Module;
@@ -21,7 +22,6 @@ import org.bleachhack.setting.module.SettingSlider;
 import org.bleachhack.setting.module.SettingToggle;
 import org.bleachhack.util.BleachQueue;
 
-import net.minecraft.class_711;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.ProtectionEnchantment;
@@ -117,7 +117,7 @@ public class AutoArmor extends Module {
 				if (e.getValue()[1] == -1 && e.getValue()[2] < 9) {
 					if (e.getValue()[2] != mc.field_3805.inventory.selectedSlot) {
 						mc.field_3805.inventory.selectedSlot = e.getValue()[2];
-						mc.field_3805.field_1667.sendPacket(new class_711(e.getValue()[2]));
+						mc.field_3805.field_1667.sendPacket(new UpdateSelectedSlotC2SPacket(e.getValue()[2]));
 					}
 
 					mc.interactionManager.clickSlot(mc.field_3805.openScreenHandler.syncId, 36 + e.getValue()[2], 0, 1, mc.field_3805);

@@ -7,7 +7,7 @@
   ],
   "client": [
     "AccessorChatScreen",
-    "AccessorClass_667",
+    "AccessorExplosionS2CPacket",
     "AccessorFishingBobberEntity",
     "AccessorMinecraftClient",
     "AccessorTextFieldWidget",

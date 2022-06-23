@@ -8,13 +8,13 @@
  */
 package org.bleachhack.util.operation;
 
+import net.minecraft.client.class_535;
 import org.bleachhack.util.InventoryUtils;
 import org.bleachhack.util.render.Renderer;
 import org.bleachhack.util.render.color.QuadColor;
 import org.bleachhack.util.world.WorldUtils;
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.class_535;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
@@ -65,19 +65,19 @@ public class PlaceOperation extends Operation {
 		Block block = Block.BLOCKS[getItems()[0]];
 		if (block != null) {
 			BlockEntity be = mc.world.method_3781(pos.getX(), pos.getY(), pos.getZ());
-			BlockEntityRenderer renderer = be != null ? BlockEntityRenderDispatcher.INSTANCE.method_1630(be) : null;
+			BlockEntityRenderer renderer = be != null ? BlockEntityRenderDispatcher.INSTANCE.render(be) : null;
 			if (renderer != null) {
 				renderer.method_1631(be,
-						pos.getX() - BlockEntityRenderDispatcher.field_2189,
-						pos.getY() - BlockEntityRenderDispatcher.field_2190,
-						pos.getZ() - BlockEntityRenderDispatcher.field_2191,
+						pos.getX() - BlockEntityRenderDispatcher.CAMERA_X,
+						pos.getY() - BlockEntityRenderDispatcher.CAMERA_Y,
+						pos.getZ() - BlockEntityRenderDispatcher.CAMERA_Z,
 						((AccessorMinecraftClient) mc).getTricker().tickDelta);
 			} else {
 				GL11.glPushMatrix();
 				GL11.glTranslated(
-						pos.getX() - BlockEntityRenderDispatcher.field_2189 + 0.5,
-						pos.getY() - BlockEntityRenderDispatcher.field_2190 + 0.5,
-						pos.getZ() - BlockEntityRenderDispatcher.field_2191 + 0.5);
+						pos.getX() - BlockEntityRenderDispatcher.CAMERA_X + 0.5,
+						pos.getY() - BlockEntityRenderDispatcher.CAMERA_Y + 0.5,
+						pos.getZ() - BlockEntityRenderDispatcher.CAMERA_Z + 0.5);
 				class_535 rend = new class_535();
 				rend.method_4320(block);
 				rend.method_1453(block, mc.world, pos.getX(), pos.getY(), pos.getZ(), 0);

@@ -10,6 +10,8 @@ package org.bleachhack.command.commands;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+
+import net.minecraft.nbt.NbtString;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bleachhack.command.Command;
@@ -18,8 +20,7 @@ import org.bleachhack.util.BleachLogger;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 
@@ -44,12 +45,12 @@ public class CmdRbook extends Command {
 		int endChar = args.length >= 3 && NumberUtils.isNumber(args[2]) ? NumberUtils.createNumber(args[2]).intValue() : 0x10FFFF;
 		int pageChars = args.length >= 4 && NumberUtils.isNumber(args[3]) ? NumberUtils.createNumber(args[3]).intValue() : 210;
 
-		ListTag pages1 = new ListTag();
+		NbtList pages1 = new NbtList();
 
 		for (int t = 0; t < pages; t++)
-			pages1.method_1217(new StringTag(RandomStringUtils.random(pageChars, startChar, endChar, false, false)));
+			pages1.method_1217(new NbtString(RandomStringUtils.random(pageChars, startChar, endChar, false, false)));
 		
-		item.putSubTag("pages", pages1);
+		item.putSubNbt("pages", pages1);
 
 		ByteArrayOutputStream var3 = new ByteArrayOutputStream();
 		DataOutputStream var4 = new DataOutputStream(var3);

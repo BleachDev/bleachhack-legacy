@@ -8,6 +8,7 @@
  */
 package org.bleachhack.mixin;
 
+import net.minecraft.client.render.CameraView;
 import org.bleachhack.BleachHack;
 import org.bleachhack.event.events.EventBlockEntityRender;
 import org.bleachhack.event.events.EventEntityRender;
@@ -21,7 +22,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.render.WorldRenderer;
-import net.minecraft.client.render.debug.CameraView;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;

@@ -25,8 +25,8 @@ import com.google.gson.JsonParser;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtCompound;
 
 public class CmdSkull extends Command {
 
@@ -61,7 +61,7 @@ public class CmdSkull extends Command {
 						Resources.toString(new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + json.get("id").getAsString()), StandardCharsets.UTF_8))
 						.getAsJsonObject();
 
-				item.setTag((CompoundTag) Tag.method_1652(ByteStreams.newDataInput(("{SkullOwner:{Id:" + id + ",Properties:{textures:[{Value:\""
+				item.setNbt((NbtCompound) NbtCompound.readNbt(ByteStreams.newDataInput(("{SkullOwner:{Id:" + id + ",Properties:{textures:[{Value:\""
 						+ json2.get("properties").getAsJsonArray().get(0).getAsJsonObject().get("value").getAsString()
 						+ "\"}]}}}").getBytes())));
 			} catch (Exception e) {
@@ -69,10 +69,10 @@ public class CmdSkull extends Command {
 				BleachLogger.error("Error getting head! (" + e.getClass().getSimpleName() + ")");
 			}
 		} else if (args[0].equalsIgnoreCase("img")) {
-			CompoundTag tag = (CompoundTag) Tag.method_1652(ByteStreams.newDataInput((
+			NbtCompound tag = (NbtCompound) NbtCompound.readNbt(ByteStreams.newDataInput((
 					"{SkullOwner:{Id:" + id + ",Properties:{textures:[{Value:\"" + encodeUrl(args[1]) + "\"}]}}}").getBytes()));
-			item.setTag(tag);
-			BleachLogger.logger.info(tag);
+			item.setNbt(tag);
+			BleachLogger.logger.info(tag.toString());
 		}
 
 		mc.field_3805.inventory.setInvStack(mc.field_3805.inventory.selectedSlot, item);

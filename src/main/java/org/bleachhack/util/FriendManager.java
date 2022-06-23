@@ -30,7 +30,7 @@ public class FriendManager {
 	
 	public void add(Entity entity) {
 		if (entity instanceof PlayerEntity)
-			add(((PlayerEntity) entity).method_3334());
+			add(((PlayerEntity) entity).getUsername());
 	}
 
 	public void add(String name) {
@@ -47,7 +47,7 @@ public class FriendManager {
 	
 	public void remove(Entity entity) {
 		if (entity instanceof PlayerEntity)
-			remove(((PlayerEntity) entity).method_3334());
+			remove(((PlayerEntity) entity).getUsername());
 	}
 
 	public void remove(String name) {
@@ -64,7 +64,7 @@ public class FriendManager {
 	
 	public boolean has(Entity entity) {
 		if (entity instanceof PlayerEntity)
-			return has(((PlayerEntity) entity).method_3334());
+			return has(((PlayerEntity) entity).getUsername());
 		
 		return false;
 	}

@@ -111,11 +111,11 @@ public class BleachTitleScreen extends WindowScreen {
 		this.renderBackground();
 
 		int copyWidth = this.textRenderer.getStringWidth("Copyright Mojang AB. Do not distribute!") + 2;
-		textRenderer.method_4246("Copyright Mojang AB. Do not distribute!", width - copyWidth, height - 10, -1, true);
-		textRenderer.method_4246("Fabric: " + FabricLoader.getInstance().getModContainer("fabricloader").get().getMetadata().getVersion().getFriendlyString(),
+		textRenderer.draw("Copyright Mojang AB. Do not distribute!", width - copyWidth, height - 10, -1, true);
+		textRenderer.draw("Fabric: " + FabricLoader.getInstance().getModContainer("fabricloader").get().getMetadata().getVersion().getFriendlyString(),
 				4, height - 30, -1, true);
-		textRenderer.method_4246("Minecraft: " + BleachHack.MCVERSION, 4, height - 20, -1, true);
-		textRenderer.method_4246("Logged in as: \u00a7a" + client.getSession().getUsername(), 4, height - 10, -1, true);
+		textRenderer.draw("Minecraft: " + BleachHack.MCVERSION, 4, height - 20, -1, true);
+		textRenderer.draw("Logged in as: \u00a7a" + client.getSession().getUsername(), 4, height - 10, -1, true);
 
 		super.render(mouseX, mouseY, delta);
 

@@ -33,7 +33,7 @@ public class WindowCheckboxWidget extends WindowWidget {
 			//fill(matrix, x + 3, y + 3, x + 7, y + 7, 0xffffffff);
 		}
 
-		textRenderer.method_4246(text, x + 15, y + 2, 0xc0c0c0, true);
+		textRenderer.draw(text, x + 15, y + 2, 0xc0c0c0, true);
 	}
 
 	@Override

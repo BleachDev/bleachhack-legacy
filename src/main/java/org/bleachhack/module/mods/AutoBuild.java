@@ -11,6 +11,8 @@ package org.bleachhack.module.mods;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResultType;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bleachhack.event.events.EventInteract;
 import org.bleachhack.event.events.EventTick;
@@ -28,10 +30,9 @@ import org.bleachhack.util.operation.blueprint.PlaceOperationBlueprint;
 import org.bleachhack.util.render.Renderer;
 import org.bleachhack.util.render.color.QuadColor;
 import org.lwjgl.input.Mouse;
-import org.bleachhack.util.BlockPos;import net.minecraft.class_235;
+import org.bleachhack.util.BlockPos;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Direction;
 
 public class AutoBuild extends Module {
@@ -110,7 +111,7 @@ public class AutoBuild extends Module {
 					new PlaceOperationBlueprint(2, 3, 0, Block.OBSIDIAN.id)));
 
 	private OperationList current = null;
-	private HitResult ray = null;
+	private BlockHitResult ray = null;
 	private boolean active = false;
 
 	public AutoBuild() {
@@ -132,10 +133,10 @@ public class AutoBuild extends Module {
 	public void onTick(EventTick event) {
 		if (!active) {
 			ray = mc.field_3805.method_6105(40, ((AccessorMinecraftClient) mc).getTricker().tickDelta);
-			if (ray == null || ray.type != class_235.field_602)
+			if (ray == null || ray.field_595 != HitResultType.TILE)
 				return;
 			
-			Direction dir = Direction.values()[ray.field_599];
+			Direction dir = Direction.values()[ray.side];
 
 			if (dir.getOffsetY() != 0) {
 				dir = Math.abs(ray.x - (int) mc.field_3805.x) > Math.abs(ray.z - (int) mc.field_3805.z)
@@ -143,7 +144,7 @@ public class AutoBuild extends Module {
 								: ray.z - (int) mc.field_3805.z > 0 ? Direction.SOUTH : Direction.NORTH;
 			}
 
-			current = OperationList.create(BLUEPRINTS.get(getSetting(0).asMode().getMode()), new BlockPos(ray.x, ray.y, ray.z).offset(Direction.values()[ray.field_599]), dir);
+			current = OperationList.create(BLUEPRINTS.get(getSetting(0).asMode().getMode()), new BlockPos(ray.x, ray.y, ray.z).offset(Direction.values()[ray.side]), dir);
 
 			if (mc.currentScreen == null && (Mouse.isButtonDown(0) || Mouse.isButtonDown(1))) {
 				active = true;
@@ -174,7 +175,7 @@ public class AutoBuild extends Module {
 		if (ray != null && !active) {
 			BlockPos pos = new BlockPos(ray.x, ray.y, ray.z);
 
-			Renderer.drawBoxFill(pos, QuadColor.single(1f, 1f, 0f, 0.3f), ArrayUtils.remove(Direction.values(), ray.field_599));
+			Renderer.drawBoxFill(pos, QuadColor.single(1f, 1f, 0f, 0.3f), ArrayUtils.remove(Direction.values(), ray.side));
 		}
 	}
 

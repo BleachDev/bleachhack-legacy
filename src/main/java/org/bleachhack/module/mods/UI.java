@@ -8,16 +8,16 @@
  */
 package org.bleachhack.module.mods;
 
-import net.minecraft.class_482;
-import net.minecraft.class_720;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.class_482;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.render.GuiLighting;
+import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.Window;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -272,8 +272,8 @@ public class UI extends Module {
 		// Durability
 		ItemStack mainhand = mc.field_3805.getMainHandStack();
 		if (mainhand != null && mainhand.isDamageable()) {
-			int durability = mainhand.hasTag() && mainhand.getTag().contains("dmg")
-					? NumberUtils.toInt(mainhand.getTag().get("dmg").method_1653()) : mainhand.getMaxDamage() - mainhand.getDamage();
+			int durability = mainhand.hasNbt() && mainhand.getNbt().contains("dmg")
+					? NumberUtils.toInt(mainhand.getNbt().get("dmg").getName()) : mainhand.getMaxDamage() - mainhand.getDamage();
 
 			durabilityText = "Durability: \u00a7f" + Integer.toString(durability);
 		} else {
@@ -458,7 +458,7 @@ public class UI extends Module {
 			int curX = vertical ? x : x + count * 19;
 			int curY = vertical ? y + 47 - count * 16 : y;
 			new ItemRenderer().method_5764(mc.textRenderer, mc.getTextureManager(), is, curX, curY);
-			GuiLighting.disable();
+			DiffuseLighting.disable();
 
 			int durcolor = is.isDamageable() ? 0xff000000 | hsvToRgb((float) (is.getMaxDamage() - is.getDamage()) / is.getMaxDamage() / 3.0F, 1.0F, 1.0F) : 0;
 
@@ -503,7 +503,7 @@ public class UI extends Module {
 				int offsetY = y + 1 + (i / 9) * 17;
 				new ItemRenderer().method_5764(mc.textRenderer, mc.getTextureManager(), itemStack, offsetX, offsetY);
 				new ItemRenderer().method_1549(mc.textRenderer, mc.getTextureManager(), itemStack, offsetX, offsetY);
-				GuiLighting.disable();
+				DiffuseLighting.disable();
 			}
 		}
 	}
@@ -512,7 +512,7 @@ public class UI extends Module {
 	public void readPacket(EventPacket.Read event) {
 		lastPacket = System.currentTimeMillis();
 
-		if (event.getPacket() instanceof class_720) {
+		if (event.getPacket() instanceof WorldTimeUpdateS2CPacket) {
 			long time = System.currentTimeMillis();
 			long timeOffset = Math.abs(1000 - (time - prevTime)) + 1000;
 			tps = Math.round(Math.min(Math.max(20 / (timeOffset / 1000d), 0), 20) * 100d) / 100d;

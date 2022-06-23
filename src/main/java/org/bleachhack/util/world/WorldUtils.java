@@ -12,13 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import net.minecraft.network.class_645;
+import net.minecraft.util.hit.BlockHitResult;
 import org.bleachhack.setting.module.SettingRotate;
 import org.bleachhack.util.BlockPos;
 import org.bleachhack.util.InventoryUtils;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.class_645;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.client.MinecraftClient;
@@ -26,7 +27,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.class_699;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
@@ -43,7 +43,7 @@ public class WorldUtils {
 	public static List<Chunk> getLoadedChunks() {
 		List<Chunk> chunks = new ArrayList<>();
 
-		int viewDist = mc.options.field_974;
+		int viewDist = mc.options.renderDistance;
 
 		for (int x = -viewDist; x <= viewDist; x++) {
 			for (int z = -viewDist; z <= viewDist; z++) {
@@ -183,7 +183,7 @@ public class WorldUtils {
 					continue;
 
 				if (raycast) {
-					HitResult ray = mc.world.rayTrace(eyePos, lookPos);
+					BlockHitResult ray = mc.world.rayTrace(eyePos, lookPos);
 					if (ray != null) {
 						Vec3d r = ray.pos;
 						if (r.x == lookPos.x && r.y == lookPos.y && r.z == lookPos.z) {

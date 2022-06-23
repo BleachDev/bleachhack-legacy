@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.bleachhack.util.BleachLogger;
 import org.bleachhack.util.shader.gl.GlShader.FileType;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -26,7 +25,6 @@ import net.minecraft.util.Identifier;
 
 @SuppressWarnings("unused")
 public class JsonGlProgram {
-    private static final Logger LOGGER;
     private static final GlShaderUniform UNIFORM;
     private static JsonGlProgram activeProgram;
     private static int activeProgramRef;
@@ -235,7 +233,7 @@ public class JsonGlProgram {
             String string4 = this.samplerNames.get(i);
             int integer5 = GLX.gl20GetUniformLocation(this.programRef, string4);
             if (integer5 == -1) {
-                JsonGlProgram.LOGGER.warn("Shader " + this.name + "could not find sampler named " + string4 + " in the specified shader program.");
+                BleachLogger.logger.warn("Shader " + this.name + "could not find sampler named " + string4 + " in the specified shader program.");
                 this.samplerBinds.remove(string4);
                 this.samplerNames.remove(n);
                 --n;
@@ -248,7 +246,7 @@ public class JsonGlProgram {
             String string4 = class_1877.getName();
             int integer5 = GLX.gl20GetUniformLocation(this.programRef, string4);
             if (integer5 == -1) {
-                JsonGlProgram.LOGGER.warn("Could not find uniform named " + string4 + " in the specified" + " shader program.");
+                BleachLogger.logger.warn("Could not find uniform named " + string4 + " in the specified" + " shader program.");
             }
             else {
                 this.uniformLocs.add(integer5);
@@ -331,7 +329,6 @@ public class JsonGlProgram {
     }
     
     static {
-        LOGGER = LogManager.getLogger();
         UNIFORM = new GlShaderUniform();
         JsonGlProgram.activeProgram = null;
         JsonGlProgram.activeProgramRef = -1;

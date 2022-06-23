@@ -113,9 +113,9 @@ public class ESP extends Module {
 						lastFbo = color[3];
 					}
 
-					EntityRenderer er = EntityRenderDispatcher.field_2094.method_1519(e);
+					EntityRenderer er = EntityRenderDispatcher.field_2094.getRenderer(e);
 					if (er != null)
-						er.render(e, var3 - EntityRenderDispatcher.field_2095, var5 - EntityRenderDispatcher.field_2096, var7 - EntityRenderDispatcher.field_2097, var9, f);
+						er.render(e, var3 - EntityRenderDispatcher.cameraX, var5 - EntityRenderDispatcher.cameraY, var7 - EntityRenderDispatcher.cameraZ, var9, f);
 				}
 			}
 

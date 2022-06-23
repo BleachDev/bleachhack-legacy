@@ -18,7 +18,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.render.GuiLighting;
+import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.item.BlockItem;
@@ -91,12 +91,12 @@ public class Window {
 			GL11.glPushMatrix();
 			GL11.glScalef(0.5f, 0.5f, 1f);
 			new ItemRenderer().method_5764(MinecraftClient.getInstance().textRenderer, MinecraftClient.getInstance().getTextureManager(), icon, (x1 + (blockItem ? 3 : 2)) * 2, (y1 + 2) * 2);
-			GuiLighting.disable();
+			DiffuseLighting.disable();
 			GL11.glPopMatrix();
 		}
 
 		/* window title */
-		textRend.method_4246(title,
+		textRend.draw(title,
 				x1 + (icon == null || icon == null ? 4 : (blockItem ? 15 : 14)), y1 + 3, -1, true);
 	}
 

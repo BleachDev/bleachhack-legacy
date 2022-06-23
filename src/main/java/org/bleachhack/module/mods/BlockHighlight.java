@@ -10,13 +10,13 @@ package org.bleachhack.module.mods;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.class_535;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.texture.SpriteAtlasTexture;
-import net.minecraft.class_235;
-import net.minecraft.class_535;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.HitResultType;
 import net.minecraft.util.math.Box;
 import java.io.IOException;
 import org.bleachhack.event.events.EventRenderBlockOutline;
@@ -80,7 +80,7 @@ public class BlockHighlight extends Module {
 	public void onWorldRender(EventWorldRender.Post event) {
 		int mode = getSetting(0).asMode().getMode();
 
-		if (mc.result == null || mc.result.type != class_235.field_602 || mc.world.isAir(mc.result.x, mc.result.y, mc.result.z))
+		if (mc.result == null || mc.result.field_595 != HitResultType.TILE || mc.world.isAir(mc.result.x, mc.result.y, mc.result.z))
 			return;
 
 		Block block = Block.BLOCKS[mc.world.getBlock(mc.result.x, mc.result.y, mc.result.z)];
@@ -92,19 +92,19 @@ public class BlockHighlight extends Module {
 			shader.getShader().getSecondaryTarget("in").bind(false);
 
 			BlockEntity be = mc.world.method_3781(mc.result.x, mc.result.y, mc.result.z);
-			BlockEntityRenderer renderer = be != null ? BlockEntityRenderDispatcher.INSTANCE.method_1630(be) : null;
+			BlockEntityRenderer renderer = be != null ? BlockEntityRenderDispatcher.INSTANCE.render(be) : null;
 			if (renderer != null) {
 				renderer.method_1631(be,
-						mc.result.x - BlockEntityRenderDispatcher.field_2189,
-						mc.result.y - BlockEntityRenderDispatcher.field_2190,
-						mc.result.z - BlockEntityRenderDispatcher.field_2191,
+						mc.result.x - BlockEntityRenderDispatcher.CAMERA_X,
+						mc.result.y - BlockEntityRenderDispatcher.CAMERA_Y,
+						mc.result.z - BlockEntityRenderDispatcher.CAMERA_Z,
 						((AccessorMinecraftClient) mc).getTricker().tickDelta);
 			} else {
 				GL11.glPushMatrix();
 				GL11.glTranslated(
-						mc.result.x - BlockEntityRenderDispatcher.field_2189 + 0.5,
-						mc.result.y - BlockEntityRenderDispatcher.field_2190 + 0.5,
-						mc.result.z - BlockEntityRenderDispatcher.field_2191 + 0.5);
+						mc.result.x - BlockEntityRenderDispatcher.CAMERA_X + 0.5,
+						mc.result.y - BlockEntityRenderDispatcher.CAMERA_Y + 0.5,
+						mc.result.z - BlockEntityRenderDispatcher.CAMERA_Z + 0.5);
 				class_535 rend = new class_535();
 				EntityRenderDispatcher.field_2094.textureManager.bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
 				rend.method_4320(block);

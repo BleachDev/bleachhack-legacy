@@ -98,7 +98,7 @@ public class AutoFarm extends Module {
 				}
 			}
 
-			if (plantSetting.getState() && mc.world.method_4685(LivingEntity.class, pos.up().toBox(), e -> e instanceof LivingEntity && e.isAlive()).isEmpty()) {
+			if (plantSetting.getState() && mc.world.getEntitiesInBox(LivingEntity.class, pos.up().toBox(), e -> e instanceof LivingEntity && e.isAlive()).isEmpty()) {
 				if (block instanceof FarmlandBlock && mc.world.isAir(pos.getX(), pos.getY() + 1, pos.getZ())) {
 					int slot = InventoryUtils.getSlot(i -> {
 						ItemStack is = mc.field_3805.inventory.getInvStack(i);

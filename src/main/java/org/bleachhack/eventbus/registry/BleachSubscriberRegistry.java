@@ -2,7 +2,7 @@ package org.bleachhack.eventbus.registry;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
 import org.bleachhack.event.Event;
 
 public abstract class BleachSubscriberRegistry {

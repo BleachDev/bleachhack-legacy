@@ -8,7 +8,7 @@
  */
 package org.bleachhack.command.commands;
 
-import net.minecraft.class_482;
+import net.minecraft.client.class_482;
 import org.bleachhack.BleachHack;
 import org.bleachhack.command.Command;
 import org.bleachhack.command.CommandCategory;

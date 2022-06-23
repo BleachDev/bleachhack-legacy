@@ -8,6 +8,7 @@
  */
 package org.bleachhack.mixin;
 
+import net.minecraft.client.sound.SoundLoader;
 import org.bleachhack.BleachHack;
 import org.bleachhack.event.events.EventSoundPlay;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,9 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.class_623;
-
-@Mixin(class_623.class)
+@Mixin(SoundLoader.class)
 public class MixinSoundPlayer {
 
 	@Inject(method = "method_5994(Ljava/lang/String;)V", at = @At("HEAD"), cancellable = true)

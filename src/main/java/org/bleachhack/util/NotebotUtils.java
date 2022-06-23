@@ -187,7 +187,7 @@ public class NotebotUtils {
 			synthesizer.open();
 			javax.sound.midi.Instrument[] instruments = synthesizer.getDefaultSoundbank().getInstruments();
 			for (javax.sound.midi.Instrument i : instruments)
-				BleachLogger.logger.info(i);
+				BleachLogger.logger.info(i.toString());
 
 			synthesizer.close();
 

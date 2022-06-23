@@ -8,16 +8,15 @@
  */
 package org.bleachhack.module.mods;
 
+import net.minecraft.network.packet.s2c.play.EntityVelocityChangeS2CPacket;
+import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 import org.bleachhack.event.events.EventPacket;
 import org.bleachhack.eventbus.BleachSubscribe;
-import org.bleachhack.mixin.AccessorClass_667;
+import org.bleachhack.mixin.AccessorExplosionS2CPacket;
 import org.bleachhack.module.Module;
 import org.bleachhack.module.ModuleCategory;
 import org.bleachhack.setting.module.SettingSlider;
 import org.bleachhack.setting.module.SettingToggle;
-
-import net.minecraft.class_667;
-import net.minecraft.class_714;
 
 public class NoVelocity extends Module {
 
@@ -37,8 +36,8 @@ public class NoVelocity extends Module {
 		if (mc.field_3805 == null)
 			return;
 
-		if (event.getPacket() instanceof class_714 && getSetting(0).asToggle().getState()) {
-			class_714 packet = (class_714) event.getPacket();
+		if (event.getPacket() instanceof EntityVelocityChangeS2CPacket && getSetting(0).asToggle().getState()) {
+			EntityVelocityChangeS2CPacket packet = (EntityVelocityChangeS2CPacket) event.getPacket();
 			if (packet.id == mc.field_3805.id) {
 				double velXZ = getSetting(0).asToggle().getChild(0).asSlider().getValue() / 100;
 				double velY = getSetting(0).asToggle().getChild(1).asSlider().getValue() / 100;
@@ -51,9 +50,9 @@ public class NoVelocity extends Module {
 				packet.velocityY = (int) (pvelY * 8000 + mc.field_3805.velocityY * 8000);
 				packet.velocityZ = (int) (pvelZ * 8000 + mc.field_3805.velocityZ * 8000);
 			}
-		} else if (event.getPacket() instanceof class_667 && getSetting(1).asToggle().getState()) {
-			class_667 packet = (class_667) event.getPacket();
-			AccessorClass_667 apacket = (AccessorClass_667) packet;
+		} else if (event.getPacket() instanceof ExplosionS2CPacket && getSetting(1).asToggle().getState()) {
+			ExplosionS2CPacket packet = (ExplosionS2CPacket) event.getPacket();
+			AccessorExplosionS2CPacket apacket = (AccessorExplosionS2CPacket) packet;
 
 			double velXZ = getSetting(1).asToggle().getChild(0).asSlider().getValue() / 100;
 			double velY = getSetting(1).asToggle().getChild(1).asSlider().getValue() / 100;

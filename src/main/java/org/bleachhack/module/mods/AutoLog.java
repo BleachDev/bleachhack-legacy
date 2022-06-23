@@ -100,7 +100,7 @@ public class AutoLog extends Module {
 				int attackDamage = (int) DamageUtils.getAttackDamage(player, mc.field_3805);
 
 				if (player.distanceTo(mc.field_3805) <= 6 && attackDamage >= playerHealth) {
-					return "[AutoLog] " + player.method_3334() + " could kill you (dealing " + attackDamage + " damage).";
+					return "[AutoLog] " + player.getUsername() + " could kill you (dealing " + attackDamage + " damage).";
 				}
 			}
 		}
@@ -125,7 +125,7 @@ public class AutoLog extends Module {
 				}
 
 				if (player.distanceTo(mc.field_3805) <= range) {
-					return "[AutoLog] " + player.method_3334() + " appeared " + (int) player.distanceTo(mc.field_3805) + " blocks away.";
+					return "[AutoLog] " + player.getUsername() + " appeared " + (int) player.distanceTo(mc.field_3805) + " blocks away.";
 				}
 			}
 		}

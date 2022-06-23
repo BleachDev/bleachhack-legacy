@@ -21,7 +21,7 @@ public class MixinBossBar {
 	public static void update(BossBarProvider provider, boolean darkenSky) {
 	      BossBar.percent = provider.getHealth() / provider.getMaxHealth();
 	      BossBar.framesToLive = 100;
-	      BossBar.name = ((Entity) provider).method_5381();
+	      BossBar.name = ((Entity) provider).getLocalisationKey();
 	      BossBar.darkenSky = darkenSky;
 	}
 }

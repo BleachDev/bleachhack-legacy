@@ -15,7 +15,6 @@ import net.fabricmc.api.ModInitializer;
 
 import java.util.concurrent.CompletableFuture;
 
-import org.apache.logging.log4j.Level;
 import org.bleachhack.command.CommandManager;
 import org.bleachhack.command.CommandSuggestor;
 import org.bleachhack.eventbus.BleachEventBus;
@@ -78,7 +77,7 @@ public class BleachHack implements ModInitializer {
 			BleachTitleScreen.customTitleScreen = false;
 		}
 
-		BleachLogger.logger.log(Level.INFO, "Loaded BleachHack (Phase 1) in %d ms.", System.currentTimeMillis() - initStartTime);
+		BleachLogger.logger.info("Loaded BleachHack (Phase 1) in %d ms.", System.currentTimeMillis() - initStartTime);
 	}
 
 	// Phase 2
@@ -99,7 +98,7 @@ public class BleachHack implements ModInitializer {
 
 		BleachFileHelper.startSavingExecutor();
 
-		BleachLogger.logger.log(Level.INFO, "Loaded BleachHack (Phase 2) in %d ms.", System.currentTimeMillis() - initStartTime);
+		BleachLogger.logger.info("Loaded BleachHack (Phase 2) in %d ms.", System.currentTimeMillis() - initStartTime);
 	}
 
 	public static JsonObject getUpdateJson() {

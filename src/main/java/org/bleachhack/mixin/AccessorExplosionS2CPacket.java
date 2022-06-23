@@ -8,13 +8,12 @@
  */
 package org.bleachhack.mixin;
 
+import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-import net.minecraft.class_667;
-
-@Mixin(class_667.class)
-public interface AccessorClass_667 {
+@Mixin(ExplosionS2CPacket.class)
+public interface AccessorExplosionS2CPacket {
 
 	@Accessor
 	public abstract void setPlayerVelocityX(float value);

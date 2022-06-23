@@ -8,17 +8,16 @@
  */
 package org.bleachhack.util;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.bleachhack.BleachHack;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Formatting;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BleachLogger {
 
-	public static final Logger logger = LogManager.getFormatterLogger("BleachHack");
+	public static final Logger logger = LoggerFactory.getLogger("BleachHack");
 
 	public static Formatting INFO_COLOR = Formatting.AQUA;
 	public static Formatting WARN_COLOR = Formatting.YELLOW;
@@ -30,7 +29,7 @@ public class BleachLogger {
 		try {
 			MinecraftClient.getInstance().inGameHud.getChatHud().method_898(getBHText(INFO_COLOR) + t);
 		} catch (Exception e) {
-			logger.log(Level.INFO, t);
+			logger.info(t);
 		}
 	}
 	
@@ -40,7 +39,7 @@ public class BleachLogger {
 		try {
 			MinecraftClient.getInstance().inGameHud.getChatHud().method_898(getBHText(WARN_COLOR) + t);
 		} catch (Exception e) {
-			logger.log(Level.WARN, t);
+			logger.warn(t);
 		}
 	}
 	
@@ -50,7 +49,7 @@ public class BleachLogger {
 		try {
 			MinecraftClient.getInstance().inGameHud.getChatHud().method_898(getBHText(ERROR_COLOR) + t);
 		} catch (Exception e) {
-			logger.log(Level.ERROR, t);
+			logger.error(t);
 		}
 	}
 	
@@ -58,7 +57,7 @@ public class BleachLogger {
 		try {
 			MinecraftClient.getInstance().inGameHud.getChatHud().method_898(text);
 		} catch (Exception e) {
-			logger.log(Level.INFO, text);
+			logger.info(text);
 		}
 	}
 

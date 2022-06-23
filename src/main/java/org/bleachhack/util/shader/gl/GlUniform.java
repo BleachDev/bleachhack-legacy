@@ -3,13 +3,11 @@ package org.bleachhack.util.shader.gl;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.bleachhack.util.BleachLogger;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.util.vector.Matrix4f;
 
 public class GlUniform {
-    private static final Logger LOGGER = LogManager.getLogger();
     public int loc;
     private final int count;
     private final int dataType;
@@ -140,7 +138,7 @@ public class GlUniform {
     
     public void method_6984(float[] arr) {
         if (arr.length < this.count) {
-            GlUniform.LOGGER.warn("Uniform.set called with a too-small value array (expected " + this.count + ", got " + arr.length + "). Ignoring.");
+            BleachLogger.logger.warn("Uniform.set called with a too-small value array (expected " + this.count + ", got " + arr.length + "). Ignoring.");
             return;
         }
         this.floatData.position(0);
@@ -185,7 +183,7 @@ public class GlUniform {
         }
         else {
             if (this.dataType > 10) {
-                GlUniform.LOGGER.warn("Uniform.upload called, but type value (" + this.dataType + ") is not " + "a valid type. Ignoring.");
+                BleachLogger.logger.warn("Uniform.upload called, but type value (" + this.dataType + ") is not " + "a valid type. Ignoring.");
                 return;
             }
             this.uploadMatrix();
@@ -211,7 +209,7 @@ public class GlUniform {
                 break;
             }
             default: {
-                GlUniform.LOGGER.warn("Uniform.upload called, but count value (" + this.count + ") is " + " not in the range of 1 to 4. Ignoring.");
+                BleachLogger.logger.warn("Uniform.upload called, but count value (" + this.count + ") is " + " not in the range of 1 to 4. Ignoring.");
                 break;
             }
         }
@@ -236,7 +234,7 @@ public class GlUniform {
                 break;
             }
             default: {
-                GlUniform.LOGGER.warn("Uniform.upload called, but count value (" + this.count + ") is " + "not in the range of 1 to 4. Ignoring.");
+                BleachLogger.logger.warn("Uniform.upload called, but count value (" + this.count + ") is " + "not in the range of 1 to 4. Ignoring.");
                 break;
             }
         }

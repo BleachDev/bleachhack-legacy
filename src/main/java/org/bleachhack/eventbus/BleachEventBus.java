@@ -1,6 +1,6 @@
 package org.bleachhack.eventbus;
 
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
 import org.bleachhack.event.Event;
 import org.bleachhack.eventbus.registry.BleachSubscriberRegistry;
 

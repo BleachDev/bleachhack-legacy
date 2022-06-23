@@ -44,7 +44,7 @@ public class WindowButtonWidget extends WindowWidget {
 				colorTop, colorBottom,
 				isInBounds(windowX, windowY, mouseX, mouseY) ? colorHoverFill : colorFill);
 
-		mc.textRenderer.method_4246(
+		mc.textRenderer.draw(
 				text, bx1 + (bx2 - bx1) / 2 - mc.textRenderer.getStringWidth(text) / 2, by1 + (by2 - by1) / 2 - 4, -1, true);
 	}
 

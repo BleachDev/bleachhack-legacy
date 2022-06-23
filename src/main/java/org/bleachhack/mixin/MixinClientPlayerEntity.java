@@ -8,16 +8,16 @@
  */
 package org.bleachhack.mixin;
 
+import net.minecraft.client.class_469;
+import net.minecraft.entity.player.ClientPlayerEntity;
+import net.minecraft.entity.player.class_481;
+import net.minecraft.network.class_645;
 import org.bleachhack.BleachHack;
 import org.bleachhack.event.events.EventSwingHand;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import net.minecraft.class_469;
-import net.minecraft.class_481;
-import net.minecraft.class_645;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.Session;
 import net.minecraft.world.World;
 

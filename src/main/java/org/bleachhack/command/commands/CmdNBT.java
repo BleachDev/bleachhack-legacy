@@ -8,6 +8,7 @@
  */
 package org.bleachhack.command.commands;
 
+import net.minecraft.util.hit.BlockHitResult;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bleachhack.command.Command;
@@ -22,9 +23,7 @@ import com.google.common.io.ByteStreams;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.nbt.NbtCompound;
 
 public class CmdNBT extends Command {
 
@@ -43,7 +42,7 @@ public class CmdNBT extends Command {
 				throw new CmdSyntaxException();
 			}
 
-			CompoundTag nbt = getNbt(args[1]);
+			NbtCompound nbt = getNbt(args[1]);
 
 			if (nbt != null) {
 				String stringNbt = nbt.toString();
@@ -54,7 +53,7 @@ public class CmdNBT extends Command {
 				throw new CmdSyntaxException();
 			}
 
-			CompoundTag nbt = getNbt(args[1]);
+			NbtCompound nbt = getNbt(args[1]);
 
 			if (nbt != null) {
 				Screen.setClipboard(nbt.toString());
@@ -71,44 +70,44 @@ public class CmdNBT extends Command {
 			}
 
 			ItemStack item = mc.field_3805.getMainHandStack();
-			item.setTag((CompoundTag) Tag.method_1652(ByteStreams.newDataInput(StringUtils.join(ArrayUtils.subarray(args, 1, args.length), ' ').getBytes())));
-			BleachLogger.info("\u00a76Set NBT of " + item.getName() + " to\n" + BleachJsonHelper.formatJson(item.getTag().toString()));
+			item.setNbt((NbtCompound) NbtCompound.readNbt(ByteStreams.newDataInput(StringUtils.join(ArrayUtils.subarray(args, 1, args.length), ' ').getBytes())));
+			BleachLogger.info("\u00a76Set NBT of " + item.getName() + " to\n" + BleachJsonHelper.formatJson(item.getNbt().toString()));
 		} else if (args[0].equalsIgnoreCase("wipe")) {
 			if (!mc.interactionManager.hasCreativeInventory()) {
 				BleachLogger.error("You must be in creative mode to wipe NBT!");
 				return;
 			}
 
-			mc.field_3805.getMainHandStack().setTag(new CompoundTag());
+			mc.field_3805.getMainHandStack().setNbt(new NbtCompound());
 		} else {
 			throw new CmdSyntaxException();
 		}
 	}
 
-	private CompoundTag getNbt(String arg) {
+	private NbtCompound getNbt(String arg) {
 		if (arg.equalsIgnoreCase("hand")) {
-			return mc.field_3805.getMainHandStack().getTag();
+			return mc.field_3805.getMainHandStack().getNbt();
 		} else if (arg.equalsIgnoreCase("block")) {
-			HitResult target = mc.result;
+			BlockHitResult target = mc.result;
 			if (target.pos == null) {
 				BlockPos pos = new BlockPos(target.pos);
 				BlockEntity b = mc.world.method_3781(pos.getX(), pos.getY(), pos.getZ());
 
 				if (b != null) {
-					CompoundTag c = new CompoundTag();
-					b.toTag(c);
+					NbtCompound c = new NbtCompound();
+					b.toNbt(c);
 					return c;
 				} else {
-					return new CompoundTag();
+					return new NbtCompound();
 				}
 			}
 
 			BleachLogger.error("Not looking at a block.");
 			return null;
 		} else if (arg.equalsIgnoreCase("entity")) {
-			HitResult target = mc.result;
+			BlockHitResult target = mc.result;
 			if (target.entity != null) {
-				CompoundTag c = new CompoundTag();
+				NbtCompound c = new NbtCompound();
 				target.entity.writePlayerData(c);
 				return c;
 			}

@@ -22,8 +22,8 @@ import org.bleachhack.util.BleachLogger;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.Formatting;
 
 public class CmdEnchant extends Command {
@@ -41,14 +41,14 @@ public class CmdEnchant extends Command {
 		enchantments.put(new String[] { "flame" }, Enchantment.FLAME);
 		enchantments.put(new String[] { "fortune" }, Enchantment.FORTUNE);
 		enchantments.put(new String[] { "infinity" }, Enchantment.INIFINITY);
-		enchantments.put(new String[] { "knockback", "knock" }, Enchantment.field_4465);
+		enchantments.put(new String[] { "knockback", "knock" }, Enchantment.KNOCK_BACK);
 		enchantments.put(new String[] { "looting", "loot" }, Enchantment.LOOTING);
 		enchantments.put(new String[] { "loyalty" }, Enchantment.LOOTING);
 		enchantments.put(new String[] { "power" }, Enchantment.POWER);
 		enchantments.put(new String[] { "projectile_prot", "proj_prot" }, Enchantment.field_4459);
 		enchantments.put(new String[] { "protection", "prot" }, Enchantment.field_4455);
 		enchantments.put(new String[] { "punch" }, Enchantment.PUNCH);
-		enchantments.put(new String[] { "respiration", "resp" }, Enchantment.field_4460);
+		enchantments.put(new String[] { "respiration", "resp" }, Enchantment.RESPIRATION_);
 		enchantments.put(new String[] { "sharpness", "sharp" }, Enchantment.field_4462);
 		enchantments.put(new String[] { "silk_touch", "silk" }, Enchantment.SILK_TOUCH);
 		enchantments.put(new String[] { "smite" }, Enchantment.field_4463);
@@ -112,14 +112,14 @@ public class CmdEnchant extends Command {
 			throw new CmdSyntaxException("Invalid enchantment!");
 		}
 
-		if (item.hasTag())
-			item.setTag(new CompoundTag());
-		if (!item.getTag().contains("Enchantments")) {
-			item.getTag().put("Enchantments", new ListTag());
+		if (item.hasNbt())
+			item.setNbt(new NbtCompound());
+		if (!item.getNbt().contains("Enchantments")) {
+			item.getNbt().put("Enchantments", new NbtList());
 		}
 
-		ListTag listnbt = item.getTag().method_832("Enchantments");
-		CompoundTag compoundnbt = new CompoundTag();
+		NbtList listnbt = item.getNbt().getList("Enchantments");
+		NbtCompound compoundnbt = new NbtCompound();
 		compoundnbt.putString("id", String.valueOf(e.id));
 		compoundnbt.putInt("lvl", level);
 		listnbt.method_1217(compoundnbt);

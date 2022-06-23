@@ -9,7 +9,7 @@
 package org.bleachhack.gui;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.render.GuiLighting;
+import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.StringUtils;
@@ -133,7 +133,7 @@ public class NotebotScreen extends WindowScreen {
 						new ItemRenderer().method_5764(client.textRenderer, client.getTextureManager(), new ItemStack(Block.PLANKS), x + w - w / 4 + 55, y + 46 + c2 * 10);
 					c2++;
 
-					GuiLighting.disable();
+					DiffuseLighting.disable();
 				}
 
 				fillButton(x + w - w / 2 + 10, y + h - 15, x + w - w / 4, y + h - 5, 0xff903030, 0xff802020, mouseX, mouseY);

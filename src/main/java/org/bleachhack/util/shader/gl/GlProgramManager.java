@@ -1,10 +1,10 @@
 package org.bleachhack.util.shader.gl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.bleachhack.util.BleachLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GlProgramManager {
-    private static final Logger LOGGER = LogManager.getLogger();
     private static GlProgramManager instance = new GlProgramManager();
 
     public static GlProgramManager getInstance() {
@@ -34,8 +34,8 @@ public class GlProgramManager {
         GLX.gl20LinkProgram(program.getProgramRef());
         int n = GLX.gl20GetProgrami(program.getProgramRef(), GLX.linkStatus);
         if (n == 0) {
-            LOGGER.warn("Error encountered when linking program containing VS " + program.getVsh().getName() + " and FS " + program.getFsh().getName() + ". Log output:");
-            LOGGER.warn(GLX.gl20GetProgramInfoLog(program.getProgramRef(), 32768));
+            BleachLogger.logger.warn("Error encountered when linking program containing VS " + program.getVsh().getName() + " and FS " + program.getFsh().getName() + ". Log output:");
+            BleachLogger.logger.warn(GLX.gl20GetProgramInfoLog(program.getProgramRef(), 32768));
         }
     }
 }

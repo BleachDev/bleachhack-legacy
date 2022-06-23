@@ -11,8 +11,8 @@ package org.bleachhack.command.commands;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtCompound;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bleachhack.command.Command;
 import org.bleachhack.command.CommandCategory;
@@ -65,7 +65,7 @@ public class CmdGive extends Command {
 		if (args.length >= 3 && NumberUtils.isNumber(args[2]))
 			item.count = NumberUtils.createNumber(args[2]).intValue();
 		if (args.length >= 4)
-			item.setTag((CompoundTag) Tag.method_1652(ByteStreams.newDataInput(args[3].getBytes(StandardCharsets.UTF_8))));
+			item.setNbt((NbtCompound) NbtCompound.readNbt(ByteStreams.newDataInput(args[3].getBytes(StandardCharsets.UTF_8))));
 
 		mc.field_3805.inventory.insertStack(item);
 	}

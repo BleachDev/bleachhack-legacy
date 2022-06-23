@@ -8,7 +8,7 @@
  */
 package org.bleachhack.module.mods;
 
-import net.minecraft.class_482;
+import net.minecraft.client.class_482;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -91,7 +91,7 @@ public class Nametags extends Module {
 			Vec3d inPos = Renderer.getInterpolationOffset(entity);
 			Vec3d rPos = Vec3d.method_604(entity.x - inPos.x, entity.boundingBox.maxY + 0.25 - inPos.y, entity.z - inPos.z);
 
-			Vec3d camera = Vec3d.method_604(EntityRenderDispatcher.field_2095, EntityRenderDispatcher.field_2096, EntityRenderDispatcher.field_2097);
+			Vec3d camera = Vec3d.method_604(EntityRenderDispatcher.cameraX, EntityRenderDispatcher.cameraY, EntityRenderDispatcher.cameraZ);
 			double dist = entity.distanceTo(camera.x, camera.y, camera.z) / 20;
 
 			if (entity instanceof PlayerEntity && getSetting(1).asToggle().getState()) {
@@ -181,7 +181,7 @@ public class Nametags extends Module {
 		List<String> mainText = new ArrayList<>();
 
 		class_482 playerEntry = ((List<class_482>) mc.field_3805.field_1667.field_1618).stream()
-				.filter(e -> e.field_1679.equals(player.method_3334()))
+				.filter(e -> e.field_1679.equals(player.getUsername()))
 				.findFirst().orElse(null);
 
 		if (getSetting(1).asToggle().getChild(4).asToggle().getState() && playerEntry != null) { // Ping
@@ -189,7 +189,7 @@ public class Nametags extends Module {
 		}
 
 		if (getSetting(1).asToggle().getChild(2).asToggle().getState()) { // Name
-			mainText.add((BleachHack.friendMang.has(player) ? Formatting.AQUA : Formatting.RED) + player.method_3334());
+			mainText.add((BleachHack.friendMang.has(player) ? Formatting.AQUA : Formatting.RED) + player.getUsername());
 		}
 
 		if (getSetting(1).asToggle().getChild(3).asToggle().getState()) { // Health

@@ -161,7 +161,7 @@ public class Renderer {
 		//GL11.glRotatef(camera.pitch, 0f, 0f, 1f);
 		//GL11.glRotatef(camera.yaw + 180.0F, 1f, 0f, 0f);
 
-		GL11.glTranslated(x - EntityRenderDispatcher.field_2095, y - EntityRenderDispatcher.field_2096, z - EntityRenderDispatcher.field_2097);
+		GL11.glTranslated(x - EntityRenderDispatcher.cameraX, y - EntityRenderDispatcher.cameraY, z - EntityRenderDispatcher.cameraZ);
 	}
 
 	public static Vec3d getInterpolationOffset(Entity e) {

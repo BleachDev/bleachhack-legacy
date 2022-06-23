@@ -8,6 +8,7 @@
  */
 package org.bleachhack.mixin;
 
+import net.minecraft.world.BlockView;
 import org.bleachhack.module.ModuleManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -16,12 +17,11 @@ import net.minecraft.block.AbstractFluidBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
 
 @Mixin(AbstractFluidBlock.class)
 public class MixinAbstractFluidBlock {
 	
-	@Shadow private Vec3d method_333(WorldView worldView, int i, int j, int k) { return null; }
+	@Shadow private Vec3d method_333(BlockView worldView, int i, int j, int k) { return null; }
 
 	@Overwrite
 	public void method_418(World world, int i, int j, int k, Entity entity, Vec3d vec3d) {

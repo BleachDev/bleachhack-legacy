@@ -2,7 +2,7 @@ package org.bleachhack.setting.option;
 
 import java.util.stream.Stream;
 
-import org.apache.logging.log4j.core.util.ReflectionUtil;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.bleachhack.gui.window.widget.WindowWidget;
 import org.bleachhack.setting.Setting;
 import org.bleachhack.setting.SettingDataHandler;
@@ -21,7 +21,7 @@ public abstract class Option<T> extends Setting<T> {
 
 	public static final Option<?>[] OPTIONS = Stream.of(Option.class.getDeclaredFields())
 			.filter(f -> Option.class.isAssignableFrom(f.getType()))
-			.map(ReflectionUtil::getStaticFieldValue)
+			.map(f -> { try { return f.get(null); } catch (IllegalAccessException e) { throw new RuntimeException(e); }})
 			.toArray(Option[]::new);
 
 	public Option(String name, String tooltip, T value, SettingDataHandler<T> handler) {
