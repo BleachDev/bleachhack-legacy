@@ -4,7 +4,7 @@ BleachHack for older versions (for some reason)
 
 ## Installation
 
-To install, first install [Fabric Legacy](https://ftb.fandom.com/wiki/Legacy_Fabric) then download a built BH version from the [actions section](https://github.com/BleachDrinker420/bleachhack-legacy/actions/) and add it to your mods folder. 
+To install, first install [Fabric Legacy](https://legacyfabric.net/) then download a built BH version from the [actions section](https://github.com/BleachDev/bleachhack-legacy/actions/) and add it to your mods folder. 
 
 ## Develop
 
@@ -14,4 +14,4 @@ https://fabricmc.net/wiki/tutorial:setup
 
 ## License
 
-If you are distributing a custom version of BleachHack or a mod with ported features of BleachHack, you are **required** to disclose the source code, state changes, use a compatible license, and follow the [license terms](https://github.com/BleachDrinker420/BleachHack/blob/master/LICENSE).
+If you are distributing a custom version of BleachHack or a mod with ported features of BleachHack, you are **required** to disclose the source code, state changes, use a compatible license, and follow the [license terms](https://github.com/BleachDev/BleachHack/blob/master/LICENSE).
